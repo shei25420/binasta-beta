@@ -16,7 +16,7 @@
         <div class="dropdown">
             <a href="#" class="d-flex align-items-center" data-bs-toggle="dropdown">
                 <div class="avatar me-3">
-                    <img src="../../../assets/images/user/man_avatar3.jpg" class="rounded-circle" alt="image">
+                    <img src="#" class="rounded-circle" alt="image">
                 </div>
                 <div>
                     <div class="fw-bold">Timotheus Bendan</div>

@@ -46,7 +46,7 @@
                                     <i class="bi bi-trash"></i>
                                 </a>
                                 <a href="#" class="me-3 flex-shrink-0 ">
-                                    <img src="../../../assets/images/products/3.jpg" class="rounded" width="60" alt="...">
+                                    <img src="#" class="rounded" width="60" alt="...">
                                 </a>
                                 <div>
                                     <h6>Digital clock</h6>
@@ -60,7 +60,7 @@
                                     <i class="bi bi-trash"></i>
                                 </a>
                                 <a href="#" class="me-3 flex-shrink-0 ">
-                                    <img src="../../../assets/images/products/4.jpg" class="rounded" width="60" alt="...">
+                                    <img src="#" class="rounded" width="60" alt="...">
                                 </a>
                                 <div>
                                     <h6>Toy Car</h6>
@@ -74,7 +74,7 @@
                                     <i class="bi bi-trash"></i>
                                 </a>
                                 <a href="#" class="me-3 flex-shrink-0 ">
-                                    <img src="../../../assets/images/products/5.jpg" class="rounded" width="60" alt="...">
+                                    <img src="#" class="rounded" width="60" alt="...">
                                 </a>
                                 <div>
                                     <h6>Sunglasses</h6>
@@ -88,7 +88,7 @@
                                     <i class="bi bi-trash"></i>
                                 </a>
                                 <a href="#" class="me-3 flex-shrink-0 ">
-                                    <img src="../../../assets/images/products/6.jpg" class="rounded" width="60" alt="...">
+                                    <img src="#" class="rounded" width="60" alt="...">
                                 </a>
                                 <div>
                                     <h6>Cake</h6>

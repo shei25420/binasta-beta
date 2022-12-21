@@ -39,7 +39,7 @@ class UserController extends Controller
 
     // User Functions
     public function orders () {
-        return Inertia::render('Users/Orders', [
+        return Inertia::render('User/Orders', [
             'orders' => Order::select('ref', 'location', 'phone_number', 'status', 'created_at')->where('user_id', auth()->id())->get()
         ]);
     }

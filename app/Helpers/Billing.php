@@ -4,7 +4,7 @@ namespace App\Helpers;
 use App\Helpers\PaymentMethods\Mpesa;
 
 class Billing {
-    public function process_payment($type) {
+    public function payment_gateway($type) {
         switch ($type) {
             case 'mpesa':
                 return new Mpesa();

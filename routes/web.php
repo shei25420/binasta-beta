@@ -150,7 +150,11 @@ Route::group(array('domain' => '{subdomain}.' . Config::get('app.domain')), func
         Route::put('/distributor_reviews/{id}', [DistributorReviewController::class, 'update']);
         Route::delete('/distributor_reviews/{id}', [DistributorReviewController::class, 'destroy']);
     } else if ($subdomain === "dashboard") {
-        Route::get('/orders', [UserController::class, 'orders']);
+        Route::get('/login', [AuthenticationController::class, 'create'])->name('login');
+        Route::post('/login', [AuthenticationController::class, 'login']);
+        Route::middleware('auth')->group(function () {
+            Route::get('/orders', [UserController::class, 'orders']);
+        });
     }
 });
 Route::get('/', [MainController::class, 'index'])->name('main.index');

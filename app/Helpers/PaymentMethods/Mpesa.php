@@ -52,9 +52,9 @@ class Mpesa {
             'Timestamp' => $time_stamp, 
             'TransactionType' => 'CustomerPayBillOnline',
             'Amount' => 1,
-            'PartyA' => '254'.$data['phone'],
+            'PartyA' => '254'.$data['phone_number'],
             'PartyB' => $this->_business_code,
-            'PhoneNumber' => '254'.$data['phone'],
+            'PhoneNumber' => '254'.$data['phone_number'],
             'CallBackURL' => $this->_callback_url.'/api/payments/m_wallet/confirm/0',
             'AccountReference' => 'TransRef12',
             'TransactionDesc' => 'Payment for products bought from binasta limited'

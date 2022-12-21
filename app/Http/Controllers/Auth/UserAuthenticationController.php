@@ -19,13 +19,8 @@ class AuthenticationController extends Controller
         ]);
     }
 
-    public function login($subdomain, LoginRequest $request) {
-        $guard = null;
-        if($subdomain == "management") $guard = "admin";
-        else if($subdomain == "distributor") $guard = "distributor";
-        else $guard = '';
-
-        if(Auth::guard($guard)->attempt($request->safe()->only('email', 'password'))) {
+    public function login(LoginRequest $request) {
+        if(Auth::guard()->attempt($request->safe()->only('email', 'password'))) {
             $request->session()->regenerate();
             return redirect()->intended(RouteServiceProvider::HOME);
         }
@@ -33,7 +28,7 @@ class AuthenticationController extends Controller
     }
 
     public function logout (Request $request) {
-        Auth::guard('admin')->logout();
+        Auth::guard()->logout();
 
         $request->session()->invalidate();
 

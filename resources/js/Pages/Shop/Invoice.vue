@@ -11,10 +11,19 @@ props.order.product_options.forEach(option => {
     totalAmount.value += parseInt(option.selling_price) * option.pivot.quantity;
 });
 
-const paymentForm = ref({
+const paymentForm = useForm({
     phone_number: '',
-    payment_type: 'mpesa'
+    payment_type: 'mpesa',
+    order_ref: props.order.ref
 });
+
+const makePayment = () => {
+    paymentForm.post('/make_payment', {
+        onError: (err) => {
+            console.log(err);
+        } 
+    });
+};
 </script>
 
 <template>
@@ -133,7 +142,7 @@ const paymentForm = ref({
                                                     <input type="text" v-model="paymentForm.phone_number" placeholder="Enter phone number" class="form-control">   
                                                 </div>
                                                 <div class="form-group">
-                                                    <button class="btn btn-lg btn-custom btn-download hover-up">Make Payment</button>
+                                                    <button @click.prevent="makePayment" class="btn btn-lg btn-custom btn-download hover-up">Make Payment</button>
                                                 </div>
                                             </div>
                                         </div>

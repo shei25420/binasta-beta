@@ -100,8 +100,8 @@ class ShopController extends Controller
     public function makePayment (MakePaymentRequest $request) {
         $data = $request->validated();
 
-        $payment = new Billing($data['payment_type']);
-        $payment->process_payment($data);
+        $gateway = (new Billing())->payment_gateway($data['payment_type']);
+        dd($gateway->process_payment($data));
     }
 
     public function register (Request $request) {
