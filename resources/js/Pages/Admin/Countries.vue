@@ -36,7 +36,7 @@ const storeCountry = (update = false) => {
     if(form.errors && Object.keys(form.errors).length) return;
 
     const btn = document.getElementById("submitBtn");
-    if(update) {
+    if(updateForm.value) {
         btn.innerText = "Updating...";
         form.put(`/countries/${selectedCountry.value.id}`, {
             onSuccess(data) {
@@ -78,7 +78,7 @@ onMounted(() => {
             form.name = selectedCountry.value.name;
             form.code = selectedCountry.value.code;
             updateForm.value = true;
-            $("#modalBtn").click();   
+            $("#modalBtn").click();
         }
     });
 
@@ -91,7 +91,7 @@ onMounted(() => {
 });
 
 </script>
-    
+
 <template>
     <GenericLayout>
         <div class="card">

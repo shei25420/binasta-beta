@@ -128,7 +128,6 @@ onMounted(() => {
             }
         } else if (type === "edit") {
             selectedDiscount.value = props.discounts.filter(({ id }) => id == discount_id)[0];
-            console.log(selectedDiscount.value);
             form.percentage = selectedDiscount.value.percentage;
             form.product_id = selectedDiscount.value.product_id;
             query.value = selectedDiscount.value.product.name;
@@ -144,6 +143,7 @@ onMounted(() => {
             selectedDiscount.value = null;
         }
     });
+
 });
 
 </script>

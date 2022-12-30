@@ -13,7 +13,7 @@ class StoreDistributorOrderRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth("distributor")->check();
     }
 
     /**
@@ -24,7 +24,12 @@ class StoreDistributorOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'location' => 'string',
+            'phone_number' => 'string',
+            'distributor_address_id' => 'nullable|numeric|exists:user_addresses,id',
+            'distributor_packages.*' => 'required',
+            'distributor_packages.*.id' => 'required|numeric|exists:distributor_packages,id',
+            'distributor_packages.*.qty' => 'required|numeric'
         ];
     }
 }

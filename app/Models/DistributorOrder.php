@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
+use Hyn\Tenancy\Traits\UsesSystemConnection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class DistributorOrder extends Model
 {
-    use HasFactory;
-    
-    protected $fillable = ['distributor_id', 'distributor_address_id', 'location', 'phone_number'];
+    use HasFactory, UsesSystemConnection;
+
+    protected $fillable = ["ref", 'distributor_id', 'distributor_address_id', 'location', 'phone_number'];
 
     public function distributor () {
         return $this->belongsTo(Distributor::class);

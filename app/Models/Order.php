@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Hyn\Tenancy\Traits\UsesSystemConnection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory, UsesSystemConnection;
 
     protected $fillable = ['ref', 'user_id', 'user_address_id', 'location', 'phone_number'];
 
@@ -21,5 +22,9 @@ class Order extends Model
 
     public function user_address () {
         return $this->belongsTo(UserAddress::class);
+    }
+
+    public function transaction () {
+        return $this->hasOne(Transaction::class);
     }
 }

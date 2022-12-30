@@ -10,12 +10,12 @@ import 'datatables.net-responsive-dt';
 import ModalComponent from '@/Components/GenericDashboard/ModalComponent.vue'
 import GenericLayout from '@/Layouts/GenericLayout.vue'
 
-DataTable.use(DataTablesLib)
+DataTable.use(DataTablesLib);
 
 const props = defineProps({
     distributors: Array,
     countries: Array
-})
+});
 
 const form = useForm({
     first_name: '',
@@ -25,13 +25,13 @@ const form = useForm({
     gender: '',
     domain: '',
     distributor_id: ''
-})
+});
 
-const distributorRef = ref('')
-const parent_distributor_id = ref(null)
+const distributorRef = ref('');
+const parent_distributor_id = ref(null);
 const selectedDistributor = ref(null);
 
-let handler
+let handler;
 const fetchDistributorId = () => {
     clearTimeout(handler)
 
@@ -96,7 +96,7 @@ const storeDistributor = () => {
         },
         onFinish () {
             btn.innerText = "Save";
-        } 
+        }
     })
 }
 
@@ -116,6 +116,12 @@ onMounted(() => {
                 selectedDistributor.value = props.distributors.filter(({ id }) => id == distributor_id)[0];
                 form.distributor_id = selectedDistributor.value.id;
                 form.post('/distributors/suspend');
+            }
+        } else if (type === "verify") {
+            if(confirm("Are you sure you want to verify this distributor?")) {
+                selectedDistributor.value = props.distributors.filter(({ id }) => id == distributor_id)[0];
+                form.distributor_id = selectedDistributor.value.id;
+                form.post('/distributors/verify');
             }
         }
     });
@@ -186,7 +192,13 @@ onMounted(() => {
                     {
                         data: null,
                         render: data => {
-                            return `<button data-id='${data.id}' data-type='suspend' class='btn btn-sm btn-secondary mr-3'>Suspend</button> <button data-id='${data.id}' data-type='del' class='btn btn-sm btn-danger'>Delete</button>`
+                            let actions = '';
+                            if(data.suspended) actions += `<button data-id='${data.id}' data-type='suspend' class='btn btn-sm btn-secondary mr-3'>Block</button>`;
+                            else `<button data-id='${data.id}' data-type='suspend' class='btn btn-sm btn-secondary mr-3'>Unblock</button>`;
+
+                            if(!data.verified) actions += `<button data-id='${data.id}' data-type='verify' class='btn btn-sm btn-success mr-3'>Verify</button> `;
+                            actions += `<button data-id='${data.id}' data-type='del' class='btn btn-sm btn-danger'>Delete</button>`;
+                            return actions;
                         }
                     }
                 ]">

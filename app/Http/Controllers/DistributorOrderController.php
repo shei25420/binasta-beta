@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
+use Illuminate\Support\Str;
 use App\Models\DistributorOrder;
 use App\Http\Requests\StoreDistributorOrderRequest;
 use App\Http\Requests\UpdateDistributorOrderRequest;
-use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
 
 class DistributorOrderController extends Controller
 {
@@ -43,7 +45,22 @@ class DistributorOrderController extends Controller
      */
     public function store(StoreDistributorOrderRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $ref = Str::random(4);
+        while(DistributorOrder::where("ref", $ref)->exists()) $ref = Str::random(4);
+
+        $data["ref"] = $ref;
+        $data["distributor_id"] = auth("distributor")->id();
+        $data["tenant_id"] = auth("distributor")->id();
+        DB::transaction(function () use ($data) {
+            $order = DistributorOrder::create($data);
+            foreach ($data["distributor_packages"] as $package) {
+                $order->distributor_packages()->attach([$package["id"] => ["quantity" => $package["qty"]]]);
+            }
+        }, 5);
+
+        return response()->redirectTo("/invoice/".$data['ref']);
     }
 
     /**

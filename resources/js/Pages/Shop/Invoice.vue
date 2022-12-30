@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { Link, useForm } from '@inertiajs/inertia-vue3';
 
 const props = defineProps({
@@ -11,7 +11,10 @@ props.order.product_options.forEach(option => {
     totalAmount.value += parseInt(option.selling_price) * option.pivot.quantity;
 });
 
-const paymentForm = useForm({
+const captureForm = useForm({
+    order_ref: props.order.ref
+});
+const paymentForm = ref({
     phone_number: '',
     payment_type: 'mpesa',
     order_ref: props.order.ref
@@ -21,9 +24,44 @@ const makePayment = () => {
     paymentForm.post('/make_payment', {
         onError: (err) => {
             console.log(err);
-        } 
+        }
     });
 };
+
+onMounted(() => {
+    let paypalScript = document.createElement('script');
+    paypalScript.setAttribute('src', 'https://www.paypal.com/sdk/js?client-id=AaYT0UqlwWovXoGEp6qqBalZR32nG5gDXRVU546jy4_Gv_JrpRAF6fB8xp3gJ7cOTNmHJ-NVhAO4DxIC');
+    document.head.appendChild(paypalScript);
+
+    paypalScript.addEventListener("load", () => {
+        paypal.Buttons({
+            createOrder: (data, actions) => {
+                return fetch(`/make_payment`, {
+                    method: "POST",
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json",
+                        "X-XSRF-TOKEN": decodeURIComponent(document.cookie.split(";").filter(cookie => cookie.startsWith("XSRF-TOKEN"))[0].split("=")[1])
+                    },
+                    body: JSON.stringify({payment_type: paymentForm.value.payment_type, order_ref: paymentForm.value.order_ref})
+                })
+                .then(res => res.json())
+                .then(data => data.orderId)
+                .catch(err => console.log("make payment paypal err", err));
+            },
+            onApprove: (pData, actions) => {
+                console.log(pData);
+                captureForm.transform((data) => (
+                    {...data, ref: pData.orderID}
+                )).post('/capture/paypal', {
+                    onError: (err) => {
+                        console.log("paypal capture err", err);
+                    }
+                })
+            }
+        }).render('#paypalContainer');
+    });
+});
 </script>
 
 <template>
@@ -41,7 +79,7 @@ const makePayment = () => {
                                     <div class="col-sm-6">
                                         <div class="invoice-name">
                                             <div class="logo">
-                                                <a href="index.html"><img src="assets/imgs/theme/logo-light.svg"
+                                                <a href="index.html"><img src="../../../assets/shop/imgs/theme/logo-light.svg"
                                                         alt="logo"></a>
                                             </div>
                                         </div>
@@ -128,7 +166,7 @@ const makePayment = () => {
                                                         </div>
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="radio"
-                                                            :value="'paypal'" id="flexRadioDefault2">
+                                                            :value="'paypal'" v-model="paymentForm.payment_type" id="flexRadioDefault2">
                                                             <label class="form-check-label" for="flexRadioDefault2">
                                                                 Paypal / Credit Card
                                                             </label>
@@ -137,13 +175,16 @@ const makePayment = () => {
                                                     </form>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-12">
+                                            <div class="col-sm-12" v-show="paymentForm.payment_type == 'mpesa'">
                                                 <div class="form-group">
-                                                    <input type="text" v-model="paymentForm.phone_number" placeholder="Enter phone number" class="form-control">   
+                                                    <input type="text" v-model="paymentForm.phone_number" placeholder="Enter phone number" class="form-control">
                                                 </div>
                                                 <div class="form-group">
                                                     <button @click.prevent="makePayment" class="btn btn-lg btn-custom btn-download hover-up">Make Payment</button>
                                                 </div>
+                                            </div>
+                                            <div id="paypalContainer" class="col-sm-12" v-show="paymentForm.payment_type == 'paypal'">
+
                                             </div>
                                         </div>
                                     </div>
@@ -184,4 +225,8 @@ const makePayment = () => {
 
 <style scoped>
 @import '../../../css/shop/main17e6.css';
+
+.invoice-1 .invoice-header {
+    background: rgba(0, 0, 0, 0.04) url(../../../assets/shop/imgs/invoice/header-bg-1.png) top left repeat !important;
+}
 </style>

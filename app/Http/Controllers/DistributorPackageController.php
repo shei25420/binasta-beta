@@ -114,4 +114,11 @@ class DistributorPackageController extends Controller
         DistributorPackage::where('id', $id)->delete();
         return response()->redirectTo('/distributor_packages');
     }
+
+    public function search ($subdomain, $query) {
+        $data = Validator::make(['query' => $query], ['query' => 'string|required'])->validated();
+
+        $packages = DistributorPackage::select("id", "name")->where("name", "LIKE", "%".$data["query"]."%")->get();
+        return response()->json(["results" => $packages]);
+    }
 }

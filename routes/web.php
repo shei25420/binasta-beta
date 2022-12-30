@@ -25,6 +25,8 @@ use App\Http\Controllers\BlogCategoryController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\BusinessSubscriberController;
+use App\Http\Controllers\DistributorDashboardController;
+use App\Http\Controllers\DistributorDiscountController;
 use App\Http\Controllers\DistributorOrderController;
 use App\Http\Controllers\DistributorReviewController;
 use App\Models\Blog;
@@ -79,13 +81,6 @@ Route::group(array('domain' => '{subdomain}.' . Config::get('app.domain')), func
             Route::put('/countries/{id}', [CountryController::class, 'update']);
             Route::delete('/countries/{id}', [CountryController::class, 'destroy']);
 
-            Route::get('/distributors', [DistributorController::class, 'index'])->name('mgmt.distributors.index');
-            Route::get('/distributors/ref/{ref}', [DistributorController::class, 'fetchDistributorIdByRef']);
-            Route::get('/distributors/search/{query}', [DistributorController::class, 'search'])->name('mgmt.distributors.search');
-            Route::post('/distributors', [DistributorController::class, 'store']);
-            Route::post('/distributors/suspend', [DistributorController::class, 'suspend']);
-            Route::delete('/distributors/{id}', [DistributorController::class, 'destroy']);
-
             Route::get('/configurations', [BinapointsConfigurationController::class, 'index'])->name('mgmt.config.index');
             Route::post('/configurations', [BinapointsConfigurationController::class, 'store'])->name('mgmt.config.store');
             Route::put('/configurations/{id}', [BinapointsConfigurationController::class, 'update'])->name('mgmt.config.update');
@@ -102,12 +97,26 @@ Route::group(array('domain' => '{subdomain}.' . Config::get('app.domain')), func
             Route::get('/orders/new', [OrderController::class, 'create'])->name('mgmt.orders.create');
             Route::post('/orders', [OrderController::class, 'store'])->name('mgmt.orders.store');
 
-            Route::get('/distributor_orders', [DistributorOrderController::class, 'index']);
+            Route::get('/distributors', [DistributorController::class, 'index'])->name('mgmt.distributors.index');
+            Route::get('/distributors/ref/{ref}', [DistributorController::class, 'fetchDistributorIdByRef']);
+            Route::get('/distributors/search/{query}', [DistributorController::class, 'search'])->name('mgmt.distributors.search');
+            Route::post('/distributors', [DistributorController::class, 'store']);
+            Route::post('/distributors/suspend', [DistributorController::class, 'suspend']);
+            Route::post('/distributors/verify', [DistributorController::class, 'verify']);
+            Route::delete('/distributors/{id}', [DistributorController::class, 'destroy']);
 
             Route::get('/distributor_packages', [DistributorPackageController::class, 'index'])->name('mgmt.distributor_packages.index');
+            Route::get('/distributor_packages/{search}', [DistributorPackageController::class, 'search']);
             Route::post('/distributor_packages', [DistributorPackageController::class, 'store'])->name('mgmt.distributor_packages.store');
             Route::put('/distributor_packages/{id}', [DistributorPackageController::class, 'update']);
             Route::delete('/distributor_packages/{id}', [DistributorPackageController::class, 'destroy']);
+
+            Route::get('/distributor_discounts', [DistributorDiscountController::class, 'index']);
+            Route::post('/distributor_discounts', [DistributorDiscountController::class, "store"]);
+            Route::put('/distributor_discounts/{id}', [DistributorDiscountController::class, "update"]);
+            Route::delete("/distributor_discounts/{id}", [DistributorDiscountController::class, "destroy"]);
+
+            Route::get('/distributor_orders', [DistributorOrderController::class, 'index']);
 
             Route::get('/blog_categories', [BlogCategoryController::class, 'index'])->name('mgmt.blog_categories.index');
             Route::post('/blog_categories', [BlogCategoryController::class, 'store'])->name('mgmt.blog_categories.store');
@@ -123,11 +132,13 @@ Route::group(array('domain' => '{subdomain}.' . Config::get('app.domain')), func
         });
     } else if ($subdomain === "shop") {
         Route::get('/', [ShopController::class, 'index'])->name('shop.index');
+        Route::get('/products', [ShopController::class, 'fetchProducts']);
         Route::get('/products/{slug}', [ShopController::class, 'show'])->name('shop.products.show');
 
         Route::get('/checkout', [ShopController::class, 'checkout']);
         Route::get('/invoice/{ref}', [ShopController::class, 'invoice']);
         Route::post('/make_payment', [ShopController::class, 'makePayment']);
+        Route::post('/capture/paypal', [ShopController::class, 'capturePaypalPayment']);
 
         Route::post('/orders', [OrderController::class, 'store']);
 
@@ -136,24 +147,42 @@ Route::group(array('domain' => '{subdomain}.' . Config::get('app.domain')), func
 
         Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('shop.logout');
 
-        Route::get('/register', [RegisteredUserController::class, 'create'])->name('shop-register');
-        Route::post('/register', [ShopController::class, 'register'])->name('shop.register.store');
+        Route::get('/register', [RegisteredUserController::class, 'create']);
+        Route::post('/register', [ShopController::class, 'store']);
     } else if ($subdomain === "business") {
         //Business Site Routes
         Route::get('/', [BusinessController::class, 'index'])->name('business.index');
         Route::post('/subscribe', [BusinessSubscriberController::class, 'store'])->name('business.subscribe');
     } else if ($subdomain === "distributor") {
-        Route::get('/distributor_packages', [DistributorPackage::class, 'business_index']);
-        Route::get('/distributor_packages/{slug}', [DistributorPackage::class, 'show']);
-    
-        Route::post('/distributor_reviews', [DistributorReviewController::class, 'store']);
-        Route::put('/distributor_reviews/{id}', [DistributorReviewController::class, 'update']);
-        Route::delete('/distributor_reviews/{id}', [DistributorReviewController::class, 'destroy']);
+        Route::get('/register', [DistributorDashboardController::class, 'register']);
+        Route::post('/register', [DistributorDashboardController::class, 'storeDistributor']);
+
+        Route::get('/login', [AuthenticationController::class, 'create'])->name('login');
+        Route::post('/login', [AuthenticationController::class, 'login']);
+
+        Route::middleware("auth:distributor")->group(function () {
+            Route::get('/distributor_packages', [DistributorDashboardController::class, 'fetchPackages']);
+            Route::get('/distributor_packages/{slug}', [DistributorDashboardController::class, 'showPackage']);
+
+            Route::post('/distributor_reviews', [DistributorReviewController::class, 'store']);
+            Route::put('/distributor_reviews/{id}', [DistributorReviewController::class, 'update']);
+            Route::delete('/distributor_reviews/{id}', [DistributorReviewController::class, 'destroy']);
+
+            Route::get("/checkout", [DistributorDashboardController::class, "checkout"]);
+
+            Route::get("/orders", [DistributorDashboardController::class, 'orders']);
+            Route::post('/orders', [DistributorOrderController::class, 'store']);
+
+            Route::get('/invoice/{ref}', [DistributorDashboardController::class, 'invoice']);
+            Route::post('/make_payment', [DistributorDashboardController::class, 'makePayment']);
+            Route::post('/capture/paypal', [DistributorDashboardController::class, 'capturePaypalPayment']);
+        });
     } else if ($subdomain === "dashboard") {
         Route::get('/login', [AuthenticationController::class, 'create'])->name('login');
         Route::post('/login', [AuthenticationController::class, 'login']);
         Route::middleware('auth')->group(function () {
-            Route::get('/orders', [UserController::class, 'orders']);
+            Route::get('/orders', [UserController::class, 'orders'])->name('user.orders');
+            Route::get('/orders/{ref}', [UserController::class, 'fetchOrderProducts']);
         });
     }
 });

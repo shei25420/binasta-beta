@@ -21,14 +21,14 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Admin/Products', 
+        return Inertia::render('Admin/Products',
         [
             'products' => Product::select('id', 'product_category_id', 'name', 'description', 'ingredients', 'created_at')->with(['product_category' => function ($query) {
                 $query->select('id', 'name');
             }, 'images' => function ($query) {
                 $query->select('imageable_id', 'url')->get();
             }])->withCount('product_options')->get(),
-            'categories' => ProductCategory::select('id', 'name')->get() 
+            'categories' => ProductCategory::select('id', 'name')->get()
         ]);
     }
 
@@ -44,7 +44,7 @@ class ProductController extends Controller
 
         $data['slug'] = Str::slug($data['name']);
         $product = Product::create($data);
-        
+
         //Upload Images
         $images = [];
         foreach ($request->file('images') as $imageFile) {
@@ -63,7 +63,7 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    
+
     // Admin View
     public function show($subdomain, $id)
     {
@@ -73,7 +73,7 @@ class ProductController extends Controller
         }, 'product_category' => function ($query) {
             $query->select('id', 'name');
         }, 'product_options' => function ($query) {
-            $query->select('id', 'product_id', 'variation', 'buying_price', 'selling_price', 'wholesale_price', 'wholesale_min', 'sold', 'stock');
+            $query->select('id', 'product_id', 'variation', 'buying_price', 'selling_price', 'wholesale_price', 'wholesale_min', 'sold', 'stock', 'created_at');
         }, 'user_reviews' => function ($query) {
             $query->select('id', 'review', 'banned', 'created_at');
         }])->first();
@@ -83,7 +83,7 @@ class ProductController extends Controller
     }
 
     //Client View
-    public function userShow ($query) { 
+    public function userShow ($query) {
         $product = $this->getBySlug($query);
         return Inertia::render('Shop/ProductView', ['product' => $product]);
     }
@@ -100,7 +100,7 @@ class ProductController extends Controller
     {
         $data = $request->validated();
         $data['id'] = Validator::make(['id' => $id], ['id' => 'required|numeric|exists:products,id'])->validated()['id'];
-    
+
         Product::where('id', $data['id'])->update($data);
         return response()->redirectTo('/products');
     }
@@ -114,7 +114,7 @@ class ProductController extends Controller
     public function destroy($subdomain, $id)
     {
         $id = Validator::make(['id' => $id], ['id' => 'required|numeric|exists:products,id'])->validated()['id'];
-    
+
         Product::where('id', $id)->delete();
         return response()->redirectTo('/products');
     }

@@ -13,7 +13,7 @@ class MakePaymentRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->check();
+        return auth()->check() || auth("distributor")->check();
     }
 
     /**
@@ -25,7 +25,7 @@ class MakePaymentRequest extends FormRequest
     {
         return [
             'payment_type' => 'required|string',
-            'phone_number' => 'string',
+            'phone_number' => 'string|nullable',
             'order_ref' => 'required|string'
         ];
     }

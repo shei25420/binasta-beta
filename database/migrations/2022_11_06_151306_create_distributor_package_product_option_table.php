@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('distributor_package_id');
             $table->unsignedBigInteger('product_option_id');
-            // $table->unsignedInteger('qty');
+            $table->unsignedInteger('qty');
             $table->timestamps();
 
             $table->foreign('distributor_package_id', 'distributor_package_index')->references('id')->on('distributor_packages')->onDelete('cascade');

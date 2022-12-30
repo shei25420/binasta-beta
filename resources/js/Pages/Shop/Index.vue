@@ -97,7 +97,7 @@ onMounted(() => {
 });
 
 </script>
-    
+
 <template>
     <ShopLayout>
         <section class="home-slider position-relative mb-30">
@@ -247,29 +247,23 @@ onMounted(() => {
                                             <Link v-if="product.images.length" :href="'products/' + product.slug">
                                                 <img class="default-img" :src="'/storage/' + product.images[0].url"
                                                     alt="">
-                                                <!-- <img class="hover-img" :src="'/storage/' + product.images[1].url"
-                                                    alt=""> -->
+                                                <img class="hover-img" :src="'/storage/' + product.images[1].url"
+                                                    alt="">
                                             </Link>
                                         </div>
-                                        <div class="product-action-1">
-                                            <a aria-label="Add To Wishlist" class="action-btn"
-                                                href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
-                                            <a aria-label="Quick view" class="action-btn" data-bs-toggle="modal"
-                                                data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
-                                        </div>
-                                        <div class="product-badges product-badges-position product-badges-mrg">
-                                            <span class="hot">Hot</span>
+                                        <div v-if="product.discounts.length" class="product-badges product-badges-position product-badges-mrg">
+                                            <span class="hot">-{{ product.discounts[0].percentage }}%</span>
                                         </div>
                                     </div>
                                     <div class="product-content-wrap">
                                         <div class="product-category" style="margin-top: 10px;">
                                             <a href="shop-grid-right.html">{{ product.category }}</a>
                                         </div>
-                                        <h2><a href="shop-product-right.html">{{ product.name }}</a></h2>
+                                        <h2><Link :href="'/products/' + product.slug">{{ product.name }}</Link></h2>
                                         <div>
                                             <div class="product-price">
-                                                <span>ksh.{{ product.product_options[0].selling_price }}</span>
-                                                <span class="old-price">$32.8</span>
+                                                <span>ksh.{{product.discounts.length ? ((100 - product.discounts[0].percentage) / 100) * product.product_options[0].selling_price  : product.product_options[0].selling_price }}</span>
+                                                <span v-if="product.discounts.length" class="old-price">ksh.{{ product.product_options[0].selling_price }}</span>
                                             </div>
                                             <br />
                                             <div class="add-cart">
@@ -306,43 +300,21 @@ onMounted(() => {
                             data-wow-delay="0" style="visibility: visible; animation-name: fadeInUp;">
                             <div class="product-img-action-wrap">
                                 <div class="product-img">
-                                    <a href="shop-product-right.html">
+                                    <Link :href="'/products/' + discount.product.slug">
                                         <img :src="'/storage/' + discount.product.images[0].url" alt="">
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                             <div class="product-content-wrap">
                                 <div class="deals-countdown-wrap">
-                                    <div class="deals-countdown" data-countdown="2025/03/25 00:00:00"><span
-                                            class="countdown-section"><span
-                                                class="countdown-amount hover-up">904</span><span
-                                                class="countdown-period"> days </span></span><span
-                                            class="countdown-section"><span
-                                                class="countdown-amount hover-up">19</span><span
-                                                class="countdown-period"> hours </span></span><span
-                                            class="countdown-section"><span
-                                                class="countdown-amount hover-up">44</span><span
-                                                class="countdown-period"> mins </span></span><span
-                                            class="countdown-section"><span
-                                                class="countdown-amount hover-up">09</span><span
-                                                class="countdown-period"> sec </span></span></div>
+                                    <div class="deals-countdown" :data-countdown="discount.end_date"></div>
                                 </div>
                                 <div class="deals-content">
-                                    <h2><a href="shop-product-right.html">{{ discount.product.name }}</a></h2>
-                                    <div class="product-rate-cover">
-                                        <div class="product-rate d-inline-block">
-                                            <div class="product-rating" style="width: 90%"></div>
-                                        </div>
-                                        <span class="font-small ml-5 text-muted"> (4.0)</span>
-                                    </div>
-                                    <div>
-                                        <span class="font-small text-muted">By <a
-                                                href="vendor-details-1.html">NestFood</a></span>
-                                    </div>
+                                    <h2><Link :href="'/products/' + discount.product.slug">{{ discount.product.name }}</Link></h2>
                                     <div class="product-card-bottom">
                                         <div class="product-price">
-                                            <span>ksh.{{ discount.product.product_options[0].selling_price }}</span>
-                                            <!-- <span class="old-price">$33.8</span> -->
+                                            <span>ksh.{{ ((100 - discount.percentage) / 100) * discount.product.product_options[0].selling_price }}</span>
+                                            <span class="old-price">ksh.{{  discount.product.product_options[0].selling_price  }}</span>
                                         </div>
                                         <div class="add-cart">
                                             <Link class="add" :href="'/products/' + discount.product.slug">
@@ -374,15 +346,9 @@ onMounted(() => {
                                     <h6>
                                         <Link :href="'/products/' + product.slug">{{ product.name }}</Link>
                                     </h6>
-                                    <div class="product-rate-cover">
-                                        <div class="product-rate d-inline-block">
-                                            <div class="product-rating" style="width: 90%"></div>
-                                        </div>
-                                        <span class="font-small ml-5 text-muted"> (4.0)</span>
-                                    </div>
                                     <div class="product-price">
-                                        <span>ksh.{{ product.product_options[0].selling_price }}</span>
-                                        <!-- <span class="old-price">$33.8</span> -->
+                                        <span>ksh.{{product.discounts.length ? ((100 - product.discounts[0].percentage) / 100) * product.product_options[0].selling_price  : product.product_options[0].selling_price }}</span>
+                                        <span v-if="product.discounts.length" class="old-price">ksh.{{ product.product_options[0].selling_price }}</span>
                                     </div>
                                 </div>
                             </article>
@@ -403,15 +369,9 @@ onMounted(() => {
                                     <h6>
                                         <Link :href="'/products/' + product.slug">{{ product.name }}</Link>
                                     </h6>
-                                    <div class="product-rate-cover">
-                                        <div class="product-rate d-inline-block">
-                                            <div class="product-rating" style="width: 90%"></div>
-                                        </div>
-                                        <span class="font-small ml-5 text-muted"> (4.0)</span>
-                                    </div>
                                     <div class="product-price">
-                                        <span>ksh.{{ product.product_options[0].selling_price }}</span>
-                                        <!-- <span class="old-price">$33.8</span> -->
+                                        <span>ksh.{{product.discounts.length ? ((100 - product.discounts[0].percentage) / 100) * product.product_options[0].selling_price  : product.product_options[0].selling_price }}</span>
+                                        <span v-if="product.discounts.length" class="old-price">ksh.{{ product.product_options[0].selling_price }}</span>
                                     </div>
                                 </div>
                             </article>
@@ -432,15 +392,9 @@ onMounted(() => {
                                     <h6>
                                         <Link :href="'/products/' + product.slug">{{ product.name }}</Link>
                                     </h6>
-                                    <div class="product-rate-cover">
-                                        <div class="product-rate d-inline-block">
-                                            <div class="product-rating" style="width: 90%"></div>
-                                        </div>
-                                        <span class="font-small ml-5 text-muted"> (4.0)</span>
-                                    </div>
                                     <div class="product-price">
-                                        <span>kes.{{ product.product_options[0].selling_price }}</span>
-                                        <!-- <span class="old-price">$33.8</span> -->
+                                        <span>ksh.{{product.discounts.length ? ((100 - product.discounts[0].percentage) / 100) * product.product_options[0].selling_price  : product.product_options[0].selling_price }}</span>
+                                        <span v-if="product.discounts.length" class="old-price">ksh.{{ product.product_options[0].selling_price }}</span>
                                     </div>
                                 </div>
                             </article>
@@ -460,15 +414,9 @@ onMounted(() => {
                                     <h6>
                                         <Link :href="'/products/' + product.slug">{{ product.name }}</Link>
                                     </h6>
-                                    <div class="product-rate-cover">
-                                        <div class="product-rate d-inline-block">
-                                            <div class="product-rating" style="width: 90%"></div>
-                                        </div>
-                                        <span class="font-small ml-5 text-muted"> (4.0)</span>
-                                    </div>
                                     <div class="product-price">
-                                        <span>ksh.{{ product.product_options[0].selling_price }}</span>
-                                        <!-- <span class="old-price">$33.8</span> -->
+                                        <span>ksh.{{product.discounts.length ? ((100 - product.discounts[0].percentage) / 100) * product.product_options[0].selling_price  : product.product_options[0].selling_price }}</span>
+                                        <span v-if="product.discounts.length" class="old-price">ksh.{{ product.product_options[0].selling_price }}</span>
                                     </div>
                                 </div>
                             </article>

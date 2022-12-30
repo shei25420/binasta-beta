@@ -1,5 +1,5 @@
 <script setup>
-import { useForm } from '@inertiajs/inertia-vue3';
+import { useForm, Link } from '@inertiajs/inertia-vue3';
 import AuthenticationLayout from '@/Layouts/AuthenticationLayout.vue';
 
 const form = useForm({
@@ -33,7 +33,7 @@ const form = useForm({
                         </div>
                     </form>
                     <p class="text-center d-block d-lg-none mt-5 mt-lg-0">
-                        Don't have an account? <a href="#">Sign up</a>.
+                        Don't have an account? <Link href="/register">Sign up</Link>.
                     </p>
                 </div>
             </div>
@@ -46,7 +46,7 @@ const form = useForm({
             <div>
                 <h3 class="fw-bold">Welcome to Vetra!</h3>
                 <p class="lead my-5">If you don't have an account, would you like to register right now?</p>
-                <a href="#" class="btn btn-primary">Sign Up</a>
+                <Link href="/register" class="btn btn-primary">Sign up</Link>
             </div>
             <ul class="list-inline">
                 <li class="list-inline-item">

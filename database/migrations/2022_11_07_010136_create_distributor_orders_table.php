@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('distributor_id');
             $table->unsignedBigInteger('distributor_address_id')->nullable();
 
+            $table->string('ref')->unique();
             $table->string('location')->nullable();
             $table->string('phone_number')->nullable();
             $table->unsignedTinyInteger('status')->default(0);

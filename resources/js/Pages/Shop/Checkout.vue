@@ -31,24 +31,24 @@ const makeOrder = () => {
         if(!regForm.password || regForm.password.trim() == "") {
             regForm.setError('password', 'password field is required');
         }
-    }   
-    
+    }
+
     if((!orderForm.location || orderForm.location.trim() == "") && !orderForm.user_address_id) {
         orderForm.setError('location', 'delivery location is required');
     }
 
     if((!orderForm.phone_number || orderForm.phone_number.trim() == "") && !orderForm.user_address_id) {
         orderForm.setError('phone_number', 'phone number field is required');
-    }  
+    }
 
     if((regForm.errors && Object.keys(regForm.errors).length) || (orderForm.errors && Object.keys(orderForm.errors).length)) return;
 
-    const cart = JSON.parse(localStorage.getItem("cart"));    
+    const cart = JSON.parse(localStorage.getItem("cart"));
     cart.forEach(item => {
         orderForm.product_options.push({
             id: item.option.id,
             qty: item.qty
-        });    
+        });
     });
 
     const btn = document.getElementById('orderBtn');
@@ -212,7 +212,7 @@ const makeOrder = () => {
                 </div>
             </div>
         </div>
-    </ShopLayout> 
+    </ShopLayout>
 </template>
 
 <style scoped>

@@ -15,7 +15,12 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger("order_id");
+            $table->string("ref");
+            $table->unsignedTinyInteger("payment_type")->default(0); // 0 -> mpesa, 1 -> paypal
             $table->timestamps();
+
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
         });
     }
 

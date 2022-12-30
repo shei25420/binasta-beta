@@ -43,4 +43,18 @@ class UserController extends Controller
             'orders' => Order::select('ref', 'location', 'phone_number', 'status', 'created_at')->where('user_id', auth()->id())->get()
         ]);
     }
+
+    public function fetchOrderProducts ($subdomain, $ref) {
+        $data = Validator::make(["ref" => $ref], ["ref" => "required|string|exists:orders,ref"])->validated();
+
+        $order = Order::select("id")->where("ref", $data["ref"])->where("user_id", auth()->id())->with(["product_options" => function ($query) {
+            $query->select("product_options.id", "variation", "selling_price", "product_id");
+        }, "product_options.product" => function ($query) {
+            $query->select("id", "name", "product_category_id");
+        }, "product_options.product.product_category" => function ($query) {
+            $query->select("id", "name");
+        }])->first();
+        
+        return response()->json(["productOptions" => $order->product_options]);
+    }
 }
