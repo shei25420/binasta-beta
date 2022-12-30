@@ -10,6 +10,18 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreDistributorRequest;
 use App\Http\Requests\SuspendDistributorRequest;
 use App\Http\Requests\UpdateDistributorRequest;
+use App\Http\Requests\ValidateDistributorRequest;
+use App\Models\DistributorOrder;
+use App\Models\Product;
+use App\Models\ProductCategory;
+use App\Models\ProductOption;
+use App\Models\Tenant;
+use Hyn\Tenancy\Contracts\Repositories\HostnameRepository;
+use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
+use Hyn\Tenancy\Environment;
+use Hyn\Tenancy\Models\Hostname;
+use Hyn\Tenancy\Models\Website;
+use Illuminate\Support\Facades\DB;
 
 class DistributorController extends Controller
 {
@@ -52,7 +64,7 @@ class DistributorController extends Controller
 
         $ref = Str::random(4);
         while(Distributor::where('ref', $ref)->exists()) $ref = Str::random(4);
-        $data['ref'] = $ref;        
+        $data['ref'] = $ref;
 
         Distributor::create($data);
         return response()->redirectTo('/distributors');
@@ -120,6 +132,33 @@ class DistributorController extends Controller
         $data = $request->validated();
 
         Distributor::where('id', $data['distributor_id'])->update(['suspended' => true]);
+        return response()->redirectTo('/distributors');
+    }
+
+    public function verify (ValidateDistributorRequest $request) {
+        $data = $request->validated();
+
+        DB::transaction(function () use ($data) {
+            $distributor = Distributor::find($data["distributor_id"]);
+
+            $website = new Website;
+            app(WebsiteRepository::class)->create($website);
+            
+            $hostname = new Hostname;
+            $hostname->fqdn = $distributor->domain.".".config("app.domain");
+            $hostname = app(HostnameRepository::class)->create($hostname);
+
+            app(HostnameRepository::class)->attach($hostname, $website);
+            
+            $tenancy = app(Environment::class);
+            
+            $tenancy->hostname($hostname);
+            $tenancy->tenant($website);
+
+            $distributor->verified = true;
+            $distributor->save();
+        }, 5);
+
         return response()->redirectTo('/distributors');
     }
 
