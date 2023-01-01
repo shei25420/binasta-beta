@@ -141,12 +141,11 @@ class ShopController extends Controller
         }, 'product_options.product' => function ($query) {
             $query->select('id', 'name');
         }, 'product_options.product.discounts' => function ($query) {
-            $query->select("id", "percentage", "product_id")
+            $query->select("id", "percentage", "product_id", "active")
             ->where('start_date', '<=', Carbon::now()->toDateString())
             ->where('end_date', '>', Carbon::now()->toDateString())
-            ->where('status', true);
+            ->where('active', true);
         }])->firstOrFail();
-
         $data["order"] = $order;
         $gateway = (new Billing())->payment_gateway($data['payment_type']);
 
@@ -168,13 +167,13 @@ class ShopController extends Controller
         $data = $request->validated();
 
         $order = Order::where("ref", $data["order_ref"])->with(["product_options" => function ($query) {
-            $query->select("product_options.id", "stock", "sold");
+            $query->select("product_options.id", "stock", "sold", "quantity");
         }])->where("user_id", auth()->id())->firstOrFail();
         DB::transaction(function () use ($data, $order) {
             Transaction::create(["ref" => $data["ref"], "paymnet_type" => 1, "order_id" => $order->id]);
             foreach ($order->product_options as $option) {
-                $option->sold++;
-                $option->stock--;
+                $option->sold += $option->quantity;
+                $option->stock -= $option->quantity;
                 $option->save();
             }
             $order->status = 1;

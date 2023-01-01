@@ -1,6 +1,8 @@
 <?php
 namespace App\Helpers\PaymentMethods;
 
+use Illuminate\Support\Str;
+
 class Paypal {
     private $base_url;
     private $client_id;
@@ -36,7 +38,7 @@ class Paypal {
                 foreach ($package->productOptions as $option) {
                     $total_amount += $option->wholesale_min * $option->wholesale_price;
                 }
-                $amount = ["amount" => [
+                $amount = ["reference_id" => Str::random(8), "amount" => [
                     "currency_code" => "USD",
                     "description" => $package->name,
                     "unit_amount" => $total_amount,
@@ -55,7 +57,7 @@ class Paypal {
         } else {
             foreach ($data["order"]->product_options as $option) {
                 $unit_amount = $option->selling_price;
-                $amount = ["amount" => [
+                $amount = ["reference_id" => Str::random(8), "amount" => [
                     "currency_code" => "USD",
                     "description" => $option->product->name." ".$option->variation."(x".$option->wholesale_min.")",
                     "unit_amount" => $unit_amount,

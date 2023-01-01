@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Hyn\Tenancy\Traits\UsesSystemConnection;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,7 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Distributor extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, UsesSystemConnection;
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = ['country_id', 'parent_distributor_id', 'ref', 'first_name', 'last_name', 'email', 'password', 'domain', 'gender', 'suspended'];
 
@@ -28,6 +27,6 @@ class Distributor extends Authenticatable
     }
 
     public function orders () {
-        return $this->hasMany(DistributorOrder::class);
+        return $this->hasMany(DistributorOrder::class, "distributor_id", "id");
     }
 }

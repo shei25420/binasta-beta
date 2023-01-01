@@ -5,6 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Http\Requests\StoreAdminRequest;
 use App\Http\Requests\UpdateAdminRequest;
+use App\Models\Distributor;
+use App\Models\DistributorOrder;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\ProductOption;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 class AdminController extends Controller
 {
@@ -14,8 +22,31 @@ class AdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
+        $products_meta = Product::select(DB::raw("COUNT(*) as products_count, SUM(views) as product_views"))->first();
         
+        $distributors_meta = Distributor::select(DB::raw("COUNT(*) as distributors_count, SUM(binapoints) as awarded_points, SUM(suspended) as suspended_count, SUM(verified) as verified_count"))->first();
+        
+        $product_options_meta = ProductOption::select(DB::raw("SUM(sold) as total_sold"))->first();
+        
+        $customers_meta = User::select(DB::raw("COUNT(*) as total_customers"))->first();
+        
+        $distributor_orders_meta = DistributorOrder::select(DB::raw("created_at, SUM(if(status = true, 1, 0)) as total_paid, COUNT(*) as total_orders, MONTH(created_at) month, YEAR(created_at) year, DAY(created_at) day"))
+        ->groupBy('day')
+        ->get();
+        
+        $customer_orders_meta = Order::select(DB::raw("created_at, COUNT(*) as total_orders, SUM(if(status = true, 1, 0)) as total_paid, YEAR(created_at) year, MONTH(created_at) month, DAY(created_at) day"))
+        ->groupBy("day")
+        ->get();
+
+        return Inertia::render("Admin/Dashboard", [
+            "products_meta" => $products_meta,
+            "distributors_meta" => $distributors_meta,
+            "product_options_meta" => $product_options_meta,
+            "customers_meta" => $customers_meta,
+            "distributor_orders_meta" => $distributor_orders_meta,
+            "customer_orders_meta" => $customer_orders_meta,
+        ]);
     }
 
     /**

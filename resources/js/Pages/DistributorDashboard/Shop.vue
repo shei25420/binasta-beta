@@ -4,7 +4,7 @@ import { Link } from '@inertiajs/inertia-vue3';
 import ShopLayout from '@/Layouts/ShopLayout.vue'
 defineProps({
     categories: Array,
-    productOptions: Array,
+    products: Array,
 });
 </script>
 
@@ -58,20 +58,20 @@ defineProps({
                     </div>
                     <div class="row product-grid">
                         <!--end product card-->
-                        <div class="col-lg-1-5 col-md-4 col-12 col-sm-6" v-for="productOptions in productOptions" :key="product.id">
+                        <div class="col-lg-1-5 col-md-4 col-12 col-sm-6" v-for="product in products" :key="product.id">
                             <div class="product-cart-wrap mb-30 wow animate__ animate__fadeIn animated"
                                 data-wow-delay=".1s"
                                 style="visibility: visible;animation-delay: 0.1s;animation-name: fadeIn;">
                                 <div class="product-img-action-wrap">
                                     <div class="product-img product-img-zoom">
-                                        <Link :href="'/products/' + productOptions.product.slug">
+                                        <Link :href="'/products/' + product.slug">
                                         <img class="default-img" :src="
                                             '/storage/' +
-                                            productOptions.product.images[0].url
+                                            product.images[0].url
                                         " alt="" />
                                         <img class="hover-img" :src="
                                             '/storage/' +
-                                            productOptions.product.images[0].url
+                                            product.images[0].url
                                         " alt="" />
                                         </Link>
                                     </div>
@@ -84,25 +84,25 @@ defineProps({
                                 <div class="product-content-wrap">
                                     <div class="product-category">
                                         <a href="shop-grid-right.html">{{
-                                                productOptions.product.product_category.name
+                                                product.product_category.name
                                         }}</a>
                                     </div>
                                     <h2>
-                                        <Link :href="'/products/' + productOptions.product.slug">{{ product.name }}</Link>
+                                        <Link :href="'/products/' + product.slug">{{ product.name }}</Link>
                                     </h2>
                                     <div class="product-card-bottom">
                                         <div class="product-price">
-                                            <span>${{
-                                                    productOptions.product.discounts.length
+                                            <span>ksh.{{
+                                                    product.discounts.length
                                                         ? ((100 -
-                                                        productOptions.product
+                                                            product
                                                                 .discounts[0]
                                                                 .percentage) /
                                                             100) *
-                                                        productOptions.product
+                                                        product
                                                             .product_options[0]
                                                             .selling_price
-                                                        : productOptions.product
+                                                        : product
                                                             .product_options[0]
                                                             .selling_price
                                             }}</span>
@@ -150,7 +150,7 @@ defineProps({
                             </ul>
                         </nav>
                     </div> -->
-                    <section class="section-padding pb-5" v-if="discounts.length">
+                    <!-- <section class="section-padding pb-5" v-if="discounts.length">
                         <div class="section-title">
                             <h3 class="">Deals Of The Day</h3>
                             <a class="show-all" href="shop-grid-right.html">
@@ -194,7 +194,7 @@ defineProps({
                                 </div>
                             </div>
                         </div>
-                    </section>
+                    </section> -->
                     <!--End Deals-->
                 </div>
                 <div class="col-lg-1-5 primary-sidebar sticky-sidebar" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">

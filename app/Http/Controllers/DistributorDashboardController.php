@@ -19,6 +19,7 @@ use App\Http\Requests\MakePaymentRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\RegisterDistributorRequest;
 use App\Http\Requests\CapturePaypalPaymentRequest;
+use App\Models\Tenant;
 
 class DistributorDashboardController extends Controller
 {
@@ -125,7 +126,10 @@ class DistributorDashboardController extends Controller
     public function capturePaypalPayment (CapturePaypalPaymentRequest $request) {
         $data = $request->validated();
 
-        $order = DistributorOrder::where("ref", $data["order_ref"])->where("distributor_id", auth()->id())->first();
+        $order = DistributorOrder::where("ref", $data["order_ref"])->with(["distributor" => function ($query) {
+            $query->select("id", "verified");
+        }])->where("distributor_id", auth()->id())->first();
+        
         DB::transaction(function () use ($order, $data) {
             DistributorTransaction::create(["ref" => $data["ref"], "paymnet_type" => 1, "distributor_order_id" => $order->id]);
             foreach ($order->distributor_packages as $package) {
@@ -138,6 +142,11 @@ class DistributorDashboardController extends Controller
             $order->status = 1;
             $order->save();
         }, 5);
+
+        if($order->distributor->verified) {
+            $tenant = Tenant::where("data->distributor_id", auth()->id())->first();
+            
+        }
 
         return response()->redirectTo("/orders");
     }

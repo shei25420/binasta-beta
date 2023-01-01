@@ -195,3 +195,4 @@ Route::get('/contact', [MainController::class, 'contact'])->name('main.contact')
 Route::post('/contact', [ContactMessageController::class, 'store'])->name('main.contact.store');
 Route::post('/subscribe', [MainSubscriberController::class, 'store'])->name('main.subscriber.store');
 // require __DIR__.'/auth.php';
+
