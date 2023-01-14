@@ -5,6 +5,7 @@ import { useForm } from '@inertiajs/inertia-vue3';
 import DataTable from 'datatables.net-vue3'
 import DataTablesLib from 'datatables.net';
 import 'datatables.net-bs5';
+import 'datatables.net-responsive-dt';
 
 import ModalComponent from '@/Components/GenericDashboard/ModalComponent.vue';
 import GenericLayout from '@/Layouts/GenericLayout.vue';
@@ -105,7 +106,7 @@ onMounted(() => {
                 </button>
             </div>
             <div class="card-body">
-                <DataTable id="dt" class="display table table-responsive" :data="configurations" :columns="[
+                <DataTable id="dt" class="display table table-responsive" :options="{responsive: true}" :data="configurations" :columns="[
                     { data: 'awarded' },
                     { data: 'value' },
                     { data: 'created_at', render: (data) => {
@@ -150,6 +151,7 @@ onMounted(() => {
 </template>
 <style>
 @import 'datatables.net-bs5';
+@import 'datatables.net-responsive-dt';
 
 .invalid-feedback {
     display: block;

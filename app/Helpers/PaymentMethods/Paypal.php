@@ -87,4 +87,8 @@ class Paypal {
         curl_close($curl);
         return json_decode($response);
     }
+
+    public function process_payout($data) {
+
+    }
 }

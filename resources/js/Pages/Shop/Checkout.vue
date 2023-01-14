@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useForm, usePage, Link } from '@inertiajs/inertia-vue3';
 
 import ShopLayout from '@/Layouts/ShopLayout.vue';
@@ -82,6 +82,21 @@ const makeOrder = () => {
     }
 };
 
+onMounted(() => {
+    let googleScript = document.createElement('script');
+    googleScript.setAttribute('src', "https://maps.googleapis.com/maps/api/js?key=AIzaSyBoR-KFcg8yHE4-x5xw4ixAQxYhkPbM4Tc&libraries=places");
+    document.head.appendChild(googleScript);
+
+    googleScript.addEventListener('load', function () {
+        const autocomplete = new google.maps.places.Autocomplete(
+                  /** @type {HTMLInputElement} */(document.getElementById('autocomplete')),
+                  { componentRestrictions: { country: 'ke' } });
+        google.maps.event.addListener(autocomplete, 'place_changed', function(data) {
+            orderForm.location = `${autocomplete.getPlace()["name"]} ${autocomplete.getPlace()["formatted_address"]}`;
+        });
+    });
+});
+
 </script>
 
 <template>
@@ -100,7 +115,7 @@ const makeOrder = () => {
                 <div class="col-lg-8 mb-40">
                     <h1 class="heading-2 mb-10">Checkout</h1>
                     <div class="d-flex justify-content-between">
-                        <h6 class="text-body">There are <span class="text-brand">3</span> products in your cart</h6>
+                        <h6 class="text-body">There are <span class="text-brand">{{  cart.length  }}</span> products in your cart</h6>
                     </div>
                 </div>
             </div>
@@ -162,7 +177,7 @@ const makeOrder = () => {
                                     <div class="invalid-feedback" v-if="orderForm.errors.phone_number">{{ orderForm.errors.phone_number }}</div>
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <input type="text" required="" name="lname" v-model="orderForm.location" placeholder="Delivery Location *">
+                                    <input type="text" required="" id="autocomplete" name="lname" v-model="orderForm.location" placeholder="Delivery Location *">
                                     <div class="invalid-feedback" v-if="orderForm.errors.location">{{ orderForm.errors.location }}</div>
                                 </div>
                             </div>
@@ -181,7 +196,7 @@ const makeOrder = () => {
                                 <tbody>
                                     <tr v-for="item in cart" :key="item.product.id">
                                         <td class="image product-thumbnail">
-                                            <img :src="'/storage/' + item.product.images[0].url" :alt="item.product.name"></td>
+                                            <img class="lazy" src="../../../assets/shop/imgs/theme/img_loading.gif" :data-src="'/storage/' + item.product.images[0].url" :alt="item.product.name"></td>
                                         <td>
                                             <h6 class="w-160 mb-5">
                                                 <Link :href="'/products/' + item.product.slug" class="text-heading">{{ item.product.name }}</Link>
@@ -198,7 +213,7 @@ const makeOrder = () => {
                                             <h6 class="text-muted pl-20 pr-20">x {{ item.qty }}</h6>
                                         </td>
                                         <td>
-                                            <h4 class="text-brand">ksh.{{ item.option.selling_price }}</h4>
+                                            <h4 class="text-brand">ksh.{{ item.product.discounts.length ? (((100 - parseInt(item.product.discounts[0].percentage)) / 100) * parseFloat(item.option.selling_price))  : parseFloat(item.option.selling_price) }}</h4>
                                         </td>
                                     </tr>
                                 </tbody>

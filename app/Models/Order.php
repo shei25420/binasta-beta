@@ -9,7 +9,7 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['ref', 'user_id', 'user_address_id', 'location', 'phone_number'];
+    protected $fillable = ['ref', 'user_id', 'user_address_id', 'location', 'phone_number', 'amount'];
 
     public function product_options () {
         return $this->belongsToMany(ProductOption::class, 'order_product_option', 'order_id', 'product_option_id')->withPivot('quantity');

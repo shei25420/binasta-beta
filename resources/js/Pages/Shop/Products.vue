@@ -1,12 +1,15 @@
 <script setup>
 import { Link } from '@inertiajs/inertia-vue3';
 
-import ShopLayout from '@/Layouts/ShopLayout.vue'
+import ShopLayout from '@/Layouts/ShopLayout.vue';
+import '@/vendors/shop/plugins/slick.js';
+
 defineProps({
     categories: Array,
     products: Array,
     discounts: Array
 });
+
 </script>
 
 <template>
@@ -66,7 +69,7 @@ defineProps({
                                 <div class="product-img-action-wrap">
                                     <div class="product-img product-img-zoom">
                                         <Link :href="'/products/' + product.slug">
-                                        <img class="default-img" :src="
+                                        <img class="default-img lazy" src="../../../assets/shop/imgs/theme/img_loading.gif" :data-src="
                                             '/storage/' +
                                             product.images[0].url
                                         " alt="" />
@@ -93,7 +96,7 @@ defineProps({
                                     </h2>
                                     <div class="product-card-bottom">
                                         <div class="product-price">
-                                            <span>${{
+                                            <span>ksh.{{
                                                     product.discounts.length
                                                         ? ((100 -
                                                             product

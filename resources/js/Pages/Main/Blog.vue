@@ -31,7 +31,7 @@ onMounted(() => {
                     <div v-for="post in posts" :key="post.id" class="col-lg-4 col-md-6 col-12 grid-item">
                         <article v-if="post.type == 0" class="single-blog sticky">
                             <div class="blog-thumb">
-                                <img :src="'/storage/' + post.image_path" alt="">
+                                <img class="lazy" src="../../../assets/shop/imgs/theme/img_loading.gif" :data-src="'/storage/' + post.image_path" alt="">
                                 <ul class="post-meta  d-flex justify-content-between">
                                     <li><a href="#"><i class="icofont">ui_calendar</i> {{ new Date(post.created_at).toDateString() }} </a></li>
                                 </ul>

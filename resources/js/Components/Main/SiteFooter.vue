@@ -1,6 +1,6 @@
 <script setup>
+import { Link } from '@inertiajs/inertia-vue3';
 import { ref } from 'vue';
-import { useForm } from '@inertiajs/inertia-vue3';
 
 const contactMessage = ref("");
 
@@ -42,28 +42,25 @@ const subscribe = () => {
             <div class="row align-items-center">
                 <div class="col-lg-4 col-md-6">
                     <div class="single-footer">
-                        <a href="#" class="footer-logo"><img src="../../../assets/main/images/logo/flogo.png" alt=""></a>
-                        <h3 class="footer-titil">ABOUT RATIONS</h3>
-                        <p>Lorem ipsum dolor sit amet,consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-                            invidunt ut labore et dolore magna aliquyam erat.
+                        <Link href="/" class="footer-logo"><img src="../../../assets/shop/imgs/theme/flogo.png" style="width:140px !important;" alt=""></Link>
+                        <h3 class="footer-titil">Binasta Limited</h3>
+                        <p>Binasta is a modern affiliate marketing company that markets and sells nutritional supplements, weight management, personal care products, and health shakes.
                         </p>
                         <br>
                         <address>
                             CALL NOW FOR SERVICE! <br>
-                            <strong>123 4567 89012</strong>
+                            <strong>254 4567 89012</strong>
                         </address>
 
                     </div>
                 </div><!-- end single footer -->
                 <div class="col-lg-4 col-md-6">
                     <div class="single-footer">
-                        <h3 class="footer-titil">RECENT POST</h3>
+                        <h3 class="footer-titil">Quick Links</h3>
                         <ul class="post-link">
-                            <li><a href="#">5 Simple & Healthy Gluten Free Cookie</a></li>
-                            <li><a href="#">How Much do you Really Need in a day?</a></li>
-                            <li><a href="#">6 Tip to Make Paleo Eating Easy</a></li>
-                            <li><a href="#">How Much do you Really Need in a day?</a></li>
-                            <li><a href="#">How Much do you Really Need in a day?</a></li>
+                            <li><a href="https://shop.binasta.co.ke">Shop</a></li>
+                            <li><a href="https://business.binasta.co.ke">Become A Distributor</a></li>
+                            <li><Link href="/terms">Terms &amp; Conditions</Link></li>
                         </ul>
                     </div>
                 </div><!-- end single footer -->
@@ -89,7 +86,7 @@ const subscribe = () => {
                 </div><!-- end single footer -->
                 <div class="col-12 text-center">
                     <div class="copy-right">
-                        <p>2018 &copy; RATIONS, ALL RIGHTS RESERVED</p>
+                        <p>2023 &copy; Binasta Limited, ALL RIGHTS RESERVED</p>
                     </div>
                 </div>
             </div>

@@ -54,7 +54,7 @@ class ProductController extends Controller
         }
 
         $product->images()->saveMany($images);
-        return response()->redirectTo('/products/'.$product->id);
+        return response()->redirectTo('/products');
     }
 
     /**

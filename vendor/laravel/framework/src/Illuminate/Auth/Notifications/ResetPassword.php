@@ -94,7 +94,9 @@ class ResetPassword extends Notification
             return call_user_func(static::$createUrlCallback, $notifiable, $this->token);
         }
 
+        $subdomain = explode('.', request()->getHost())[0];
         return url(route('password.reset', [
+            'subdomain' => $subdomain,
             'token' => $this->token,
             'email' => $notifiable->getEmailForPasswordReset(),
         ], false));

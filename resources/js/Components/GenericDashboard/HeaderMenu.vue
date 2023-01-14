@@ -1,5 +1,5 @@
 <script setup>
-    
+    import { Link } from '@inertiajs/inertia-vue3';
 </script>
     
 <template>
@@ -10,12 +10,12 @@
         </a>
     </div>
     <!-- Logo -->
-    <a href="index.html" class="logo">
-        <img width="100" src="https://vetra.laborasyon.com/assets/images/logo.svg" alt="logo">
-    </a>
+    <Link href="/" class="logo">
+        <img width="100" src="../../../assets/generic_dashboard/flogo.png" alt="logo">
+    </Link>
     <!-- ./ Logo -->
     <div class="page-title">Overview</div>
-    <form class="search-form">
+    <!-- <form class="search-form">
         <div class="input-group">
             <button class="btn btn-outline-light" type="button" id="button-addon1">
                 <i class="bi bi-search"></i>
@@ -33,80 +33,8 @@
                     <i class="bi bi-bell icon-lg"></i>
                 </a>
             </li>
-            <li class="nav-item dropdown">
-                <a href="#" class="nav-link nav-link-notify" data-count="3" data-bs-toggle="dropdown">
-                    <i class="bi bi-cart2 icon-lg"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0">
-                    <h6 class="m-0 px-4 py-3 border-bottom">Shopping Cart</h6>
-                    <div class="dropdown-menu-body" tabindex="3" style="overflow: hidden; outline: none;">
-                        <div class="list-group list-group-flush">
-                            <div class="list-group-item d-flex align-items-center">
-                                <a href="#" class="text-danger me-3" title="Remove">
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                                <a href="#" class="me-3 flex-shrink-0 ">
-                                    <img src="#" class="rounded" width="60" alt="...">
-                                </a>
-                                <div>
-                                    <h6>Digital clock</h6>
-                                    <div>1 x $1.190,90</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="list-group list-group-flush">
-                            <div class="list-group-item d-flex align-items-center">
-                                <a href="#" class="text-danger me-3" title="Remove">
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                                <a href="#" class="me-3 flex-shrink-0 ">
-                                    <img src="#" class="rounded" width="60" alt="...">
-                                </a>
-                                <div>
-                                    <h6>Toy Car</h6>
-                                    <div>1 x $139.58</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="list-group list-group-flush">
-                            <div class="list-group-item d-flex align-items-center">
-                                <a href="#" class="text-danger me-3" title="Remove">
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                                <a href="#" class="me-3 flex-shrink-0 ">
-                                    <img src="#" class="rounded" width="60" alt="...">
-                                </a>
-                                <div>
-                                    <h6>Sunglasses</h6>
-                                    <div>2 x $50,90</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="list-group list-group-flush">
-                            <div class="list-group-item d-flex align-items-center">
-                                <a href="#" class="text-danger me-3" title="Remove">
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                                <a href="#" class="me-3 flex-shrink-0 ">
-                                    <img src="#" class="rounded" width="60" alt="...">
-                                </a>
-                                <div>
-                                    <h6>Cake</h6>
-                                    <div>1 x $10,50</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <h6 class="m-0 px-4 py-3 border-top small">Sub Total : <strong class="text-primary">$1.442,78</strong></h6>
-                <div id="ascrail2002" class="nicescroll-rails nicescroll-rails-vr" style="width: 8px; z-index: 1000; cursor: default; position: absolute; top: 0px; left: -8px; height: 0px; display: none;"><div class="nicescroll-cursors" style="position: relative; top: 0px; float: right; width: 6px; height: 0px; background-color: rgb(66, 66, 66); border: 1px solid rgb(255, 255, 255); background-clip: padding-box; border-radius: 5px;"></div></div><div id="ascrail2002-hr" class="nicescroll-rails nicescroll-rails-hr" style="height: 8px; z-index: 1000; top: -8px; left: 0px; position: absolute; cursor: default; display: none;"><div class="nicescroll-cursors" style="position: absolute; top: 0px; height: 6px; width: 0px; background-color: rgb(66, 66, 66); border: 1px solid rgb(255, 255, 255); background-clip: padding-box; border-radius: 5px;"></div></div></div>
-            </li>
-            <li class="nav-item ms-3">
-                    <button class="btn btn-primary btn-icon">
-        <i class="bi bi-plus-circle"></i> Add Product
-    </button>
-            </li>
         </ul>
-    </div>
+    </div> -->
     <!-- Header mobile buttons -->
     <div class="header-mobile-buttons">
         <a href="#" class="search-bar-btn">

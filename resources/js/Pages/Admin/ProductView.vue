@@ -132,7 +132,7 @@ onMounted(() => {
                         <div class="row">
                             <div class="col-md-5">
                                 <div v-for="image in product.images" :key="image.id" class="slider mb-3">
-                                    <img :src="'/storage/' + image.url" class="w-100 rounded" alt="image" />
+                                    <img src='/shop/imgs/theme/img_loading.gif' :data-src="'/storage/' + image.url" class="w-100 rounded lazy" alt="image" />
                                 </div>
                             </div>
                             <div class="col-md-7">

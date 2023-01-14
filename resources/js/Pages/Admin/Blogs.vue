@@ -5,6 +5,7 @@ import { Inertia } from '@inertiajs/inertia';
 import DataTable from 'datatables.net-vue3'
 import DataTablesLib from 'datatables.net';
 import 'datatables.net-bs5';
+import 'datatables.net-responsive-dt';
 
 import GenericLayout from '@/Layouts/GenericLayout.vue';
 
@@ -43,9 +44,9 @@ onMounted(() => {
                 </Link>
             </div>
             <div class="card-body">
-                <DataTable id="dt" class="display table table-responsive" :data="blogs" :columns="[{ data: 'title' }, { data: 'description' }, {
+                <DataTable id="dt" class="display table table-responsive" :options="{responsive: true}" :data="blogs" :columns="[{ data: 'title' }, { data: 'description' }, {
                     data: 'image_path', render: (data) => {
-                        return `<img class='img img-fluid' width='200' height='200' src='/storage/${data}' />`;
+                        return `<img class='img img-fluid lazy' width='200' height='200' src='/shop/imgs/theme/img_loading.gif' data-src='/storage/${data}' />`;
                     }
                 }, { data: 'type', render: (data) => {
                     switch(parseInt(data)) {
@@ -61,7 +62,7 @@ onMounted(() => {
                         return new Date(data).toDateString();
                     }
                 }, {data: null, render: (data) => {
-                    return `<button class='btn btn-sm btn-secondary mr-3' data-type='edit' data-id='${data.id}'>Edit</button><button class='btn btn-sm btn-danger' data-type='del' data-id='${data.id}'>Delete</button>`
+                    return `<button class='btn btn-sm btn-secondary mr-3' data-type='edit' data-id='${data.id}'>Edit</button> <button class='btn btn-sm btn-danger' data-type='del' data-id='${data.id}'>Delete</button>`
                 }}]">
                     <thead>
                         <tr>
@@ -82,4 +83,6 @@ onMounted(() => {
 
 <style>
 @import 'datatables.net-bs5';
+@import 'datatables.net-responsive-dt';
+
 </style>

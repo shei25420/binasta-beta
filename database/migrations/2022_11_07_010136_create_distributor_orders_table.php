@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('location')->nullable();
             $table->string('phone_number')->nullable();
             $table->unsignedTinyInteger('status')->default(0);
+            $table->unsignedBigInteger('amount');
             $table->timestamps();
 
             $table->foreign('distributor_id')->references('id')->on('distributors')->onDelete('cascade');

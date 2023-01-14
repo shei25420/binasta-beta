@@ -5,6 +5,7 @@ import { onMounted, ref } from 'vue';
 import DataTable from 'datatables.net-vue3'
 import DataTablesLib from 'datatables.net';
 import 'datatables.net-bs5';
+import 'datatables.net-responsive-dt';
 
 import GenericLayout from '@/Layouts/GenericLayout.vue';
 import ModalComponent from '@/Components/GenericDashboard/ModalComponent.vue';
@@ -103,7 +104,7 @@ onMounted(() => {
                 </button>
             </div>
             <div class="card-body">
-                <DataTable :data="countries" :columns="[{ data: 'name' }, { data: 'code' }, {
+                <DataTable :options="{responsive: true}" :data="countries" :columns="[{ data: 'name' }, { data: 'code' }, {
                     data: 'created_at', render: (data) => {
                         return new Date(data).toDateString();
                     }

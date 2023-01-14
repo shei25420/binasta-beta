@@ -51,7 +51,7 @@ class BlogController extends Controller
         $data['post'] = $data['blog_post'];
         if($data['type'] == 0) {
             $data['slug'] = Str::slug($data['title']);
-            $data['image_path'] = Storage::disk('public')->put('product_images', $request->file('image'));
+            $data['image_path'] = Storage::disk('public')->put('blogs', $request->file('image'));
         }
 
         Blog::create($data);

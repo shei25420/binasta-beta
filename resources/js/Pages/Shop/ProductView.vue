@@ -1,10 +1,10 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { Link } from '@inertiajs/inertia-vue3';
-
 import ShopLayout from '@/Layouts/ShopLayout.vue';
 
-import 'slick-carousel/slick/slick.js';
+import '@/vendors/shop/plugins/slick.js';
+import { useStorage } from '@vueuse/core';
 
 const props = defineProps({
     product: Object,
@@ -12,27 +12,22 @@ const props = defineProps({
     categories: Array
 });
 
+const emit = defineEmits(["addItem"]);
+const cart = useStorage("cart", []);
+
 const qty = ref(1);
 const selectedOption = ref(props.product.product_options[0]);
 let existsInCart = ref(false);
 
 const addToCart = () => {
     if(existsInCart.value) {
-        let cart = JSON.parse(localStorage.getItem("cart"));
-        cart = cart.filter(item => item.product.id !== props.product.id);
-        localStorage.setItem("cart", JSON.stringify(cart));
+        cart.value = cart.value.filter(item => item.product.id !== props.product.id);
         existsInCart.value = false;
     } else {
-        let cart = localStorage.getItem("cart");
-        if(cart) {
-            cart = JSON.parse(localStorage.getItem("cart"));    
-            //Check if item exists in cart already
-            if(cart.some(item => parseInt(item.product.id) === parseInt(props.product.id))) return;
-        } else  cart = [];
-
+        if(cart.value.some(item => parseInt(item.product.id) === parseInt(props.product.id))) return;
+        
         //New Cart Item -> { productid, productname, price, selectionoption }
-        cart.push({product: props.product, option: selectedOption.value, qty: qty.value});
-        localStorage.setItem("cart", JSON.stringify(cart));
+        cart.value.push({product: props.product, option: selectedOption.value, qty: qty.value});
         existsInCart.value = true;
     }    
 };
@@ -42,8 +37,7 @@ const changeQty = (type) => {
     else if(qty.value > 1) qty.value--;
     
     if(existsInCart.value) {
-        const cart = JSON.parse(localStorage.getItem("cart"));
-        cart.forEach(item => {
+        cart.value.forEach(item => {
             if(parseInt(item.product.id) === parseInt(props.product.id)) {
                item.qty = qty.value; 
             }
@@ -57,14 +51,11 @@ const changeSelection = (option) => {
     selectedOption.value = option;
     
     if(existsInCart.value) {
-        const cart = JSON.parse(localStorage.getItem("cart"));
-        cart.forEach(item => {
+        cart.value.forEach(item => {
             if(parseInt(item.product.id) === parseInt(props.product.id)) {
                item.option = option; 
             }
         });
-
-        localStorage.setItem("cart", JSON.stringify(cart));
     }
 };
 
@@ -73,17 +64,14 @@ const isActive = (option) => {
 };
 
 onMounted(() => {
-    const cart = localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : null;
-    if(cart) {
-        existsInCart.value = cart.some(item => {
-            if(parseInt(item.product.id) === parseInt(props.product.id)) {
-                selectedOption.value = item.option;
-                qty.value = item.qty;
-                return true;
-            } 
-            return false;
-        });
-    }
+    existsInCart.value = cart.value.some(item => {
+        if(parseInt(item.product.id) === parseInt(props.product.id)) {
+            selectedOption.value = item.option;
+            qty.value = item.qty;
+            return true;
+        } 
+        return false;
+    });
     $('.product-image-slider').slick({
         slidesToShow: 1
     });
@@ -134,6 +122,53 @@ onMounted(() => {
     // $('.dropdown-menu .cart_list').on('click', function (event) {
     //     event.stopPropagation();
     // });
+
+        /*-------------------------------------
+        Product details big image slider
+    ---------------------------------------*/
+    $(".pro-dec-big-img-slider").slick({
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        arrows: false,
+        draggable: false,
+        fade: false,
+        asNavFor: ".product-dec-slider-small , .product-dec-slider-small-2"
+    });
+
+    /*---------------------------------------
+        Product details small image slider
+    -----------------------------------------*/
+    $(".product-dec-slider-small").slick({
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        asNavFor: ".pro-dec-big-img-slider",
+        dots: false,
+        focusOnSelect: true,
+        fade: false,
+        arrows: false,
+        responsive: [
+            {
+                breakpoint: 991,
+                settings: {
+                    slidesToShow: 3
+                }
+            },
+            {
+                breakpoint: 767,
+                settings: {
+                    slidesToShow: 4
+                }
+            },
+            {
+                breakpoint: 575,
+                settings: {
+                    slidesToShow: 2
+                }
+            }
+        ]
+    });
+
+
 });
 
 </script>
@@ -145,7 +180,7 @@ onMounted(() => {
                 <div class="breadcrumb">
                     <Link href="/" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</Link>
                     <span></span>
-                    <a href="shop-grid-right.html">{{ product.product_category.name }}</a> <span></span>
+                    <Link href="/products">{{ product.product_category.name }}</Link> <span></span>
                     {{ product.name }}
                 </div>
             </div>
@@ -164,7 +199,7 @@ onMounted(() => {
                                             <div class="product-image-slider">
                                                 <figure v-for="image in product.images" :key="image.id"
                                                     class="border-radius-10">
-                                                    <img :src="'/storage/' + image.url" alt="product image">
+                                                    <img class="lazy" src="../../../assets/shop/imgs/theme/img_loading.gif" :data-src="'/storage/' + image.url" alt="product image">
                                                 </figure>
                                             </div>
                                         </div>
@@ -172,16 +207,16 @@ onMounted(() => {
                                     </div>
                                     <div class="col-md-6 col-sm-12 col-xs-12">
                                         <div class="detail-info pr-30 pl-30">
-                                            <span class="stock-status out-stock"> Sale Off </span>
+                                            <span class="stock-status out-stock" v-if="product.discounts.length"> -{{ product.discounts[0].percentage }}%</span>
                                             <h2 class="title-detail">{{ product.name }}</h2>
                                             <div class="clearfix product-price-cover">
                                                 <div class="product-price primary-color float-left">
                                                     <span class="current-price text-brand">ksh.{{
-                                                            selectedOption.selling_price * qty
+                                                            product.discounts.length ? (((100 - (product.discounts[0].percentage)) / 100) * selectedOption.selling_price) * qty : selectedOption.selling_price * qty
                                                     }}</span>
-                                                    <span>
-                                                        <span class="save-price font-md color3 ml-15">26% Off</span>
-                                                        <span class="old-price font-md ml-15">$52</span>
+                                                    <span v-if="product.discounts.length">
+                                                        <span class="save-price font-md color3 ml-15">{{ product.discounts[0].percentage }}% Off</span>
+                                                        <span class="old-price font-md ml-15">ksh.{{ selectedOption.selling_price * qty }}</span>
                                                     </span>
                                                 </div>
                                             </div>
@@ -218,18 +253,7 @@ onMounted(() => {
                                             </div>
                                             <div class="font-xs">
                                                 <ul class="mr-50 float-start">
-                                                    <li class="mb-5">Type: <span class="text-brand">Organic</span></li>
-                                                    <li class="mb-5">MFG:<span class="text-brand"> Jun 4.2022</span>
-                                                    </li>
-                                                    <li>LIFE: <span class="text-brand">70 days</span></li>
-                                                </ul>
-                                                <ul class="float-start">
-                                                    <li class="mb-5">SKU: <a href="#">FWM15VKT</a></li>
-                                                    <li class="mb-5">Tags: <a href="#" rel="tag">Snack</a>, <a href="#"
-                                                            rel="tag">Organic</a>, <a href="#" rel="tag">Brown</a></li>
-                                                    <li>Stock:<span class="in-stock text-brand ml-5">8 Items In
-                                                            Stock</span>
-                                                    </li>
+                                                    <li class="mb-5">Ingredients: <span class="text-brand">{{ product.ingredients  }}</span></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -308,8 +332,8 @@ onMounted(() => {
                                     <h5 class="section-title style-1 mb-30">Category</h5>
                                     <ul>
                                         <li v-for="category in categories" :key="category.id">
-                                            <a href="shop-grid-right.html"> <img :src="'/storage/' + category.image.url"
-                                                    alt="">{{ category.name }}</a>
+                                            <Link href="/products"> <img :src="'/storage/' + category.image.url"
+                                                    alt="">{{ category.name }}</Link>
                                             <span class="count">{{ category.products_count }}</span>
                                         </li>
                                     </ul>

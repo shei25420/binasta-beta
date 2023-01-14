@@ -13,7 +13,7 @@ class StoreDiscountRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth('admin')->check();
+        return auth('admin')->check() || auth('distributor')->check();
     }
 
     /**

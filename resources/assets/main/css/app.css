@@ -1112,7 +1112,7 @@ a img.aligncenter {
     width: 947px;
 }
 .bg-1 {
-    background-image: url(../../../assets/main/images/slider/banner-1.jpg);
+    background-image: url(../../../assets/main/images/slider/banner-1.webp);
 }
 .bg-2 {
     background-image: url(../../../assets/main/images/slider/banner-2.jpg);
@@ -1756,7 +1756,7 @@ a img.aligncenter {
     z-index: 2;
 }
 .videobgplay.bg_1 {
-    background-image: url(../../../assets/main/images/all-img/videobg-1.jpg);
+    background-image: url(/main/images/all-img/contact.webp);
 }
 .videobgplay.bg_2 {
     background-image: url(../../../assets/main/images/all-img/videobg-2.jpg);

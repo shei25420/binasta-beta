@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Http\Requests\StoreAdminRequest;
 use App\Http\Requests\UpdateAdminRequest;
+use App\Models\Blog;
 use App\Models\Distributor;
 use App\Models\DistributorOrder;
 use App\Models\Order;
@@ -31,14 +32,16 @@ class AdminController extends Controller
         
         $customers_meta = User::select(DB::raw("COUNT(*) as total_customers"))->first();
         
-        $distributor_orders_meta = DistributorOrder::select(DB::raw("created_at, SUM(if(status = true, 1, 0)) as total_paid, COUNT(*) as total_orders, MONTH(created_at) month, YEAR(created_at) year, DAY(created_at) day"))
+        $distributor_orders_meta = DistributorOrder::select(DB::raw("created_at, SUM(if(status = true, 1, 0)) as total_paid, COUNT(*) as total_orders, SUM(amount) as total_amount, MONTH(created_at) month, YEAR(created_at) year, DAY(created_at) day"))
         ->groupBy('day')
         ->get();
         
-        $customer_orders_meta = Order::select(DB::raw("created_at, COUNT(*) as total_orders, SUM(if(status = true, 1, 0)) as total_paid, YEAR(created_at) year, MONTH(created_at) month, DAY(created_at) day"))
+        $customer_orders_meta = Order::select(DB::raw("created_at, COUNT(*) as total_orders, SUM(if(status = true, 1, 0)) as total_paid, SUM(amount) as total_amount, YEAR(created_at) year, MONTH(created_at) month, DAY(created_at) day"))
         ->groupBy("day")
         ->get();
 
+        $blog_meta = Blog::select("COUNT(*) as total_blogs");
+        
         return Inertia::render("Admin/Dashboard", [
             "products_meta" => $products_meta,
             "distributors_meta" => $distributors_meta,
@@ -46,6 +49,7 @@ class AdminController extends Controller
             "customers_meta" => $customers_meta,
             "distributor_orders_meta" => $distributor_orders_meta,
             "customer_orders_meta" => $customer_orders_meta,
+            "blog_meta" => $blog_meta
         ]);
     }
 

@@ -3,10 +3,11 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ShopController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\DistributorShopController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
+use App\Http\Controllers\Auth\Admin\AuthenticationController;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
 /*
@@ -35,10 +36,10 @@ Route::middleware([
 
     Route::post('/orders', [OrderController::class, 'store']);
 
-    Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('shop.login.create');
-    Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('shop.login.store');
+    Route::get('/login', [AuthenticationController::class, 'create'])->name('shop.login.create');
+    Route::post('/login', [AuthenticationController::class, 'store'])->name('shop.login.store');
 
-    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('shop.logout');
+    Route::post('/logout', [AuthenticationController::class, 'destroy'])->name('shop.logout');
 
     Route::get('/register', [RegisteredUserController::class, 'create']);
     Route::post('/register', [DistributorShopController::class, 'register']);

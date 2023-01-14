@@ -105,7 +105,7 @@ const sendContactMessage = () => {
                     </div>
                     <div class="col-lg-6">
                         <div class="promo-add">
-                            <img src="../../../assets/main/images/all-img/conimg.jpg" alt="">
+                            <img class="lazy" src="../../../assets/shop/imgs/theme/img_loading.gif" data-src="/main/images/all-img/conimg.jpg" alt="">
                             <div class="promo-text">
                                 <span>Need Help For Any</span>
                                 <h4>Health Information </h4>

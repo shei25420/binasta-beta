@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Carbon\Carbon;
 use App\Models\User;
 use Inertia\Inertia;
@@ -12,8 +13,10 @@ use App\Models\Discount;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Models\ProductCategory;
+use App\Models\MpesaTransaction;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\DB;
+use App\Events\MpesaPaymentCaptured;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
@@ -31,7 +34,7 @@ class ShopController extends Controller
                 'categories' => ProductCategory::select('id', 'name')->with(['image' => function ($query) {
                     $query->select('imageable_id', 'url');
                 }])->withCount('products')->get(),
-                'products' => Product::has('product_options', '>', 1)->select('id', 'name', 'slug')->with([
+                'products' => Product::select('id', 'name', 'slug')->with([
                     'product_options' => function ($query) {
                         $query->select('id', 'product_id', 'selling_price')->first();
                     },
@@ -58,7 +61,7 @@ class ShopController extends Controller
             'categories' => ProductCategory::select('id', 'name')->with(['image' => function ($query) {
                 $query->select('imageable_id', 'url');
             }])->withCount('products')->get(),
-            'products' => Product::has('product_options', '>', 1)->select('id', 'name', 'slug', 'product_category_id')->with([
+            'products' => Product::select('id', 'name', 'slug', 'product_category_id')->with([
                 'product_options' => function ($query) {
                     $query->select('id', 'product_id', 'selling_price')->first();
                 },
@@ -92,6 +95,11 @@ class ShopController extends Controller
             $query->select('id', 'product_id', 'variation', 'selling_price');
         }, 'images' => function ($query) {
             $query->select('imageable_id', 'url');
+        }, 'discounts' => function ($query) {
+            $query->select("product_id", "percentage")
+            ->where('start_date', '<=', Carbon::now()->toDateString())
+            ->where('end_date', '>', Carbon::now()->toDateString())
+            ->where("active", '=', true);
         }])->where('slug', $data['slug'])->first();
 
         $product->views = ++$product->views;
@@ -152,6 +160,10 @@ class ShopController extends Controller
         $response = $gateway->process_payment($data);
         switch($data['payment_type']) {
             case 'mpesa':
+                if((int)$response->ResponseCode === 0) {
+                    MpesaTransaction::create(['order_id' => $order->id, 'merchant_request_id' => $response->MerchantRequestID]);
+                    return response()->json(['status' => 1]);
+                }
                 break;
             case 'paypal':
                 if(isset($response->name) && $response->name == "INVALID_REQUEST") break;
@@ -181,6 +193,31 @@ class ShopController extends Controller
         }, 5);
 
         return Inertia::location("http://dashboard.".config("app.domain")."/orders");
+    }
+
+    public function captureMpesaPayment (Request $request) {
+        $data = json_decode($request->getContent());
+        
+        try {
+            $transaction = MpesaTransaction::where('merchant_request_id', $data->Body->stkCallback->MerchantRequestID)->with(['order' => function ($query) {
+                $query->select('id', 'user_id');
+            }, 'order.user' => function ($query) {
+                $query->select('id');
+            }])->first();
+            
+            $message = $data->Body->stkCallback->ResultDesc;
+            $status = (int)$data->Body->stkCallback->ResultCode;
+    
+    
+            if($status === 0) {
+                Transaction::create(['ref' => $data->Body->stkCallback->CallbackMetadata->Item[1]->Value, 'order_id' => $transaction->order->id]);
+                $transaction->order->status = 1;
+                $transaction->order->save();
+            }
+            event(new MpesaPaymentCaptured($transaction->order->user->id, $status, $message));
+        } catch (Exception $ex) {
+            event(new MpesaPaymentCaptured(auth()->id(), 1, $ex->getMessage()));
+        }
     }
 
     public function register (Request $request) {

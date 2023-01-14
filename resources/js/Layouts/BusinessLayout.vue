@@ -4,10 +4,7 @@ import SiteFooter from '@/Components/Business/SiteFooter.vue';
 import SiteHeader from '@/Components/Business/SiteHeader.vue';
 
 import "../../assets/business/js/jquery-3.5.1.min.js";
-import "../../assets/business/js/components/jquery.lazy.min.js"
-import "../../assets/business/js/components/jquery.fancybox.min.js";
 import "../../assets/business/js/components/jquery.singlePageNav.min.js";
-import "../../assets/business/js/components/swiper.js";
 import "../../assets/business/js/custom.js";
 
 onMounted(() => {

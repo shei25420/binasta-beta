@@ -1,5 +1,5 @@
 <script setup>
-
+import { Link } from '@inertiajs/inertia-vue3'
 </script>
 
 <template>
@@ -27,50 +27,14 @@
         </div> <!-- end top header -->
         <nav class="navbar">
             <div class="container">
-                <a href="index.html" class="navbar-brand logo"><img src="../../../assets/main/images/logo/logo.png" alt=""></a>
+                <Link href="/" class="navbar-brand logo"><img src="/main/images/logo/logo.png" style="width: 165px !important" width="165px" alt=""></Link>
                 <div class="ml-auto main-menu">
                     <ul>
-                        <li class="current-menu-item menu-item-has-children"><a href="#">home</a>
-                            <ul class="sub-menu">
-                                <li><a href="index.html">Home One</a></li>
-                                <li><a href="index-01.html">Home Two</a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-item-has-children"><a href="#">Our Exparts</a>
-                            <ul class="sub-menu">
-                                <li><a href="expart.html">Exparts</a></li>
-                                <li><a href="experts-profile.html">Exparts-profile</a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-item-has-children"><a href="#">Services</a>
-                            <ul class="sub-menu">
-                                <li><a href="services.html">services</a></li>
-                                <li><a href="single-services.html">services details</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="gallery.html">Our Gallery</a></li>
-                        <li class="menu-item-has-children"><a href="#">Pages</a>
-                            <ul class="sub-menu">
-                                <li><a href="expart.html">Our Exparts</a></li>
-                                <li><a href="experts-profile.html">Exparts-profile</a></li>
-                                <li><a href="services.html">services</a></li>
-                                <li><a href="single-services.html">services details</a></li>
-                                <li><a href="sucess-stores.html">Sucess stories</a></li>
-                                <li><a href="events.html">events</a></li>
-                                <li><a href="single-events.html">events Single</a></li>
-                                <li><a href="404.html">404</a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-item-has-children"><a href="#">News</a>
-                            <ul class="sub-menu">
-                                <li><a href="blog.html">Blog</a></li>
-                                <li><a href="single-standard.html">single standard</a></li>
-                                <li><a href="single-video.html">single video</a></li>
-                                <li><a href="single-audio.html">single audio</a></li>
-                                <li><a href="single-gallery.html">single gallery</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="contact.html">Contacts</a></li>
+                        <li><Link href="/">Home</Link></li>
+                        <li><a href="https://shop.binasta.co.ke">Shop</a></li>
+                        <li><Link href="/how-it-works">How It Works</Link></li>
+                        <li><Link href="/blog">Blog</Link></li>
+                        <li><Link href="/contact">Contacts</Link></li>
                     </ul>
                 </div> <!-- end main-menu -->
                 <div class="mobile-menu ml-auto">

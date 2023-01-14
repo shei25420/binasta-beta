@@ -28,6 +28,7 @@ return new class extends Migration
             $table->boolean('suspended')->default(false);
             $table->unsignedInteger('balance')->default(0);
             $table->unsignedInteger('binapoints')->default(0);
+            $table->rememberToken();
             $table->timestamps();
 
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');

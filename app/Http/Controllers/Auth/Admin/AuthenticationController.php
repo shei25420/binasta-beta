@@ -12,6 +12,7 @@ use App\Http\Requests\Auth\LoginRequest;
 
 class AuthenticationController extends Controller
 {
+    
     public function create () {
         return Inertia::render('Auth/Login', [
             'canResetPassword' => Route::has('password.request'),

@@ -10,7 +10,7 @@ import MainLayout from '@/Layouts/MainLayout.vue';
         <section class="health-guide">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6"><img src="../../../assets/main/images/how-it-works.jpeg" class="img-fluid"
+                    <div class="col-md-6"><img src="../../../assets/shop/imgs/theme/img_loading.gif" data-src="/main/images/how-it-works.jpg" class="img-fluid lazy"
                             alt=""></div>
                     <div class="col-md-6">
                         <h3 class="section-title">Binasta compensation plan</h3>

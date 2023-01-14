@@ -1,10 +1,12 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
 
 import DataTable from 'datatables.net-vue3'
 import DataTablesLib from 'datatables.net';
 import 'datatables.net-bs5';
+import 'datatables.net-responsive-dt';
 
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
@@ -101,6 +103,8 @@ onMounted(() => {
             form.images = selectedProduct.value.images;
             updateForm.value = true;
             $("#modalBtn").click();   
+        } else if (type === "view") {
+            Inertia.visit(`/products/${product_id}`);
         }
     });
 
@@ -116,6 +120,7 @@ onMounted(() => {
     
 <template>
     <GenericLayout>
+        
         <div class="card">
             <div class="card-header">
                 <h4>Products</h4>
@@ -125,10 +130,10 @@ onMounted(() => {
                 </button>
             </div>
             <div class="card-body">
-                <DataTable :columns="[{ data: 'name' }, {data: 'product_category', render: (data) => {
+                <DataTable :options="{responsive: true}" :columns="[{ data: 'name' }, {data: 'product_category', render: (data) => {
                     return data.name;
                 }}, {data: 'images', render: (data) => {
-                    return `<img class='img img-fluid' src='/storage/${data[0].url}' width=150/>`
+                    return `<img class='img img-fluid lazy' src='/shop/imgs/theme/img_loading.gif' data-src='/storage/${data[0].url}' width=150/>`
                 }}, {data: 'product_options_count', render: (data) => {
                     return data ? `<span class='badge bg-success'>Complete (`+ data +`)</span>` : `<span class='badge bg-danger'>Incomplete</span>`;
                 }}, {
@@ -136,7 +141,7 @@ onMounted(() => {
                         return new Date(data).toDateString()
                     }
                 }, {data: null, render: (data) => {
-                    return `<button data-type='view' data-id='${data.id}' class='btn btn-sm btn-primary mr-4'>View</button><button data-type='edit' data-id='${data.id}' class='btn btn-sm btn-secondary mr-3'>Edit</button> <button class='btn btn-sm btn-danger' data-type='del' data-id='${data.id}'>Delete</button>`;
+                    return `<button data-type='view' data-id='${data.id}' class='btn btn-sm btn-primary mr-4'>View</button> <button data-type='edit' data-id='${data.id}' class='btn btn-sm btn-secondary mr-3'>Edit</button> <button class='btn btn-sm btn-danger' data-type='del' data-id='${data.id}'>Delete</button>`;
                 }}]" :data="products" class="table table-responsive display" id="dt">
                     <thead>
                         <tr>
@@ -217,6 +222,7 @@ onMounted(() => {
 </template>
 <style>
 @import 'datatables.net-bs5';
+@import 'datatables.net-responsive-dt';
 
 .invalid-feedback {
     display: block;

@@ -1,37 +1,36 @@
 <?php
 
-use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Config;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OrderController;
+use Illuminate\Support\Facades\Broadcast;
+use App\Http\Controllers\PayoutController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\DistributorController;
 use App\Http\Controllers\UserAddressController;
+use App\Http\Controllers\BlogCategoryController;
 use App\Http\Controllers\ProductOptionController;
 use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\ProductCategoryController;
-use App\Http\Controllers\DistributorPackageController;
-use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\BinapointsConfigurationController;
-use App\Http\Controllers\Auth\Admin\AuthenticationController;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\BlogCategoryController;
-use App\Http\Controllers\BlogController;
-use App\Http\Controllers\BusinessController;
-use App\Http\Controllers\BusinessSubscriberController;
-use App\Http\Controllers\DistributorDashboardController;
-use App\Http\Controllers\DistributorDiscountController;
+use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\DistributorOrderController;
 use App\Http\Controllers\DistributorReviewController;
-use App\Models\Blog;
-use App\Models\BlogCategory;
-use App\Models\DistributorPackage;
+use App\Http\Controllers\BusinessSubscriberController;
+use App\Http\Controllers\DistributorPackageController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\DistributorDiscountController;
+use App\Http\Controllers\DistributorDashboardController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\BinapointsConfigurationController;
+use App\Http\Controllers\Auth\Admin\AuthenticationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,9 +48,20 @@ $default_domain = env("APP_DOMAIN");
 Route::group(array('domain' => '{subdomain}.' . Config::get('app.domain')), function () {
     $subdomain = explode('.', request()->getHost())[0];
     if ($subdomain === "management") {
-        Route::get('/login', [AuthenticationController::class, 'create'])->name('login');
-        Route::post('/login', [AuthenticationController::class, 'login']);
+        Route::middleware('guest:admin')->group(function () {
+            
+            Route::get('/login', [AuthenticationController::class, 'create'])->name('login');
+            Route::post('/login', [AuthenticationController::class, 'login']);
+            Route::get('/forgot-password', [PasswordResetLinkController::class, 'create']);
+            Route::post('/forgot-password', [PasswordResetLinkController::class, 'store']);
+        
+            Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])
+                ->name('password.reset');
 
+            Route::post('/reset-password', [NewPasswordController::class, 'store'])
+                    ->name('password.update');
+        });
+        
         Route::middleware('auth:admin')->group(function () {
             Route::get('/', [AdminController::class, 'index']);
 
@@ -118,6 +128,7 @@ Route::group(array('domain' => '{subdomain}.' . Config::get('app.domain')), func
 
             Route::get('/distributor_orders', [DistributorOrderController::class, 'index']);
 
+
             Route::get('/blog_categories', [BlogCategoryController::class, 'index'])->name('mgmt.blog_categories.index');
             Route::post('/blog_categories', [BlogCategoryController::class, 'store'])->name('mgmt.blog_categories.store');
             Route::put('/blog_categories/{id}', [BlogCategoryController::class, 'update']);
@@ -129,6 +140,8 @@ Route::group(array('domain' => '{subdomain}.' . Config::get('app.domain')), func
             Route::post('/blogs', [BlogController::class, 'store'])->name('mgmt.blogs.store');
             Route::post('/blogs/update/{id}', [BlogController::class, 'update']);
             Route::delete('/blogs/{id}', [BlogController::class, 'destroy']);
+
+            Route::post('/logout', [AuthenticationController::class, 'logout']);
         });
     } else if ($subdomain === "shop") {
         Route::get('/', [ShopController::class, 'index'])->name('shop.index');
@@ -136,31 +149,39 @@ Route::group(array('domain' => '{subdomain}.' . Config::get('app.domain')), func
         Route::get('/products/{slug}', [ShopController::class, 'show'])->name('shop.products.show');
 
         Route::get('/checkout', [ShopController::class, 'checkout']);
-        Route::get('/invoice/{ref}', [ShopController::class, 'invoice']);
-        Route::post('/make_payment', [ShopController::class, 'makePayment']);
-        Route::post('/capture/paypal', [ShopController::class, 'capturePaypalPayment']);
-
-        Route::post('/orders', [OrderController::class, 'store']);
-
-        Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('shop.login.create');
-        Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('shop.login.store');
-
-        Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('shop.logout');
+        
+        Route::get('/login', [AuthenticationController::class, 'create'])->name('shop.login.create');
+        Route::post('/login', [AuthenticationController::class, 'store'])->name('shop.login.store');
 
         Route::get('/register', [RegisteredUserController::class, 'create']);
-        Route::post('/register', [ShopController::class, 'store']);
+        Route::post('/register', [ShopController::class, 'register']);
+        
+        Route::get('/terms', [MainController::class, "terms"]);
+        Route::middleware("auth")->group(function () {
+            Route::get('/invoice/{ref}', [ShopController::class, 'invoice']);
+            Route::post('/make_payment', [ShopController::class, 'makePayment']);
+            Route::post('/capture/paypal', [ShopController::class, 'capturePaypalPayment']);
+
+            Route::post('/orders', [OrderController::class, 'store']);
+
+            Route::post('/logout', [AuthenticationController::class, 'logout']);
+        });
+    
+        Broadcast::routes();
     } else if ($subdomain === "business") {
         //Business Site Routes
         Route::get('/', [BusinessController::class, 'index'])->name('business.index');
         Route::post('/subscribe', [BusinessSubscriberController::class, 'store'])->name('business.subscribe');
+        Route::get('/terms', [MainController::class, "terms"]);
     } else if ($subdomain === "distributor") {
         Route::get('/register', [DistributorDashboardController::class, 'register']);
         Route::post('/register', [DistributorDashboardController::class, 'storeDistributor']);
 
         Route::get('/login', [AuthenticationController::class, 'create'])->name('login');
         Route::post('/login', [AuthenticationController::class, 'login']);
-
+        Route::get('/terms', [MainController::class, "terms"]);
         Route::middleware("auth:distributor")->group(function () {
+            Route::get("/", [DistributorDashboardController::class, "index"]);
             Route::get('/distributor_packages', [DistributorDashboardController::class, 'fetchPackages']);
             Route::get('/distributor_packages/{slug}', [DistributorDashboardController::class, 'showPackage']);
 
@@ -176,6 +197,17 @@ Route::group(array('domain' => '{subdomain}.' . Config::get('app.domain')), func
             Route::get('/invoice/{ref}', [DistributorDashboardController::class, 'invoice']);
             Route::post('/make_payment', [DistributorDashboardController::class, 'makePayment']);
             Route::post('/capture/paypal', [DistributorDashboardController::class, 'capturePaypalPayment']);
+            
+            Route::get('/products', [DistributorDashboardController::class, "products"]);
+
+            Route::get('/discounts', [DistributorDashboardController::class, "discounts"]);
+            Route::post('/discounts', [DistributorDashboardController::class, "storeDiscount"]);
+
+            Route::get('/users', [DistributorDashboardController::class, "users"]);
+            
+            Route::get('/orders', [DistributorDashboardController::class, "orders"]);
+            
+            Route::post('/logout', [AuthenticationController::class, 'logout']);
         });
     } else if ($subdomain === "dashboard") {
         Route::get('/login', [AuthenticationController::class, 'create'])->name('login');
@@ -183,9 +215,12 @@ Route::group(array('domain' => '{subdomain}.' . Config::get('app.domain')), func
         Route::middleware('auth')->group(function () {
             Route::get('/orders', [UserController::class, 'orders'])->name('user.orders');
             Route::get('/orders/{ref}', [UserController::class, 'fetchOrderProducts']);
+            Route::post('/logout', [AuthenticationController::class, 'logout']);
         });
+        Route::get('/terms', [MainController::class, "terms"]);
     }
 });
+
 Route::get('/', [MainController::class, 'index'])->name('main.index');
 Route::get('/how-it-works', [MainController::class, 'howItWorks'])->name('main.how_it_works');
 Route::get('/faqs', [MainController::class, 'faqs'])->name('main.faqs');
@@ -193,6 +228,7 @@ Route::get('/blog', [MainController::class, 'blog'])->name('main.blogs');
 Route::get('/blog/{slug}', [MainController::class, 'singlePost'])->name('main.blogs.show');
 Route::get('/contact', [MainController::class, 'contact'])->name('main.contact');
 Route::post('/contact', [ContactMessageController::class, 'store'])->name('main.contact.store');
-Route::post('/subscribe', [MainSubscriberController::class, 'store'])->name('main.subscriber.store');
+Route::get('/terms', [MainController::class, "terms"]);
+// Route::post('/subscribe', [MainSubscriberController::class, 'store'])->name('main.subscriber.store');
 // require __DIR__.'/auth.php';
 

@@ -1,104 +1,4 @@
-var $win = $(window),
-    $body = $('body'),
-    $header = $('#header'),
-    y_offsetWhenScrollDisabled,
-    $offset, successSubmit,
-    unlockScroll, lockScroll, $flagFancy = false;
-
-var loadJS = function(url, implementationCode, location) {
-    var scriptTag = document.createElement('script');
-    scriptTag.src = url;
-
-    scriptTag.onload = implementationCode;
-    scriptTag.onreadystatechange = implementationCode;
-
-    location.appendChild(scriptTag);
-};
-successSubmit = function(elem) {
-    $flagFancy = true;
-    parent.jQuery.fancybox.getInstance().close();
-    $flagFancy = true;
-    $.fancybox.open({
-        padding: 0,
-        src: '#succsesOrder',
-
-        transitionIn: 'fade',
-        transitionOut: 'fade',
-        padding: 0,
-        margin: 0,
-        speedIn: 0,
-        speedOut: 0,
-        smallBtn: true,
-        toolbar: false,
-        btnTpl: {
-            smallBtn: '<button type="button" data-fancybox-close class="fancybox-button fancybox-close-small"><i class="icon-close"></i></button>'
-        },
-        onInit: function() {
-            setTimeout(function() {
-                $('.js-stickly:not(.sticksy-dummy-node)').attr('style', $styles)
-            })
-        },
-        beforeShow: function() {
-            if (!$flagFancy) {
-                lockScroll();
-            }
-        },
-        afterClose: function() {
-
-            if (!$flagFancy) {
-                unlockScroll();
-
-                setTimeout(function() {
-                    $('.js-stickly:not(.sticksy-dummy-node)').attr('style', $styles)
-                })
-            }
-            $flagFancy = false
-        }
-    });
-}
-
-$win.on('load', function() {
-
-    $(".js-img").each(function() {
-        var $el = $(this);
-        $el.attr('src', $el.data("src"));
-    });
-
-    $(".js-bg").each(function() {
-        $(this).css('background-image', 'url(' + $(this).data("preload") + ')');
-    });
-    $body.removeClass('loaded');
-    if ($(".js-lazy").length) {
-        var lazyLoadInstance = new LazyLoad({
-            elements_selector: ".js-lazy"
-        });
-
-        if (lazyLoadInstance) {
-            lazyLoadInstance.update();
-        }
-    }
-        //  code phone
-    var $time2 = 700;
-    if ($body.is('.ios')) {
-        $time2 = 3000;
-    }
-    //mask tel
-    if ($('[type="tel"]').length > 0) {
-        setTimeout(function() {
-            loadJS('/business/js/components/maskedinput.js', maskFunc, document.body);
-
-            function maskFunc() {
-                $('[type="tel"]').inputmask({
-                    mask: "+9(999) 999 99 99",
-                    showMaskOnHover: false
-                });
-            }
-        }, $time2);
-
-    }
-});
- $(function() {
-
+$(function() {
     $(".js-menu").each(function() {
         $(this).singlePageNav({
             offset: $header.outerHeight(),
@@ -174,68 +74,7 @@ $win.on('load', function() {
         })
         $flagFixO = false
     }
-
-
-        if ($('.js-fancybox').length) {
-
-        $(".js-fancybox").fancybox({
-            padding: 0,
-            margin: 20,
-            touch: false,
-            animationEffect: 'zoom',
-            transitionEffect: "zoom-in-out",
-            speed: 350,
-            transitionDuration: 300,
-            smallBtn: true,
-            clickOutside: "close",
-            btnTpl: {
-                smallBtn: '<button type="button" data-fancybox-close class="fancybox-button fancybox-close-small"><i class="icon-close"></i></button>'
-            },
-            init: function() {
-
-                lockScroll();
-            },
-            afterClose: function() {
-
-                unlockScroll();
-            }
-        })
-    }
-
-
-    /* placeholder*/
-    $('input, textarea').each(function() {
-        var placeholder = $(this).attr('placeholder');
-        $(this).focus(function() {
-            $(this).attr('placeholder', '');
-        });
-        $(this).focusout(function() {
-            $(this).attr('placeholder', placeholder);
-        });
-    });
-    /* placeholder*/
-
-
-
-        var swiper1;
-        if ($('.js-slider-1').length > 0)  {
-            var swiper = new Swiper('.js-slider-1', {
-                loop: false,
-                spaceBetween: 0,
-                slidesPerView: 1,
-                speed: 400,
-
-                        effect: 'fade',
-autoplay: {
-          delay: 2500,
-          disableOnInteraction: false,
-        },
-
-            });
-
-
-        }
-    // toggle mob menu
+   // toggle mob menu
     $('.js-button-nav').click(function() {
         var $el = $(this);
         $el.toggleClass('active');
@@ -250,12 +89,5 @@ autoplay: {
         }
         return false;
     });
-
-    // datepicker
-    if ($( "#datepicker" ).length > 0) {
-     $( "#datepicker" ).datepicker({
-        dayNamesMin: [ "M", "T", "W", "T", "F", "S", "S" ]
-     });   
-    }
     
  });

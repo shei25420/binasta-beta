@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('location')->nullable();
             $table->string('phone_number')->nullable();
             $table->unsignedTinyInteger('status')->default(0); // 0 -> pending, 1 -> paid
+            $table->unsignedBigInteger('amount');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -2227,13 +2227,6 @@ input.qty-val {
   transition: 0.4s;
 }
 
-.home-slider.style-2 {
-  background: url(../imgs/banner/banner-12.png) no-repeat center bottom;
-  background-size: cover;
-  width: 100%;
-  padding: 50px 0;
-}
-
 .carausel-3-columns-cover {
   position: relative;
 }
@@ -3482,14 +3475,6 @@ table .product-thumbnail img {
           transition-duration: 0.3s;
 }
 
-.banner-img.style-2 {
-  border-radius: 15px;
-  overflow: hidden;
-  height: 520px;
-  background: url(../imgs/banner/banner-4.png) no-repeat center bottom;
-  background-size: cover;
-  width: 100%;
-}
 
 .banner-img.style-2 .banner-text {
   top: 50px;
@@ -5698,7 +5683,6 @@ table.no-border td, table.no-border th, table.no-border thead {
 
 /*BLOG*/
 .archive-header {
-  background: url(../imgs/blog/header-bg.png) no-repeat center center;
   border-radius: 20px;
   padding: 70px 80px;
   background-size: cover;
@@ -6633,23 +6617,12 @@ h6.post-title {
   border: none !important;
 }
 
-.invoice-1 .invoice-header {
-  background: rgba(0, 0, 0, 0.04) url(../imgs/invoice/header-bg-1.png) top left repeat;
-}
-
 .invoice-2 .invoice-info {
   border-radius: 0;
 }
 
 .invoice-2 .invoice-header {
   border-bottom: 1px solid #ececec;
-}
-
-.invoice-3 .invoice-header {
-  background: url(../imgs/invoice/header-bg-2.jpg) top left no-repeat;
-  background-size: cover;
-  padding: 50px 150px;
-  color: #fff;
 }
 
 .invoice-3 .invoice-table thead {
@@ -9561,7 +9534,7 @@ footer .hotline img {
 }
 
 .newsletter .newsletter-inner {
-  background: url(../imgs/banner/banner-10.png) no-repeat center;
+  background: url(../../assets/shop/imgs/banner/banner-10.png) no-repeat center;
   background-size: cover;
   padding: 84px 78px;
   clear: both;

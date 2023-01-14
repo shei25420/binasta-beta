@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use App\Models\DistributorOrder;
 use App\Http\Requests\StoreDistributorOrderRequest;
 use App\Http\Requests\UpdateDistributorOrderRequest;
+use App\Models\DistributorPackage;
 use Illuminate\Support\Facades\DB;
 
 class DistributorOrderController extends Controller
@@ -53,7 +54,23 @@ class DistributorOrderController extends Controller
         $data["ref"] = $ref;
         $data["distributor_id"] = auth("distributor")->id();
         $data["tenant_id"] = auth("distributor")->id();
+
         DB::transaction(function () use ($data) {
+            $total = 0;
+
+            foreach ($data["distributor_packages"] as $package) {
+                $pckg = DistributorPackage::with(["productOptions" => function ($query) {
+                    $query->select("product_options.id", "wholesale_min", "wholesale_price");
+                }])->where("id", $package["id"])->first();
+
+                foreach ($pckg->productOptions as $opt) {
+                    $total += $opt->wholesale_price * $opt->wholesale_min;        
+                }
+
+                $total *= $package["qty"];
+            }
+
+            $data['amount'] = $total;
             $order = DistributorOrder::create($data);
             foreach ($data["distributor_packages"] as $package) {
                 $order->distributor_packages()->attach([$package["id"] => ["quantity" => $package["qty"]]]);

@@ -61,7 +61,7 @@ const storeUser = () => {
                 </button>
             </div>
             <div class="card-body">
-                <DataTable id="dt" class="display table table-responsive" :data="users" :columns="[{ data: 'email' }, {data: 'orders_count'}, {
+                <DataTable id="dt" class="display table table-responsive" :options="{responsive: true}" :data="users" :columns="[{ data: 'email' }, {data: 'orders_count'}, {
                     data: 'created_at', render: (data) => {
                         return new Date(data).toDateString();
                     }

@@ -42,4 +42,8 @@ class MainController extends Controller
     public function contact () {
         return Inertia::render('Main/Contact');
     }
+
+    public function terms () {
+        return Inertia::render('Main/Terms');
+    }
 }

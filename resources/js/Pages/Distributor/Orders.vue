@@ -55,7 +55,7 @@ onMounted(() => {
     <GenericLayout>
         <div class="card">
             <div class="card-header">
-                <h5>My Orders</h5>
+                <h5>Customer Orders</h5>
                 <button type="button" id="modalBtn" data-bs-toggle="modal" data-bs-target="#exampleModal"
                         class="hidden" style="display: none;">
                 </button>

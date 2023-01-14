@@ -8,6 +8,7 @@ import ModalComponent from '@/Components/GenericDashboard/ModalComponent.vue';
 import DataTable from 'datatables.net-vue3'
 import DataTablesLib from 'datatables.net';
 import 'datatables.net-bs5';
+import 'datatables.net-responsive-dt';
 
 DataTable.use(DataTablesLib);
 
@@ -122,8 +123,8 @@ onMounted(() => {
                 </button>
             </div>
             <div class="card-body">
-                <DataTable id="dt" :data="categories" :columns="[{data: 'name'}, {data: 'image', render: (data) => {
-                    return `<img class='img img-fluid' src=/storage/${data.url} />`
+                <DataTable id="dt" :options="{responsive: true}" :data="categories" :columns="[{data: 'name'}, {data: 'image', render: (data) => {
+                    return `<img class='img img-fluid lazy' src='/shop/imgs/theme/img_loading.gif' data-src=/storage/${data.url} />`
                 }}, {data: 'products_count'}, {data: 'created_at', render: (data) => {
                     return new Date(data).toDateString();
                 }}, {data: null, render: (data) => {
@@ -173,6 +174,7 @@ onMounted(() => {
 </template>
 <style>
 @import 'datatables.net-bs5';
+@import 'datatables.net-responsive-dt';
 
 .invalid-feedback {
     display: block;

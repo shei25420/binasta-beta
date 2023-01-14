@@ -1,6 +1,6 @@
 <script setup>
 import { useForm } from '@inertiajs/inertia-vue3';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import BusinessLayout from '@/Layouts/BusinessLayout.vue';
 
 defineProps({
@@ -43,6 +43,23 @@ const subscribe = () => {
     .catch(err => console.log("subscribe err: ", err));
 };
 
+onMounted(() => {
+    if("IntersectionObserver" in window) {
+        let lazyLoadImages = Array.from(document.querySelectorAll(".lazy"));
+        let imageObserver = new IntersectionObserver(function (entries, observer) {
+            entries.forEach((entry) => {
+                if(entry.isIntersecting) {
+                    let image = entry.target;
+                    image.src = image.dataset.src;
+                    image.classList.remove("lazy");
+                    imageObserver.unobserve(image);
+                }
+            });
+        });
+        lazyLoadImages.forEach(img => imageObserver.observe(img));
+    }
+});
+
 </script>
 
 <template>
@@ -56,7 +73,7 @@ const subscribe = () => {
                     <div class="screen-main__text" style="color:white;">Binasta is a nutrition
                         company committed to bringing the goodness of healthy nutrition to the everyday life of your
                         whole family. Our products range from nutritional supplements to sports nutrition to
-                        personal care products. </div><a href="https://distributor.binasta.co.ke/auth/register"
+                        personal care products. </div><a href="https://distributor.binasta.co.ke/register"
                         class="btn btn_learn">Get Started</a>
                 </div>
             </div>
@@ -66,7 +83,7 @@ const subscribe = () => {
                 <div class="services">
                     <div class="services__item">
                         <div class="services__decor"></div>
-                        <div class="services__icon"><img src="../../../assets/business/img/icons-svg/exellence-1.svg"
+                        <div class="services__icon"><img class="lazy" src="../../../assets/shop/imgs/theme/img_loading.gif" :data-src="`/business/img/icons-svg/exellence-1.png`"
                                 alt="" loading="lazy"></div>
                         <div class="services__title">Start your business and earn Binapoints
                         </div>
@@ -77,8 +94,8 @@ const subscribe = () => {
                     </div>
                     <div class="services__item">
                         <div class="services__decor"></div>
-                        <div class="services__icon"><img src="../../../assets/business/img/icons-svg/exellence-2.svg"
-                                alt="" loading="lazy"></div>
+                        <div class="services__icon"><img src="../../../assets/shop/imgs/theme/img_loading.gif" data-src="/business/img/icons-svg/exellence-2.svg"
+                                alt="" class="lazy"></div>
                         <div class="services__title">Stars for you</div>
                         <div class="services__text">Binasta is a nutrition company committed to
                             bringing the goodness of healthy nutrition to the everyday life of your whole family.
@@ -88,8 +105,8 @@ const subscribe = () => {
                     </div>
                     <div class="services__item">
                         <div class="services__decor"></div>
-                        <div class="services__icon"><img src="../../../assets/business/img/icons-svg/exellence-3.svg"
-                                alt="" loading="lazy"></div>
+                        <div class="services__icon"><img src="../../../assets/shop/imgs/theme/img_loading.gif" data-src="/business/img/icons-svg/exellence-3.svg"
+                                alt="" class="lazy"></div>
                         <div class="services__title">Stars Products</div>
                         <div class="services__text">We aim for the stars. We only deal with the
                             best and nothing less. Our products are guaranteed to provide holistic health and
@@ -97,8 +114,8 @@ const subscribe = () => {
                     </div>
                     <div class="services__item">
                         <div class="services__decor"></div>
-                        <div class="services__icon"><img src="../../../assets/business/img/icons-svg/exellence-4.svg"
-                                alt="" loading="lazy"></div>
+                        <div class="services__icon"><img src="../../../assets/shop/imgs/theme/img_loading.gif" data-src="/business/img/icons-svg/exellence-4.svg"
+                                alt="" class="lazy"></div>
                         <div class="services__title">Get A Free Ecommerce Store</div>
                         <div class="services__text">The internet is the biggest market place in
                             the world. At Binasta you open the doors to your own ecommerce business by getting a
@@ -111,8 +128,8 @@ const subscribe = () => {
             <div class="wrapper">
                 <div class="about">
                     <div class="about__img">
-                        <div class="about__picture"><img alt="" class="js-lazy loaded"
-                                src="../../../assets/business/img/way.png" data-was-processed="true"></div>
+                        <div class="about__picture"><img alt="" class="lazy"
+                                src="../../../assets/shop/imgs/theme/img_loading.gif" data-src="/business/img/way.webp"></div>
                     </div>
                     <div class="about__content">
                         <div class="section-heading"><span>the history</span>
@@ -176,8 +193,8 @@ const subscribe = () => {
                 <div class="get-list">
                     <div class="get-list__item">
                         <div class="get-list__heading">
-                            <div class="get-list__icon"><img src="../../../assets/business/img/icons-svg/get-1.svg"
-                                    alt="" loading="lazy">
+                            <div class="get-list__icon"><img src="../../../assets/shop/imgs/theme/img_loading.gif" data-src="/business/img/icons-svg/get-1.svg"
+                                    alt="" class="lazy">
                             </div>
                             <div class="get-list__title">Low Startup Costs:</div>
                         </div>
@@ -189,8 +206,8 @@ const subscribe = () => {
                     </div>
                     <div class="get-list__item">
                         <div class="get-list__heading">
-                            <div class="get-list__icon"><img src="../../../assets/business/img/icons-svg/get-2.svg"
-                                    alt="" loading="lazy">
+                            <div class="get-list__icon"><img src="../../../assets/shop/imgs/theme/img_loading.gif" data-src="/business/img/icons-svg/get-2.svg"
+                                    alt="" class="lazy">
                             </div>
                             <div class="get-list__title">Money-Back Guarantee:</div>
                         </div>
@@ -202,7 +219,7 @@ const subscribe = () => {
                     <div class="get-list__item">
                         <div class="get-list__heading">
                             <div class="get-list__icon"><img src="../../../assets/business/img/icons-svg/get-3.svg"
-                                    alt="" loading="lazy">
+                                    alt="" cl="lazy">
                             </div>
                             <div class="get-list__title">Full Business Transparency</div>
                         </div>
@@ -229,7 +246,7 @@ const subscribe = () => {
                             <div class="get-list__icon"><img src="../../../assets/business/img/icons-svg/get-5.svg"
                                     alt="" loading="lazy">
                             </div>
-                            <div class="get-list__title">Free Ecommerce Site</div>
+                            <div class="get-list__title">Quality and valid code</div>
                         </div>
                         <div class="get-list__text">Dolor duis voluptate enim exercitation
                             consequat ex. Voluptate in sunt commodo aute do. Dolor enim dolor labore velit nulla sit
@@ -351,7 +368,7 @@ const subscribe = () => {
                     </div>
                     <div class="newsletter__img">
                         <div class="newsletter__picture"><img data-src="../../../assets/business/img/newsletter.svg"
-                                alt="" class="js-lazy" src="data:image/gif;base64,R0lGODlhAQABAAAAACw="></div>
+                                alt="" class="lazy" src="../../../assets/shop/imgs/theme/img_loading.gif"></div>
                     </div>
                 </div>
             </div>
@@ -360,8 +377,8 @@ const subscribe = () => {
             <div class="wrapper">
                 <div class="testimonials">
                     <div class="testimonials__img">
-                        <div class="testimonials__picture"><img data-src="../../../assets/business/img/testimonials.png"
-                                alt="" class="js-lazy" src="../../../assets/business/img/testimonials.png"></div>
+                        <div class="testimonials__picture"><img data-src="/business/img/testimonials.png"
+                                alt="" class="lazy" src="../../../assets/shop/imgs/theme/img_loading.gif"></div>
                     </div>
                     <div class="testimonials__content">
                         <div class="section-heading"><span>they say</span>
@@ -378,13 +395,6 @@ const subscribe = () => {
                                         <p>“Binasta products are God sent for me and my family.
                                             We discovered the joy of life that comes with good health. ”</p>
                                     </div>
-                                    <div class="author"><img class="author__img js-lazy"
-                                            data-src="../../../assets/business/img/examples/avatar_1.jpg"
-                                            src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" alt="">
-                                        <div class="author__details">
-                                            <div class="author__title">Molly Nahia</div>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="swiper-slide testimonials-card swiper-slide-visible swiper-slide-active"
                                     style="width: 410px; opacity: 1; transform: translate3d(-410px, 0px, 0px); transition-duration: 0ms;"
@@ -394,13 +404,6 @@ const subscribe = () => {
                                             nowhere near enough for my big family. With binasta affiliate marketing,
                                             I've been able to live a comfortable life where money problems are no
                                             longer an issue.”</p>
-                                    </div>
-                                    <div class="author"><img class="author__img js-lazy"
-                                            data-src="../../../assets/business/img/examples/avatar_1.jpg"
-                                            src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" alt="">
-                                        <div class="author__details">
-                                            <div class="author__title">Abdulaziz Hassan</div>
-                                        </div>
                                     </div>
                                 </div>
                             </div><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
@@ -412,22 +415,19 @@ const subscribe = () => {
         <div class="section-main-blog" id="blog">
             <div class="wrapper">
                 <div class="section-heading h-center"><span>news</span></div>
-                <h2 class="h2 h-center">read our blog</h2>
-                <div class="section-subtitle h-center">Dolor duis voluptate enim exercitation
-                    consequat ex. </div>
-                <div class="blog-more"><a href="blog.html" class="btn">view
+                <h2 class="h2 h-center">Read our blog</h2>
+                <div class="blog-more"><a href="https://binasta.co.ke/blog" class="btn">view
                         all</a></div>
                 <div class="news">
                     <div v-for="post in posts" :key="post.slug" class="news__item">
-                        <a href="article.html" class="news__img">
-                            <img alt="" class="js-lazy" :src="'/storage/' + post.image_path"></a>
+                        <a :href="`https://binasta.co.ke/blog/${post.slug}`" class="news__img">
+                            <img alt="" class="lazy" src="../../../assets/shop/imgs/theme/img_loading.gif" :data-src="'/storage/' + post.image_path"></a>
                         <div class="news__content">
                             <div class="news-header">
                                 <div class="news__date">{{ new Date(post.created_at).toDateString() }}</div>
                                 <div class="news__author">
-                                    <img alt="" class="js-lazy" :src="'/storage/' + post.image_path"><span
-                                        class="news__author-title">Annette Black</span></div>
-                                        <a href="blog.html" class="news__category">{{ post.blog_category.name }}</a>
+                                    <img alt="" class="js-lazy" :src="'/storage/' + post.image_path"></div>
+                                        <a :href="`https://binasta.co.ke/blog/${post.slug}`" class="news__category">{{ post.blog_category.name }}</a>
                             </div>
                             <div class="news__title">
                                 <a href="article.html">

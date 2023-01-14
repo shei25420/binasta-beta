@@ -7,6 +7,7 @@ use App\Models\Order;
 use Illuminate\Support\Str;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Models\ProductOption;
 
 class OrderController extends Controller
 {
@@ -53,6 +54,13 @@ class OrderController extends Controller
         while(Order::where('ref', $ref)->exists()) $ref = Str::random(8);
         $data['ref'] = $ref;
         
+        $total_amount = 0;
+        foreach ($data["product_options"] as $option) {
+            $opt = ProductOption::find($option["id"]);
+            $total_amount += $opt->selling_price * $option["qty"];
+        }
+
+        $data["amount"] = $total_amount;
         $order = Order::create($data);
         
         foreach ($data['product_options'] as $option) {

@@ -19,10 +19,11 @@ return [
     'central_domains' => [
         '127.0.0.1',
         'localhost',
-        'binsta.test',
+        'binasta.test',
         'distributor.binasta.test',
         'management.binasta.test',
-        'dashboard.binasta.test'
+        'dashboard.binasta.test',
+        '47e1-196-202-172-34.ngrok.io'
     ],
 
     /**

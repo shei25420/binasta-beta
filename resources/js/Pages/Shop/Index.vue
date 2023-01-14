@@ -1,8 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { Link } from '@inertiajs/inertia-vue3';
-import 'slick-carousel/slick/slick.js';
-import 'magnific-popup/dist/jquery.magnific-popup.js';
+
+import '../../../js/vendors/shop/plugins/jquery.countdown.min.js';
 
 import ShopLayout from '@/Layouts/ShopLayout.vue';
 
@@ -35,9 +35,10 @@ const subscribe = () => {
         });
 };
 
+
 onMounted(() => {
     /*------ Hero slider 1 ----*/
-    $(".hero-slider-1").slick({
+    $(".hero-slider-1").not('.slick-initialized').slick({
         slidesToShow: 1,
         slidesToScroll: 1,
         fade: true,
@@ -56,7 +57,7 @@ onMounted(() => {
         var sliderID = "#" + id;
         var appendArrowsClassName = "#" + id + "-arrows";
 
-        $(sliderID).slick({
+        $(sliderID).not('.slick-initialized').slick({
             dots: false,
             infinite: true,
             speed: 1000,
@@ -92,6 +93,16 @@ onMounted(() => {
             prevArrow: '<span class="slider-btn slider-prev"><i class="fi-rs-arrow-small-left"></i></span>',
             nextArrow: '<span class="slider-btn slider-next"><i class="fi-rs-arrow-small-right"></i></span>',
             appendArrows: appendArrowsClassName
+        });
+    });
+
+    /*------ Timer Countdown ----*/
+
+    $("[data-countdown]").each(function () {
+        var $this = $(this),
+            finalDate = $(this).data("countdown");
+        $this.countdown(finalDate, function (event) {
+            $(this).html(event.strftime("" + '<span class="countdown-section"><span class="countdown-amount hover-up">%D</span><span class="countdown-period"> days </span></span>' + '<span class="countdown-section"><span class="countdown-amount hover-up">%H</span><span class="countdown-period"> hours </span></span>' + '<span class="countdown-section"><span class="countdown-amount hover-up">%M</span><span class="countdown-period"> mins </span></span>' + '<span class="countdown-section"><span class="countdown-amount hover-up">%S</span><span class="countdown-period"> sec </span></span>'));
         });
     });
 });
@@ -136,76 +147,45 @@ onMounted(() => {
                 </div>
             </div>
         </section>
-
-        <section class="popular-categories section-padding">
-            <div class="container wow animate__ animate__fadeIn animated"
-                style="visibility: visible; animation-name: fadeIn;">
-                <div class="section-title">
-                    <div class="title">
-                        <h3>Featured Categories</h3>
-                        <ul class="list-inline nav nav-tabs links">
-                            <li v-for="category in props.categories" :key="category.id"
-                                class="list-inline-item nav-item">
-                                <a class="nav-link" href="shop-grid-right.html">{{ category.name }}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="carausel-10-columns-cover position-relative">
-                    <div class="carausel-10-columns" id="carausel-10-columns">
-                        <div v-for="category in props.categories" :key="category.name"
-                            class="card-2 bg-12 wow animate__ animate__fadeInUp">
-                            <figure class="img-hover-scale overflow-hidden">
-                                <a href="shop-grid-right.html" tabindex="-1">
-                                    <img :src="'/storage/' + category.image.url" alt=""></a>
-                            </figure>
-                            <h6><a href="shop-grid-right.html" tabindex="-1">{{ category.name }}</a></h6>
-                            <span>{{ category.count }} items</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <section class="banners mb-25">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4 col-md-6">
                         <div class="banner-img wow animate__ animate__fadeInUp animated" data-wow-delay="0"
                             style="visibility: visible; animation-name: fadeInUp;">
-                            <img src="../../../assets/shop/imgs/banner/banner-1.png" alt="">
+                            <img class="lazy" src="../../../assets/shop/imgs/theme/img_loading.gif" data-src="/shop/imgs/banner/banner-1.png" alt="">
                             <div class="banner-text">
                                 <h4>
                                     Everyday Fresh &amp; <br>Clean with Our<br>
                                     Products
                                 </h4>
-                                <a href="shop-grid-right.html" class="btn btn-xs">Shop Now <i
-                                        class="fi-rs-arrow-small-right"></i></a>
+                                <Link href="/products" class="btn btn-xs">Shop Now <i
+                                        class="fi-rs-arrow-small-right"></i></Link>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6">
                         <div class="banner-img wow animate__ animate__fadeInUp animated" data-wow-delay=".2s"
                             style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
-                            <img src="../../../assets/shop/imgs/banner/banner-2.png" alt="">
+                            <img class="lazy" src="../../../assets/shop/imgs/theme/img_loading.gif" data-src="/shop/imgs/banner/banner-2.png" alt="">
                             <div class="banner-text">
                                 <h4>
                                     Make your Breakfast<br>
                                     Healthy and Easy
                                 </h4>
-                                <a href="shop-grid-right.html" class="btn btn-xs">Shop Now <i
-                                        class="fi-rs-arrow-small-right"></i></a>
+                                <Link href="/products" class="btn btn-xs">Shop Now <i
+                                        class="fi-rs-arrow-small-right"></i></Link>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4 d-md-none d-lg-flex">
                         <div class="banner-img mb-sm-0 wow animate__ animate__fadeInUp animated" data-wow-delay=".4s"
                             style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">
-                            <img src="../../../assets/shop/imgs/banner/banner-3.png" alt="">
+                            <img class="lazy" src="../../../assets/shop/imgs/theme/img_loading.gif" data-src="/shop/imgs/banner/banner-3.png" alt="">
                             <div class="banner-text">
                                 <h4>The best Organic <br>Products Online</h4>
-                                <a href="shop-grid-right.html" class="btn btn-xs">Shop Now <i
-                                        class="fi-rs-arrow-small-right"></i></a>
+                                <Link href="/products" class="btn btn-xs">Shop Now <i
+                                        class="fi-rs-arrow-small-right"></i></Link>
                             </div>
                         </div>
                     </div>
@@ -218,20 +198,6 @@ onMounted(() => {
                 <div class="section-title style-2 wow animate__ animate__fadeIn animated"
                     style="visibility: visible; animation-name: fadeIn;">
                     <h3>Popular Products</h3>
-                    <ul class="nav nav-tabs links" id="myTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="nav-tab-one" data-bs-toggle="tab"
-                                data-bs-target="#tab-one" type="button" role="tab" aria-controls="tab-one"
-                                aria-selected="true">All</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button v-for="category in props.categories" :key="category.id" class="nav-link"
-                                id="nav-tab-two" data-bs-toggle="tab" data-bs-target="#tab-two" type="button" role="tab"
-                                aria-controls="tab-two" aria-selected="false">
-                                {{ category.name }}
-                            </button>
-                        </li>
-                    </ul>
                 </div>
                 <!--End nav-tabs-->
                 <div class="tab-content" id="myTabContent">
@@ -245,9 +211,9 @@ onMounted(() => {
                                     <div class="product-img-action-wrap">
                                         <div class="product-img product-img-zoom">
                                             <Link v-if="product.images.length" :href="'products/' + product.slug">
-                                                <img class="default-img" :src="'/storage/' + product.images[0].url"
+                                                <img class="default-img lazy" src="../../../assets/shop/imgs/theme/img_loading.gif" :data-src="'/storage/' + product.images[0].url"
                                                     alt="">
-                                                <img class="hover-img" :src="'/storage/' + product.images[1].url"
+                                                <img class="hover-img lazy" src="../../../assets/shop/imgs/theme/img_loading.gif" :data-src="'/storage/' + product.images[1].url"
                                                     alt="">
                                             </Link>
                                         </div>
@@ -257,7 +223,7 @@ onMounted(() => {
                                     </div>
                                     <div class="product-content-wrap">
                                         <div class="product-category" style="margin-top: 10px;">
-                                            <a href="shop-grid-right.html">{{ product.category }}</a>
+                                            <Link href="/products">{{ product.category }}</Link>
                                         </div>
                                         <h2><Link :href="'/products/' + product.slug">{{ product.name }}</Link></h2>
                                         <div>
@@ -301,7 +267,7 @@ onMounted(() => {
                             <div class="product-img-action-wrap">
                                 <div class="product-img">
                                     <Link :href="'/products/' + discount.product.slug">
-                                        <img :src="'/storage/' + discount.product.images[0].url" alt="">
+                                        <img class="lazy" src="../../../assets/shop/imgs/theme/img_loading.gif" :data-src="'/storage/' + discount.product.images[0].url" alt="">
                                     </Link>
                                 </div>
                             </div>
@@ -318,8 +284,8 @@ onMounted(() => {
                                         </div>
                                         <div class="add-cart">
                                             <Link class="add" :href="'/products/' + discount.product.slug">
-                                                    <i class="fi-rs-shopping-cart mr-5"></i>View
-                                                </Link>
+                                                <i class="fi-rs-shopping-cart mr-5"></i>View
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
@@ -339,8 +305,8 @@ onMounted(() => {
                         <div class="product-list-small animated animated">
                             <article v-for="product in products" :key="product.id" class="row align-items-center hover-up">
                                 <figure class="col-md-4 mb-0">
-                                    <Link :href="'/products/' + product.slug"><img
-                                            :src="'/storage/' + product.images[0].url" alt=""></Link>
+                                    <Link :href="'/products/' + product.slug"><img class="lazy"
+                                            src="../../../assets/shop/imgs/theme/img_loading.gif" :data-src="'/storage/' + product.images[0].url" alt=""></Link>
                                 </figure>
                                 <div class="col-md-8 mb-0">
                                     <h6>
@@ -361,8 +327,8 @@ onMounted(() => {
                         <div class="product-list-small animated animated">
                             <article class="row align-items-center hover-up" v-for="product in products" :key="product.id">
                                 <figure class="col-md-4 mb-0">
-                                    <Link :href="'/products/' + product.slug"><img
-                                            :src="'/storage/' + product.images[0].url" alt="">
+                                    <Link :href="'/products/' + product.slug"><img class="lazy"
+                                             src="../../../assets/shop/imgs/theme/img_loading.gif" :data-src="'/storage/' + product.images[0].url" alt="">
                                     </Link>
                                 </figure>
                                 <div class="col-md-8 mb-0">
@@ -384,8 +350,8 @@ onMounted(() => {
                         <div class="product-list-small animated animated">
                             <article class="row align-items-center hover-up" v-for="product in products" :key="product.id">
                                 <figure class="col-md-4 mb-0">
-                                    <Link :href="'/products/' + product.slug"><img
-                                            :src="'/storage/' + product.images[0].url" alt="">
+                                    <Link :href="'/products/' + product.slug"><img class="lazy"
+                                            src="../../../assets/shop/imgs/theme/img_loading.gif" :data-src="'/storage/' + product.images[0].url" alt="">
                                     </Link>
                                 </figure>
                                 <div class="col-md-8 mb-0">
@@ -407,8 +373,8 @@ onMounted(() => {
                         <div class="product-list-small animated animated">
                             <article class="row align-items-center hover-up" v-for="product in products" :key="product.id">
                                 <figure class="col-md-4 mb-0">
-                                    <Link :href="'/products/' + product.slug"><img
-                                            :src="'/storage/' + product.images[0].url" alt=""></Link>
+                                    <Link :href="'/products/' + product.slug"><img class="lazy"
+                                          src="../../../assets/shop/imgs/theme/img_loading.gif"  :data-src="'/storage/' + product.images[0].url" alt=""></Link>
                                 </figure>
                                 <div class="col-md-8 mb-0">
                                     <h6>
@@ -439,8 +405,9 @@ onMounted(() => {
     width: 100%;
     text-align: center;
 }
+ 
 .slider-1 {
-    background-image: url(../../../assets/shop/imgs/slider/slider-1.png);
+    background-image: url(../../../assets/shop/imgs/slider/slider-1.jpg);
     width: 936px;
     position: relative;
     left: 0px;
@@ -450,13 +417,13 @@ onMounted(() => {
 }
 
 .slider-2 {
-    background-image: url(../../../assets/shop/imgs/slider/slider-2.png);
+    background-image: url(../../../assets/shop/imgs/slider/slider-2.jpg);
     width: 936px;
     position: relative;
-    left: -936px;
+    left: 0px;
     top: 0px;
-    z-index: 998;
-    opacity: 0;
+    z-index: 999;
+    opacity: 1;
     transition: opacity 500ms ease 0s;
 }
 </style>

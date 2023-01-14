@@ -1,5 +1,4 @@
 <script setup>
-
 </script>
 
 <template>
@@ -21,16 +20,14 @@
             </div>
         </div>
         <div class="wrapper">
-            <div class="nav-logo"><a href="index.html" class="logo"><img src="/business/img/flogo.png"
-                        alt="Numerio"></a></div>
+            <div class="nav-logo"><a href="#mainMenu" class="logo"><img src="/business/img/flogo.png"
+                        alt="Binasta Limited - Business"></a></div>
             <div class="header-right">
                 <div id="mainNav" class="menu-box">
                     <nav class="nav-inner">
                         <ul class="main-menu js-menu" id="mainMenu">
                             <li><a href="#services" class="current">Services</a></li>
                             <li><a href="#about">About</a></li>
-                            <li><a href="#steps">Steps</a></li>
-                            <li><a href="#price">Price</a></li>
                             <li><a href="#testimonials">Testimonials</a></li>
                             <li><a href="#blog">Blog</a></li>
                         </ul>
@@ -51,7 +48,7 @@
                         <div class="footer-phone__item"><a href="mailto:info@binasta.co.ke">info@binasta.co.ke</a>
                         </div>
                     </div>
-                </div><a href="https://distributor.binasta.co.ke/auth/register"
+                </div><a href="https://distributor.binasta.co.ke/register"
                     class="btn-2 btn_started-header js-fancybox">get started</a>
             </div>
             <div class="bars-mob js-button-nav">
