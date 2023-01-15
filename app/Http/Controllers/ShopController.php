@@ -36,7 +36,7 @@ class ShopController extends Controller
                 }])->withCount('products')->get(),
                 'products' => Product::select('id', 'name', 'slug')->with([
                     'product_options' => function ($query) {
-                        $query->select('id', 'product_id', 'selling_price')->first();
+                        $query->select('id', 'product_id', 'selling_price');
                     },
                     'images' => function ($query) {
                         $query->select('imageable_id', 'url');
@@ -48,9 +48,9 @@ class ShopController extends Controller
                 'discounts' => Discount::select('id', 'percentage', 'product_id', 'end_date')->where('start_date', '<=', Carbon::now()->toDateString())->where('end_date', '>', Carbon::now()->toDateString())->with(['product' => function ($query) {
                     $query->select('id', 'name', 'slug');
                 }, 'product.images' => function ($query) {
-                    $query->select('imageable_id', 'url')->first();
+                    $query->select('imageable_id', 'url');
                 }, 'product.product_options' => function ($query) {
-                    $query->select('id', 'product_id', 'selling_price')->first();
+                    $query->select('id', 'product_id', 'selling_price');
                 }])->get(),
             ]
         );
