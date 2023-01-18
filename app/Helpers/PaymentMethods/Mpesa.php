@@ -126,7 +126,7 @@ class Mpesa {
             'CommandID' => 'SalaryPayment',
             'Amount' => 1,
             'PartyA' => '600992',
-            'PartyB' => '254708374149',
+            'PartyB' => '254797988127',
             'Remarks' => 'Payment from Binasta Limited',
             'QueueTimeOutURL' => $this->_callback_url.'/api/b2c/timeout',
             'ResultURL' => $this->_callback_url.'/api/b2c/result',

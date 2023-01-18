@@ -49,7 +49,7 @@ Route::group(array('domain' => '{subdomain}.' . Config::get('app.domain')), func
     $subdomain = explode('.', request()->getHost())[0];
     if ($subdomain === "management") {
         Route::middleware('guest:admin')->group(function () {
-            
+            Route::post('/payouts', [PayoutController::class, "store"]);    
             Route::get('/login', [AuthenticationController::class, 'create'])->name('login');
             Route::post('/login', [AuthenticationController::class, 'login']);
             Route::get('/forgot-password', [PasswordResetLinkController::class, 'create']);
@@ -61,7 +61,7 @@ Route::group(array('domain' => '{subdomain}.' . Config::get('app.domain')), func
             Route::post('/reset-password', [NewPasswordController::class, 'store'])
                     ->name('password.update');
         });
-        
+
         Route::middleware('auth:admin')->group(function () {
             Route::get('/', [AdminController::class, 'index']);
 
