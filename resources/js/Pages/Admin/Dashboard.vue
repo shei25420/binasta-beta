@@ -15,8 +15,6 @@ const props = defineProps({
 });
 
 const selectedMonth = ref(props.distributor_orders_meta.length ? props.distributor_orders_meta[props.distributor_orders_meta.length - 1].month : 0);
-console.log(selectedMonth.value);
-console.log(props.distributor_orders_meta);
 const salesData = ref([]);
 const orderData = ref([]);
 const chartXaxis = ref([]);
@@ -333,7 +331,7 @@ onMounted(() => {
                             <div class="d-md-flex align-items-center mb-3">
                                 <div class="d-flex align-items-center">
                                     <div class="display-7 me-3">
-                                        <i class="bi bi-bag-check me-2 text-success"></i>Ksh.{{ distributor_orders_meta.length && selectedMonth > 0 ? distributor_orders_meta[selectedMonth].total_amount : 0 }}
+                                        <i class="bi bi-bag-check me-2 text-success"></i>Ksh.{{ props.distributor_orders_meta[props.distributor_orders_meta.length - 1].total_amount }}
                                     </div>
                                 </div>
                                 <div class="d-flex gap-4 align-items-center ms-auto mt-3 mt-lg-0">
