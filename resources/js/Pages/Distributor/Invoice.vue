@@ -108,6 +108,7 @@ onMounted(() => {
 
     window.Echo.private(`distributor_payments.${usePage().props.value.auth.user.id}`)
         .listen('MpesaPaymentCaptured', e => {
+            console.log(e);
             mpesaResponse.value = { message: e.message };
             if (parseInt(e.status) === 0) {
                 mpesaResponse.value.class = "primary";
@@ -189,7 +190,7 @@ onMounted(() => {
                                         </button>
                                     </h2>
                                     <div id="collapseOne" class="accordion-collapse collapse"
-                                        aria-labelledby="headingOne" data-bs-parent="#accordionExample"  @click="() => paymentForm.payment_type = 'mpesa'">
+                                        aria-labelledby="headingOne" data-bs-parent="#accordionExample"  @click="() => paymentForm.payment_type = 'paypal'">
                                         <div class="accordion-body">
                                             <div class="col-md-12">
                                                 <img width="50" class="me-3" src="#" alt="...">

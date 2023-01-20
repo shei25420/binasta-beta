@@ -248,6 +248,8 @@ class DistributorDashboardController extends Controller
                 $query->select('id');
             }])->first();
             
+            dd($transaction);
+
             $message = $data->Body->stkCallback->ResultDesc;
             $status = (int)$data->Body->stkCallback->ResultCode;
             
