@@ -11,9 +11,10 @@ use App\Http\Controllers\UserAddressController;
 use App\Http\Controllers\BlogCategoryController;
 use App\Http\Controllers\ProductOptionController;
 use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\DistributorOrderController;
 use App\Http\Controllers\DistributorPackageController;
-use App\Http\Controllers\DistributorDiscountController;
 
+use App\Http\Controllers\DistributorDiscountController;
 use App\Http\Controllers\BinapointsConfigurationController;
 use App\Http\Controllers\Auth\Admin\AuthenticationController;
 
