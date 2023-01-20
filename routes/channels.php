@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Broadcast;
 
 Broadcast::channel('payments.{userId}', function ($user, $userId) {
     return (int) $user->id === (int) $userId;
-}, ['guards' => ['web']]);
+});
 
 Broadcast::channel('distributor_payments.{distributorId}', function ($user, $distributorId) {
     return (int) $user->id === (int) $distributorId;
