@@ -21,6 +21,6 @@ Broadcast::channel('web.payments.{userId}', function ($user, $userId) {
     return (int) $user->id === (int) $userId && get_class($user) == "App/User";;
 });
 
-Broadcast::channel('distributor.payments.{distributorId}', function ($user, $distributorId) {
-    return (int) $user->id === (int) $distributorId && get_class($user) == "App/Distributor";
+Broadcast::channel('distributor.payments.{distributorId}', function ($model, $distributorId) {
+    return (int) $model->id === (int) $distributorId && get_class($model) == "App/Distributor";
 });
