@@ -16,6 +16,7 @@ const props = defineProps({
 
 const selectedMonth = ref(props.distributor_orders_meta.length ? props.distributor_orders_meta[props.distributor_orders_meta.length - 1].month : 0);
 console.log(selectedMonth.value);
+console.log(props.distributor_orders_meta);
 const salesData = ref([]);
 const orderData = ref([]);
 const chartXaxis = ref([]);
