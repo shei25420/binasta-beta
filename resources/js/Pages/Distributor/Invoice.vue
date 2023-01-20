@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import { useForm } from '@inertiajs/inertia-vue3';
+import { useForm, usePage } from '@inertiajs/inertia-vue3';
 import GenericLayout from '@/Layouts/GenericLayout.vue';
 
 const props = defineProps({
