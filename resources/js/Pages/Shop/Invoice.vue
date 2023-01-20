@@ -91,7 +91,7 @@ onMounted(() => {
         }).render('#paypalContainer');
     });
 
-    window.Echo.private(`distributor_payments.${usePage().props.value.auth.user.id}`)
+    window.Echo.private(`payments.${usePage().props.value.auth.user.id}`)
         .listen('MpesaPaymentCaptured', e => {
             mpesaResponse.value = { message: e.message };
             if (parseInt(e.status) === 0) {
