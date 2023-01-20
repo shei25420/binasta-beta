@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Broadcast;
 use App\Http\Controllers\Auth\NewPasswordController;
@@ -9,24 +8,24 @@ use App\Http\Controllers\DistributorDashboardController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\Admin\AuthenticationController;
 
-
-Route::get('/register', [DistributorDashboardController::class, 'register']);
-Route::post('/register', [DistributorDashboardController::class, 'storeDistributor']);
-
-Route::get('/login', [AuthenticationController::class, 'create'])->name('login');
-Route::post('/login', [AuthenticationController::class, 'login']);
 Route::middleware("guest:distributor")->group(function () {
+    Route::get('/register', [DistributorDashboardController::class, 'register']);
+    Route::post('/register', [DistributorDashboardController::class, 'storeDistributor']);
+    
+    Route::get('/login', [AuthenticationController::class, 'create'])->name('login');
+    Route::post('/login', [AuthenticationController::class, 'login']);
+    
     Route::get('/forgot-password', [PasswordResetLinkController::class, 'create']);
     Route::post('/forgot-password', [PasswordResetLinkController::class, 'store']);
-
+    
     Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])
         ->name('password.reset');
-
+    
     Route::post('/reset-password', [NewPasswordController::class, 'store'])
         ->name('password.update');
 
     Route::get('/terms', [MainController::class, "terms"]);
-});
+}); 
 
 Route::middleware("auth:distributor")->group(function () {
     Route::get('/distributor_packages', [DistributorDashboardController::class, 'fetchPackages']);
