@@ -30,11 +30,6 @@ class DistributorController extends Controller
      */
     public function index()
     {
-        dd(Distributor::select('id', 'parent_distributor_id', 'ref', 'country_id', 'first_name', 'last_name', 'email', 'binapoints', 'gender', 'domain', 'verified', 'suspended', 'balance', 'created_at', DB::raw("COUNT(*) as total, YEAR(created_at) year, MONTH(created_at) month, DAY(created_at) day"))->with(['country' => function ($query) {
-            $query->select('id', 'name');
-        }, 'patron' => function ($query) {
-            $query->select('id', 'first_name', 'last_name');
-        }])->withCount('orders')->groupBy("day")->latest()->get());
         return Inertia::render('Admin/Distributors', [
             'distributors' => Distributor::select('id', 'parent_distributor_id', 'ref', 'country_id', 'first_name', 'last_name', 'email', 'binapoints', 'gender', 'domain', 'verified', 'suspended', 'balance', 'created_at', DB::raw("COUNT(*) as total, YEAR(created_at) year, MONTH(created_at) month, DAY(created_at) day"))->with(['country' => function ($query) {
                 $query->select('id', 'name');
