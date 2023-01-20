@@ -21,6 +21,6 @@ Broadcast::channel('payments.{userId}', function ($user, $userId) {
     return (int) $user->id === (int) $userId;
 });
 
-Broadcast::channel('distributor_payments.{distributorId}', function ($user, $distributorId) {
+Broadcast::channel('distributor.distributor_payments.{distributorId}', function ($user, $distributorId) {
     return (int) $user->id === (int) $distributorId && get_class($user) == "App/Distributor";
 });
