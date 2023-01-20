@@ -28,7 +28,7 @@ import ShoppingCart from '@/Components/Distributor/ShoppingCart.vue';
             </a>
         </div>
     </form>
-    <div class="header-bar ms-auto">
+    <div class="header-bar ms-auto" v-if="$page.component.startsWith('Distributor')">
         <ul class="navbar-nav justify-content-end">
             <ShoppingCart />
             <li class="nav-item">
@@ -39,7 +39,7 @@ import ShoppingCart from '@/Components/Distributor/ShoppingCart.vue';
         </ul>
     </div>
     <!-- Header mobile buttons -->
-    <div class="header-mobile-buttons">
+    <div class="header-mobile-buttons" v-if="$page.component.startsWith('Distributor')">
         <ul class="navbar-nav justify-content-end">
             <ShoppingCart />
             <li class="nav-item">

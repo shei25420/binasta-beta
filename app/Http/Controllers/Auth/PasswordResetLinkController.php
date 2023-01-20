@@ -37,10 +37,16 @@ class PasswordResetLinkController extends Controller
             'email' => 'required|email',
         ]);
 
+        $subdomain = explode('.', $request->getHost())[0];
+
+        $guard = "";
+        if($subdomain === "management") $guard = "admins";
+        else if ($subdomain === "distributor") $guard = "distributors";
+
         // We will send the password reset link to this user. Once we have attempted
         // to send the link, we will examine the response then see the message we
         // need to show to the user. Finally, we'll send out a proper response.
-        $status = Password::broker("admins")->sendResetLink(
+        $status = Password::broker($guard)->sendResetLink(
             $request->only('email')
         );
 

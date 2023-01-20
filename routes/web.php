@@ -49,17 +49,17 @@ Route::group(array('domain' => '{subdomain}.' . Config::get('app.domain')), func
     $subdomain = explode('.', request()->getHost())[0];
     if ($subdomain === "management") {
         Route::middleware('guest:admin')->group(function () {
-            Route::post('/payouts', [PayoutController::class, "store"]);    
+            Route::post('/payouts', [PayoutController::class, "store"]);
             Route::get('/login', [AuthenticationController::class, 'create'])->name('login');
             Route::post('/login', [AuthenticationController::class, 'login']);
             Route::get('/forgot-password', [PasswordResetLinkController::class, 'create']);
             Route::post('/forgot-password', [PasswordResetLinkController::class, 'store']);
-        
+
             Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])
                 ->name('password.reset');
 
             Route::post('/reset-password', [NewPasswordController::class, 'store'])
-                    ->name('password.update');
+                ->name('password.update');
         });
 
         Route::middleware('auth:admin')->group(function () {
@@ -149,13 +149,13 @@ Route::group(array('domain' => '{subdomain}.' . Config::get('app.domain')), func
         Route::get('/products/{slug}', [ShopController::class, 'show'])->name('shop.products.show');
 
         Route::get('/checkout', [ShopController::class, 'checkout']);
-        
+
         Route::get('/login', [AuthenticationController::class, 'create'])->name('shop.login.create');
         Route::post('/login', [AuthenticationController::class, 'store'])->name('shop.login.store');
 
         Route::get('/register', [RegisteredUserController::class, 'create']);
         Route::post('/register', [ShopController::class, 'register']);
-        
+
         Route::get('/terms', [MainController::class, "terms"]);
         Route::middleware("auth")->group(function () {
             Route::get('/invoice/{ref}', [ShopController::class, 'invoice']);
@@ -166,7 +166,7 @@ Route::group(array('domain' => '{subdomain}.' . Config::get('app.domain')), func
 
             Route::post('/logout', [AuthenticationController::class, 'logout']);
         });
-    
+
         Broadcast::routes();
     } else if ($subdomain === "business") {
         //Business Site Routes
@@ -179,6 +179,17 @@ Route::group(array('domain' => '{subdomain}.' . Config::get('app.domain')), func
 
         Route::get('/login', [AuthenticationController::class, 'create'])->name('login');
         Route::post('/login', [AuthenticationController::class, 'login']);
+
+        Route::get('/forgot-password', [PasswordResetLinkController::class, 'create']);
+        Route::post('/forgot-password', [PasswordResetLinkController::class, 'store']);
+
+        Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])
+            ->name('password.reset');
+
+        Route::post('/reset-password', [NewPasswordController::class, 'store'])
+            ->name('password.update');
+
+            
         Route::get('/terms', [MainController::class, "terms"]);
         Route::middleware("auth:distributor")->group(function () {
             Route::get('/distributor_packages', [DistributorDashboardController::class, 'fetchPackages']);
@@ -197,19 +208,18 @@ Route::group(array('domain' => '{subdomain}.' . Config::get('app.domain')), func
             Route::get('/invoice/{ref}', [DistributorDashboardController::class, 'invoice']);
             Route::post('/make_payment', [DistributorDashboardController::class, 'makePayment']);
             Route::post('/capture/paypal', [DistributorDashboardController::class, 'capturePaypalPayment']);
-                          
+
             Route::post('/logout', [AuthenticationController::class, 'logout']);
-        
+
             Route::middleware('distributorVerification')->group(function () {
                 Route::get("/", [DistributorDashboardController::class, "index"]);
                 Route::get('/orders', [DistributorDashboardController::class, "orders"]);
                 Route::get('/users', [DistributorDashboardController::class, "users"]);
-                
+
                 Route::get('/products', [DistributorDashboardController::class, "products"]);
 
                 Route::get('/discounts', [DistributorDashboardController::class, "discounts"]);
                 Route::post('/discounts', [DistributorDashboardController::class, "storeDiscount"]);
-
             });
         });
     } else if ($subdomain === "dashboard") {
@@ -234,4 +244,3 @@ Route::post('/contact', [ContactMessageController::class, 'store'])->name('main.
 Route::get('/terms', [MainController::class, "terms"]);
 // Route::post('/subscribe', [MainSubscriberController::class, 'store'])->name('main.subscriber.store');
 // require __DIR__.'/auth.php';
-

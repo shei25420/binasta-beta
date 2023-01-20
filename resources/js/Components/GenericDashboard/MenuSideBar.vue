@@ -13,7 +13,7 @@ import { Link } from '@inertiajs/inertia-vue3';
         </a>
     </div>
     <div class="menu-body" tabindex="2" style="overflow: scroll; outline: none;">
-        <div v-if="$page.component.includes('Distributor')" class="dropdown">
+        <div v-if="$page.component.startsWith('Distributor')" class="dropdown">
             <div href="#" class="d-flex align-items-center" aria-expanded="false">
                 <div>
                     <div class="fw-bold mb-1">{{  $page.props.auth.user.first_name  }} {{  $page.props.auth.user.last_name  }}</div>
