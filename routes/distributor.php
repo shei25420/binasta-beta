@@ -59,4 +59,4 @@ Route::middleware("auth:distributor")->group(function () {
     });
 });
 
-Broadcast::routes();
+// Broadcast::routes();
