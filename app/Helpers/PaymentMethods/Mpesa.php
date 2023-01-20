@@ -46,6 +46,9 @@ class Mpesa {
     private function mpesa_express ($data) {
         $stk_path = $this->_base_url.'/mpesa/stkpush/v1/processrequest';
         $time_stamp = Carbon::rawParse('now')->setTimezone('EAT')->format('YmdHis');
+        
+        $callback_url = (isset($data['distributor'])  && $data['distributor']) ? $this->_callback_url.'/api/payments/m_wallet/confirm/1' : $this->_callback_url.'/api/payments/m_wallet/confirm/0';
+        dd($callback_url);
         $data = [
             'BusinessShortCode' => $this->_business_code, 
             'Password' => base64_encode($this->_business_code.$this->_pass_key.$time_stamp), 
@@ -55,7 +58,7 @@ class Mpesa {
             'PartyA' => '254'.$data['phone_number'],
             'PartyB' => $this->_business_code,
             'PhoneNumber' => '254'.$data['phone_number'],
-            'CallBackURL' => (isset($data['distributor'])  && $data['distributor']) ? $this->_callback_url.'/api/payments/m_wallet/confirm/1' : $this->_callback_url.'/api/payments/m_wallet/confirm/0',
+            'CallBackURL' => $callback_url,
             'AccountReference' => 'TransRef12',
             'TransactionDesc' => 'Payment for products bought from binasta limited'
         ];
