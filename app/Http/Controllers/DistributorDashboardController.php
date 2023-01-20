@@ -243,7 +243,7 @@ class DistributorDashboardController extends Controller
         
         try {
             $transaction = MpesaTransaction::where('merchant_request_id', $data->Body->stkCallback->MerchantRequestID)->with(['distributorOrder' => function ($query) {
-                $query->select('id', 'user_id');
+                $query->select('id', 'distributor_id');
             }, 'order.distributor' => function ($query) {
                 $query->select('id');
             }])->first();
