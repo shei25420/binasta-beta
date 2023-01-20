@@ -17,10 +17,10 @@ use Illuminate\Support\Facades\Broadcast;
 //     return (int) $user->id === (int) $id;
 // });
 
-Broadcast::channel('web.payments.{userId}', function ($user, $userId) {
+Broadcast::channel('payments.{userId}', function ($user, $userId) {
     return (int) $user->id === (int) $userId && get_class($user) == "App/User";;
 });
 
 Broadcast::channel('distributor.payments.{distributorId}', function ($model, $distributorId) {
-    return (int) $model->id === (int) $distributorId;
+    return (int) $model->id === (int) $distributorId && get_class($model) == "App/Distributor";
 });
