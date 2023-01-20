@@ -248,6 +248,7 @@ class DistributorDashboardController extends Controller
                 $query->select('id');
             }])->first();
             
+            dd($transaction);
             $message = $data->Body->stkCallback->ResultDesc;
             $status = (int)$data->Body->stkCallback->ResultCode;
             
@@ -266,7 +267,7 @@ class DistributorDashboardController extends Controller
                 $order->save();
         
                 if($order->distributor->verified) {
-                    $tenant = Tenant::where("data->distributor_id", auth()->id())->first();
+                    $tenant = Tenant::where("data->distributor_id", auth("distributor")->id())->first();
                     
                     $tenant->run(function () use ($order) {
                         foreach ($order->distributor_packages as $package) {
