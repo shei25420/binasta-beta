@@ -1,11 +1,12 @@
 <?php
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Broadcast;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\DistributorOrderController;
 use App\Http\Controllers\DistributorReviewController;
 use App\Http\Controllers\DistributorDashboardController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
-use Illuminate\Support\Facades\Broadcast;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\Admin\AuthenticationController;
 
 Route::middleware("guest:distributor")->group(function () {
     Route::get('/register', [DistributorDashboardController::class, 'register']);
