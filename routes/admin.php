@@ -1,7 +1,9 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PayoutController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\ProductController;
@@ -11,10 +13,12 @@ use App\Http\Controllers\UserAddressController;
 use App\Http\Controllers\BlogCategoryController;
 use App\Http\Controllers\ProductOptionController;
 use App\Http\Controllers\ProductCategoryController;
+
+use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\DistributorOrderController;
 use App\Http\Controllers\DistributorPackageController;
-
 use App\Http\Controllers\DistributorDiscountController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\BinapointsConfigurationController;
 use App\Http\Controllers\Auth\Admin\AuthenticationController;
 

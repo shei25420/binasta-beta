@@ -1,10 +1,12 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MainController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Broadcast;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\Admin\AuthenticationController;
 
 Route::get('/', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/products', [ShopController::class, 'fetchProducts']);

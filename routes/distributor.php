@@ -1,5 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Broadcast;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\DistributorOrderController;

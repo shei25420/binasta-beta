@@ -1,8 +1,11 @@
 <?php
 
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\Auth\Admin\AuthenticationController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\Admin\AuthenticationController;
 
 Route::middleware("guest")->group(function () {
     Route::get('/login', [AuthenticationController::class, 'create'])->name('login');
