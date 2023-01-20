@@ -36,8 +36,6 @@ class AdminController extends Controller
         ->groupBy('day')
         ->get();
 
-        dd($distributor_orders_meta);
-
         $customer_orders_meta = Order::select(DB::raw("created_at, COUNT(*) as total_orders, SUM(if(status = true, 1, 0)) as total_paid, SUM(amount) as total_amount, YEAR(created_at) year, MONTH(created_at) month, DAY(created_at) day"))
         ->groupBy("day")
         ->get();
