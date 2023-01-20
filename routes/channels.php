@@ -23,4 +23,4 @@ Broadcast::channel('payments.{userId}', function ($user, $userId) {
 
 Broadcast::channel('distributor_payments.{distributorId}', function ($user, $distributorId) {
     return (int) $user->id === (int) $distributorId;
-}, ['guards' => ['distributors']]);
+});

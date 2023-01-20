@@ -116,6 +116,7 @@ abstract class Broadcaster implements BroadcasterContract
 
             $handler = $this->normalizeChannelHandlerToCallable($callback);
 
+            dd($request, $channel);
             $result = $handler($this->retrieveUser($request, $channel), ...$parameters);
 
             if ($result === false) {
