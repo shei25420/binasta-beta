@@ -41,19 +41,20 @@ const register = () => {
         form.setError('country_id', 'country is required');
     }
 
+    if(!form.terms) form.setError('terms', 'Please accept the terms and conditions to proceed');
+
     if(form.errors && Object.keys(form.errors).length) return;
 
     const btn = document.getElementById('submitBtn');
     btn.innerText = "Singing up....";
+    btn.setAttribute('disabled', true);
     form.post('/register', {
-        onSuccess: () => {
-            console.log("success fuckshit");
-        },
         onError: (err) => {
             console.log("sign up err:", err);
         },
         onFinish: () => {
             btn.innerText = "Sign up";
+            btn.removeAttribute('disabled');
             form.reset('password', 'password_confirmation')
         },
     });
@@ -77,7 +78,7 @@ const register = () => {
                                     </div>
                                     <div class="my-5 text-center text-lg-start">
                                         <h1 class="display-8">Create Account</h1>
-                                        <p class="text-muted">You can create a free account now</p>
+                                        <p class="text-muted">Create a free account</p>
                                     </div>
                                     <form @submit.prevent="register" class="mb-5">
                                         <div class="row">
@@ -130,6 +131,17 @@ const register = () => {
                                                     </div>
                                                 </div>
                                                 <div class="invalid-feedback" v-if="form.errors.domain">{{ form.errors.domain  }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="mb-3">
+                                                <div class="form-check">
+                                                  <input class="form-check-input" type="checkbox" v-model="form.terms" value="" id="defaultFlexCheckDefault">
+                                                  <label class="form-check-label" for="defaultFlexCheckDefault">
+                                                    I Accept the <a href="https://binasta.co.ke/terms" target="_blank">Terms &amp; Conditions</a> 
+                                                  </label>
+                                                </div>
+                                                <div class="invalid-feedback" v-if="form.errors.terms">{{ form.errors.terms  }}</div>
                                             </div>
                                         </div>
                                         <div class="text-center text-lg-start">

@@ -25,6 +25,8 @@ class StoreDistributorPackageRequest extends FormRequest
     {
         return [
             'name' => 'required|unique:distributor_packages,name',
+            'description' => 'required|string',
+            'image' => 'required|image|mimes:png,jpg,webp,avif,gif,jpeg',
             'product_options' => 'required',
             'product_options.*' => 'required|numeric|exists:product_options,id',
         ];

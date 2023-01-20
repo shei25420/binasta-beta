@@ -1,6 +1,7 @@
 <?php
 namespace App\Helpers\PaymentMethods;
 
+use App\Helpers\CurrencyConverter;
 use Illuminate\Support\Str;
 
 class Paypal {
@@ -38,6 +39,7 @@ class Paypal {
                 foreach ($package->productOptions as $option) {
                     $total_amount += $option->wholesale_min * $option->wholesale_price;
                 }
+                $total_amount = number_format((float)CurrencyConverter::convert($total_amount)->result, 2);
                 $amount = ["reference_id" => Str::random(8), "amount" => [
                     "currency_code" => "USD",
                     "description" => $package->name,
@@ -48,6 +50,8 @@ class Paypal {
 
                 if($package->discounts && count($package->discounts)) {
                     $discount_amount = ($package->discounts[0]->percentage / 100) * $option->wholesale_price;
+                    $discount_amount = number_format(CurrencyConverter::convert($discount_amount), 2);
+
                     $amount["discount"] = ["value" => $discount_amount];
                     $amount["item_total"] -= $discount_amount * $package->quantity;
                     $amount["value"] -= $discount_amount * $option->selling_price;
@@ -57,6 +61,7 @@ class Paypal {
         } else {
             foreach ($data["order"]->product_options as $option) {
                 $unit_amount = $option->selling_price;
+                $unit_amount = number_format(CurrencyConverter::convert($unit_amount)->result, 2);
                 $amount = ["reference_id" => Str::random(8), "amount" => [
                     "currency_code" => "USD",
                     "description" => $option->product->name." ".$option->variation."(x".$option->wholesale_min.")",

@@ -13,6 +13,17 @@ import { Link } from '@inertiajs/inertia-vue3';
         </a>
     </div>
     <div class="menu-body" tabindex="2" style="overflow: scroll; outline: none;">
+        <div v-if="$page.component.includes('Distributor')" class="dropdown">
+            <div href="#" class="d-flex align-items-center" aria-expanded="false">
+                <div>
+                    <div class="fw-bold mb-1">{{  $page.props.auth.user.first_name  }} {{  $page.props.auth.user.last_name  }}</div>
+                    <small class="text-muted mb-1" v-if="!$page.props.auth.user.verified"><b>Visit Site: </b>{{  $page.props.auth.user.domain  }}.binasta.co.ke (verification needed)</small>
+                    <small class="text-muted mb-1" v-else><b>Visit Site: </b><a :href="`${$page.props.auth.user.domain}.binasta.co.ke`" target="_blank">{{  $page.props.auth.user.domain  }}.binasta.co.ke</a></small>
+                    <br />
+                    <span class="badge" :class="$page.props.auth.user.verified ? 'bg-success' : 'bg-secondary'">{{ $page.props.auth.user.verified ? `Verfied` : `Unverified` }}</span>
+                </div>
+            </div>
+        </div>
         <ul>
             <li class="menu-divider">Overview</li>
             <li>
@@ -139,6 +150,26 @@ import { Link } from '@inertiajs/inertia-vue3';
                     <span>Blog Posts</span>
                 </Link>
             </li>
+
+            <!-- Distributor Only Routes -->
+            <li class="menu-divider">Shop Section</li>
+            <li v-if="$page.component.startsWith('Distributor')">
+                <Link :class="{'active' : $page.url == '/my_orders'}" href="/my_orders">
+                    <span class="nav-link-icon">
+                        <i class="bi bi-cart4"></i>
+                    </span>
+                    <span>My Orders</span>
+                </Link>
+            </li>
+            <li v-if="$page.component.startsWith('Distributor')">
+                <Link :class="{'active' : $page.url == '/my_invoices'}" href="/my_invoices">
+                    <span class="nav-link-icon">
+                        <i class="bi bi-cart4"></i>
+                    </span>
+                    <span>My Invoices</span>
+                </Link>
+            </li>
+
             <li>
                 <Link href="/logout" method="post" as="button">
                     <span class="nav-link-icon">

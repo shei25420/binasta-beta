@@ -6,9 +6,10 @@ use Inertia\Inertia;
 use Illuminate\Support\Str;
 use App\Models\ProductOption;
 use App\Models\DistributorPackage;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreDistributorPackageRequest;
 use App\Http\Requests\UpdateDistributorPackageRequest;
-use Illuminate\Support\Facades\Validator;
 
 class DistributorPackageController extends Controller
 {
@@ -20,7 +21,7 @@ class DistributorPackageController extends Controller
     public function index()
     {
         return Inertia::render('Admin/DistributorPackages', [
-            'packages' => DistributorPackage::select('id', 'name', 'created_at')->with(['productOptions' => function ($query) {
+            'packages' => DistributorPackage::select('id', 'name', 'description', 'image_path', 'created_at')->with(['productOptions' => function ($query) {
                 $query->select('product_options.id', 'product_id', 'variation', 'wholesale_price');
             }])->get(),
             'product_options' => ProductOption::select('id', 'product_id', 'variation', 'wholesale_min', 'wholesale_price')->with(['product' => function ($query) {
@@ -50,6 +51,9 @@ class DistributorPackageController extends Controller
         $data = $request->validated();
 
         $data['slug'] = Str::slug($data['name']);
+
+        $data["image_path"] = Storage::disk('public')->put('product_images', $request->file('image'));
+
         $package = DistributorPackage::create($data);
 
         $package->productOptions()->attach($data['product_options']);

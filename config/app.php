@@ -140,6 +140,8 @@ return [
     'paypal_client_id' => env('PAYPAL_CLIENT_ID'),
     'paypal_client_secret' => env('PAYPAL_CLIENT_SECRET'),
 
+    // FIXER API KEY
+    'fixer_api_key' => env('FIXER_API_KEY'),
     /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver

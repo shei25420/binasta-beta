@@ -194,7 +194,7 @@ onMounted(() => {
                             </div>
                             <div class="invoice-bottom">
                                 <div class="row">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6" v-if="!order.status">
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <div>

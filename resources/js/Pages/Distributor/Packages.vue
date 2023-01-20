@@ -49,12 +49,13 @@ const calculatePackagePrice = (distributorPackage) => {
                     <div v-for="d_package in packages" :key="d_package.id" class="col-lg-4 col-md-6 col-sm-12">
                         <div class="card card-hover">
                             <Link :href="'/distributor_packages/' + d_package.slug">
-                                <img :src="'/storage/' + d_package.product_options[0].product.images[0].url" class="card-img-top" :alt="d_package.name">
+                                <img src='/shop/imgs/theme/img_loading.gif' :data-src="'/storage/' + d_package.image_path" class="lazy   card-img-top" :alt="d_package.name">
                             </Link>
                             <div class="card-body">
                                 <Link :href="'/distributor_packages/' + d_package.slug">
                                     <h5 class="card-title mb-3">{{ d_package.name  }}</h5>
                                 </Link>
+                                <p v-html="d_package.description.length > 100 ? `${d_package.description.slice(0, 100)}...` : d_package.description"></p>
                                 <div class="d-flex gap-3 mb-3 align-items-center">
                                     <del v-if="d_package.discounts.length" class="text-muted">ksh.{{ calculatePackagePrice(d_package)[1] }}</del>
                                     <h4 class="mb-0">ksh.{{ calculatePackagePrice(d_package)[0] }}</h4>

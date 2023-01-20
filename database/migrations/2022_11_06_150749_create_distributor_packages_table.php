@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('distributor_packages', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('description');
+            $table->string('image_path');
             $table->string('slug');
             $table->timestamps();
         });

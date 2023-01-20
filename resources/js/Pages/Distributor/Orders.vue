@@ -8,6 +8,7 @@ import 'bootstrap/dist/js/bootstrap.js'
 import GenericLayout from '@/Layouts/GenericLayout.vue';
 import ModalComponent from '@/Components/GenericDashboard/ModalComponent.vue';
 import { onMounted, ref } from '@vue/runtime-core';
+import { Inertia } from '@inertiajs/inertia';
 
 DataTable.use(DataTablesLib);
 
@@ -19,28 +20,39 @@ const productOptions = ref([]);
 
 onMounted(() => {
     document.getElementById("dt").addEventListener("click", function (e) {
-        if(e.target.nodeName !== "BUTTON") return;
+        if (e.target.nodeName !== "BUTTON") return;
 
         const btn = e.target;
         const ref = btn.getAttribute("data-ref");
+        const type = btn.getAttribute("data-type");
 
-        btn.setAttribute("disabled", true)
-        fetch(`/orders/${ref}`, {
-            headers: {
-                "Accept": "application/json",
-                "X-XSRF-TOKEN": decodeURIComponent(document.cookie.split(";").filter(cookie => cookie.startsWith("XSRF-TOKEN"))[0].split("=")[1])
-            }
-        })
-        .then(res => res.json())
-        .then(data => {
-            productOptions.value = data.productOptions;
-            $("#modalBtn").click();
-            btn.removeAttribute("disabled");
-        })
-        .catch(err => {
-            btn.removeAttribute("disabled");
-            console.log("error fetching order products", err)
-        });
+        switch (type) {
+            case "view":
+                btn.setAttribute("disabled", true)
+                fetch(`/orders/${ref}`, {
+                    headers: {
+                        "Accept": "application/json",
+                        "X-XSRF-TOKEN": decodeURIComponent(document.cookie.split(";").filter(cookie => cookie.startsWith("XSRF-TOKEN"))[0].split("=")[1])
+                    }
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        productOptions.value = data.productOptions;
+                        $("#modalBtn").click();
+                        btn.removeAttribute("disabled");
+                    })
+                    .catch(err => {
+                        btn.removeAttribute("disabled");
+                        console.log("error fetching order products", err)
+                    });
+                break;
+            case "pay":
+                Inertia.visit(`/invoive/${ref}`);       
+            default:
+                break;
+        }
+
+
     });
 
     $('#exampleModal').on('hide.bs.modal', function () {
@@ -56,21 +68,24 @@ onMounted(() => {
         <div class="card">
             <div class="card-header">
                 <h5>Customer Orders</h5>
-                <button type="button" id="modalBtn" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                        class="hidden" style="display: none;">
+                <button type="button" id="modalBtn" data-bs-toggle="modal" data-bs-target="#exampleModal" class="hidden"
+                    style="display: none;">
                 </button>
             </div>
             <div class="card-body">
-                <DataTable id="dt" class="display table table-responsive" :options="{responsive: true}" :data="orders" :columns="[
-                    {data: 'ref'},
-                    {data: null, render: data => data.user_address ? data.user_address.location : data.location},
-                    {data: null, render: data => data.user_address ? data.user_address.phone_number : data.phone_number},
-                    {data: 'status', render: data => data ? `<span class='badge bg-success'>Paid</span>` : `<span class='badge bg-warning'>Pending Payment</span>`},
-                    {data: 'created_at', render: data => new Date(data).toDateString()},
-                    {data: null, render: data => {
-                        return data.status ? `<button class='btn btn-primary btn-sm mr-3' data-ref='${data.ref}' data-type='view'>View</button>` : `<button class='btn btn-primary btn-sm mr-3' data-ref='${data.ref}' data-type='view'>View</button> <button class='btn btn-primary btn-sm' data-id='${data.ref}' data-type='pay'>Make Payment</button>`
-                    }}
-                ]">
+                <DataTable id="dt" class="display table table-responsive" :options="{ responsive: true }" :data="orders"
+                    :columns="[
+                        { data: 'ref' },
+                        { data: null, render: data => data.user_address ? data.user_address.location : data.location },
+                        { data: null, render: data => data.user_address ? data.user_address.phone_number : data.phone_number },
+                        { data: 'status', render: data => data ? `<span class='badge bg-success'>Paid</span>` : `<span class='badge bg-warning'>Pending Payment</span>` },
+                        { data: 'created_at', render: data => new Date(data).toDateString() },
+                        {
+                            data: null, render: data => {
+                                return data.status ? `<button class='btn btn-primary btn-sm mr-3' data-ref='${data.ref}' data-type='view'>View</button>` : `<button class='btn btn-primary btn-sm mr-3' data-ref='${data.ref}' data-type='view'>View</button> <button class='btn btn-primary btn-sm' data-id='${data.ref}' data-type='pay'>Make Payment</button>`
+                            }
+                        }
+                    ]">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -86,10 +101,10 @@ onMounted(() => {
         </div>
         <ModalComponent title="Purchased Products">
             <DataTable class="display table table-responsive" :data="productOptions" :columns="[
-                {data: null, render: data => `${data.product.name} - ${data.variation}`},
-                {data: 'pivot.quantity'},
-                {data: 'selling_price'},
-                {data: null, render: data => `${data.selling_price * data.pivot.quantity}`}
+                { data: null, render: data => `${data.product.name} - ${data.variation}` },
+                { data: 'pivot.quantity' },
+                { data: 'selling_price' },
+                { data: null, render: data => `${data.selling_price * data.pivot.quantity}` }
             ]">
                 <thead>
                     <tr>

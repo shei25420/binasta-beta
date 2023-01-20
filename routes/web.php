@@ -181,7 +181,6 @@ Route::group(array('domain' => '{subdomain}.' . Config::get('app.domain')), func
         Route::post('/login', [AuthenticationController::class, 'login']);
         Route::get('/terms', [MainController::class, "terms"]);
         Route::middleware("auth:distributor")->group(function () {
-            Route::get("/", [DistributorDashboardController::class, "index"]);
             Route::get('/distributor_packages', [DistributorDashboardController::class, 'fetchPackages']);
             Route::get('/distributor_packages/{slug}', [DistributorDashboardController::class, 'showPackage']);
 
@@ -191,23 +190,27 @@ Route::group(array('domain' => '{subdomain}.' . Config::get('app.domain')), func
 
             Route::get("/checkout", [DistributorDashboardController::class, "checkout"]);
 
-            Route::get("/orders", [DistributorDashboardController::class, 'orders']);
+            Route::get("/my_orders", [DistributorDashboardController::class, 'myOrders']);
             Route::post('/orders', [DistributorOrderController::class, 'store']);
 
+            Route::get('/my_invoices', [DistributorDashboardController::class, "myInvoices"]);
             Route::get('/invoice/{ref}', [DistributorDashboardController::class, 'invoice']);
             Route::post('/make_payment', [DistributorDashboardController::class, 'makePayment']);
             Route::post('/capture/paypal', [DistributorDashboardController::class, 'capturePaypalPayment']);
-            
-            Route::get('/products', [DistributorDashboardController::class, "products"]);
-
-            Route::get('/discounts', [DistributorDashboardController::class, "discounts"]);
-            Route::post('/discounts', [DistributorDashboardController::class, "storeDiscount"]);
-
-            Route::get('/users', [DistributorDashboardController::class, "users"]);
-            
-            Route::get('/orders', [DistributorDashboardController::class, "orders"]);
-            
+                          
             Route::post('/logout', [AuthenticationController::class, 'logout']);
+        
+            Route::middleware('distributorVerification')->group(function () {
+                Route::get("/", [DistributorDashboardController::class, "index"]);
+                Route::get('/orders', [DistributorDashboardController::class, "orders"]);
+                Route::get('/users', [DistributorDashboardController::class, "users"]);
+                
+                Route::get('/products', [DistributorDashboardController::class, "products"]);
+
+                Route::get('/discounts', [DistributorDashboardController::class, "discounts"]);
+                Route::post('/discounts', [DistributorDashboardController::class, "storeDiscount"]);
+
+            });
         });
     } else if ($subdomain === "dashboard") {
         Route::get('/login', [AuthenticationController::class, 'create'])->name('login');

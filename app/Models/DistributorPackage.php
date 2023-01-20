@@ -9,7 +9,7 @@ class DistributorPackage extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'slug'];
+    protected $fillable = ['name', 'slug', 'description', 'image_path'];
 
     public function productOptions () {
         return $this->belongsToMany(ProductOption::class, 'distributor_package_product_option', 'distributor_package_id', 'product_option_id');

@@ -12,6 +12,6 @@ class DistributorTransaction extends Model
     protected $fillable = ["ref", "distributor_order_id", "payment_type"];
 
     public function order () {
-        return $this->belongsTo(DistributorOrder::class);
+        return $this->belongsTo(DistributorOrder::class, 'distributor_order_id');
     }
 }

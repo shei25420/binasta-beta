@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { useForm } from '@inertiajs/inertia-vue3';
 import Select2 from 'vue3-select2-component';
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import DataTable from 'datatables.net-vue3'
 import DataTablesLib from 'datatables.net';
 import 'datatables.net-bs5';
@@ -19,6 +20,8 @@ const props = defineProps({
 
 const form = useForm({
     name: '',
+    description: '',
+    image: null,
     product_options: []
 });
 
@@ -143,7 +146,11 @@ onMounted(() => {
                 </button>
             </div>
             <div class="card-body">
-                <DataTable id="dt" class="display table table-responsive" :options="{responsive: true}" :data="packages" :columns="[{ data: 'name' }, { data: 'product_options', render: (data) => {
+                <DataTable id="dt" class="display table table-responsive" :options="{responsive: true}" :data="packages" :columns="[{ data: 'name' }, {data: 'description', render: (data) => {
+                    return data.length > 50 ? `${data.slice(0, 50)}....` : data;
+                }}, {data: 'image_path', render: (data) => {
+                    return `<img class='img img-fluid lazy' width='200' height='200' src='/shop/imgs/theme/img_loading.gif' data-src='/storage/${data}' />`;
+                }},  { data: 'product_options', render: (data) => {
                     return data.length;
                 }}, {
                     data: 'created_at', render: (data) => {
@@ -155,6 +162,8 @@ onMounted(() => {
                     <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Description</th>
+                            <th>Feature Image</th>
                             <th>No.Of Products</th>
                             <th>Created At</th>
                             <th>Actions</th>
@@ -170,6 +179,11 @@ onMounted(() => {
                     <input v-model="form.name" type="text" class="form-control">
                     <div class="invalid-feedback" v-if="form.errors.name">{{ form.errors.name }}</div>
                 </div>
+                <div class="form-group">
+                    <label for="Name">Description</label>
+                    <ckeditor :editor="ClassicEditor" v-model="form.description" />
+                    <div class="invalid-feedback" v-if="form.errors.description">{{ form.errors.description }}</div>
+                </div>
                 <div class="form-group mt-3">
                     <label for="product options">Product Options</label>
                     <select v-model="form.product_options" class="select2-example" multiple>
@@ -179,6 +193,11 @@ onMounted(() => {
                                     product_option.variation
                             }}</option>
                     </select>
+                    <div class="invalid-feedback" v-if="form.errors.product_options">{{ form.errors.product_options }}</div>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="package image">Feature Images</label>
+                    <input type="file" @change="(e) => form.image = e.target.files[0]" class="form-control">
                     <div class="invalid-feedback" v-if="form.errors.product_options">{{ form.errors.product_options }}</div>
                 </div>
                 <div class="form-group mt-4">

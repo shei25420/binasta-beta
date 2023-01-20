@@ -1,5 +1,7 @@
 <script setup>
-    import { Link } from '@inertiajs/inertia-vue3';
+import { Link } from '@inertiajs/inertia-vue3';
+
+import ShoppingCart from '@/Components/Distributor/ShoppingCart.vue';
 </script>
     
 <template>
@@ -15,7 +17,7 @@
     </Link>
     <!-- ./ Logo -->
     <div class="page-title">Overview</div>
-    <!-- <form class="search-form">
+    <form class="search-form">
         <div class="input-group">
             <button class="btn btn-outline-light" type="button" id="button-addon1">
                 <i class="bi bi-search"></i>
@@ -28,21 +30,24 @@
     </form>
     <div class="header-bar ms-auto">
         <ul class="navbar-nav justify-content-end">
+            <ShoppingCart />
             <li class="nav-item">
                 <a href="#" class="nav-link nav-link-notify" data-count="2" data-sidebar-target="#notifications">
                     <i class="bi bi-bell icon-lg"></i>
                 </a>
             </li>
         </ul>
-    </div> -->
+    </div>
     <!-- Header mobile buttons -->
     <div class="header-mobile-buttons">
-        <a href="#" class="search-bar-btn">
-            <i class="bi bi-search"></i>
-        </a>
-        <a href="#" class="actions-btn">
-            <i class="bi bi-three-dots"></i>
-        </a>
+        <ul class="navbar-nav justify-content-end">
+            <ShoppingCart />
+            <li class="nav-item">
+                <a href="#" class="nav-link nav-link-notify" data-count="2" data-sidebar-target="#notifications">
+                    <i class="bi bi-bell icon-lg"></i>
+                </a>
+            </li>
+        </ul>
     </div>
     <!-- ./ Header mobile buttons -->
 </div>

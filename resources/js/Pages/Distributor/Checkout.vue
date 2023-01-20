@@ -121,7 +121,7 @@ onMounted(() => {
                     <div class="list-group list-group-flush">
                         <div v-for="item in cart" :key="item.distributor_package.id" class="list-group-item d-flex px-0">
                             <a href="#" class="me-3">
-                                <img src="#" class="rounded" width="60" alt="...">
+                                <img src='/shop/imgs/theme/img_loading.gif' :data-src="`/storage/${item.distributor_package.image_path}`" class="lazy rounded" width="60" alt="...">
                             </a>
                             <div>
                                 <h6>{{  item.distributor_package.name  }}</h6>

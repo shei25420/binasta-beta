@@ -200,9 +200,9 @@ onMounted(() => {
                                     </div>
                                 </div>
                             </div>
-                            <h4 class="mb-3">Total Earned</h4>
+                            <h4 class="mb-3">Total Binapoints</h4>
                             <div class="d-flex mb-3" style="position: relative;">
-                                <div class="display-7">ksh.100, 000</div>
+                                <div class="display-7">$B {{ $page.props.auth.user.binapoints  }}</div>
                             </div>
                             <div class="text-success">
                                 Over last month 1.4% <i class="small bi bi-arrow-up"></i>

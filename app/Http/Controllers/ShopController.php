@@ -17,6 +17,7 @@ use App\Models\MpesaTransaction;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\DB;
 use App\Events\MpesaPaymentCaptured;
+use App\Helpers\CurrencyConverter;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
@@ -143,8 +144,7 @@ class ShopController extends Controller
     public function makePayment (MakePaymentRequest $request) {
         $data = $request->validated();
 
-
-        $order = Order::select("id", 'ref', 'created_at')->where("ref", $data['order_ref'])->where('user_id', auth()->id())->with(['product_options' => function ($query) {
+        $order = Order::select("id", 'ref', 'amount', 'created_at')->where("ref", $data['order_ref'])->where('user_id', auth()->id())->with(['product_options' => function ($query) {
             $query->select("product_options.id", "selling_price", "product_id");
         }, 'product_options.product' => function ($query) {
             $query->select('id', 'name');
@@ -154,6 +154,7 @@ class ShopController extends Controller
             ->where('end_date', '>', Carbon::now()->toDateString())
             ->where('active', true);
         }])->firstOrFail();
+
         $data["order"] = $order;
         $gateway = (new Billing())->payment_gateway($data['payment_type']);
 
@@ -192,7 +193,7 @@ class ShopController extends Controller
             $order->save();
         }, 5);
 
-        return Inertia::location("http://dashboard.".config("app.domain")."/orders");
+        return Inertia::location("https://dashboard.".config("app.domain")."/orders");
     }
 
     public function captureMpesaPayment (Request $request) {

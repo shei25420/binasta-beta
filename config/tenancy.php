@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Illuminate\Support\Facades\Config;
 use Stancl\Tenancy\Database\Models\Domain;
 use Stancl\Tenancy\Database\Models\Tenant;
 
@@ -19,10 +20,10 @@ return [
     'central_domains' => [
         '127.0.0.1',
         'localhost',
-        'binasta.test',
-        'distributor.binasta.test',
-        'management.binasta.test',
-        'dashboard.binasta.test',
+        config('app.domain'),
+        'distributor.'.config('app.domain'),
+        'management.'.config('app.domain'),
+        'dashboard.'.config('app.domain'),
         '47e1-196-202-172-34.ngrok.io'
     ],
 
