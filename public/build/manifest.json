@@ -115,13 +115,13 @@
     "file": "assets/bg-3.8565e712.svg",
     "src": "resources/assets/business/img/bg/bg-3.svg"
   },
-  "resources/assets/shop/imgs/theme/icons/icon-4.svg": {
-    "file": "assets/icon-4.8ab547fd.svg",
-    "src": "resources/assets/shop/imgs/theme/icons/icon-4.svg"
-  },
   "resources/assets/shop/imgs/theme/icons/icon-5.svg": {
     "file": "assets/icon-5.1442a93e.svg",
     "src": "resources/assets/shop/imgs/theme/icons/icon-5.svg"
+  },
+  "resources/assets/shop/imgs/theme/icons/icon-4.svg": {
+    "file": "assets/icon-4.8ab547fd.svg",
+    "src": "resources/assets/shop/imgs/theme/icons/icon-4.svg"
   },
   "resources/assets/shop/imgs/theme/icons/icon-6.svg": {
     "file": "assets/icon-6.eb34cbfb.svg",
@@ -187,10 +187,6 @@
     "file": "assets/icofont.12455d53.woff2",
     "src": "resources/assets/main/fonts/icofont.woff2"
   },
-  "resources/assets/generic_dashboard/icons/themify-icons/fonts/themify9f24.eot": {
-    "file": "assets/themify9f24.dff415da.eot",
-    "src": "resources/assets/generic_dashboard/icons/themify-icons/fonts/themify9f24.eot"
-  },
   "resources/assets/business/fonts/AleoBold.eot": {
     "file": "assets/AleoBold.e8684874.eot",
     "src": "resources/assets/business/fonts/AleoBold.eot"
@@ -239,13 +235,17 @@
     "file": "assets/leaf-right.18c36ea9.svg",
     "src": "resources/assets/business/img/bg/leaf-right.svg"
   },
+  "resources/assets/business/img/bg/popup_decor-top.svg": {
+    "file": "assets/popup_decor-top.32563e1e.svg",
+    "src": "resources/assets/business/img/bg/popup_decor-top.svg"
+  },
   "resources/assets/business/img/main-bg.svg": {
     "file": "assets/main-bg.c7a5ecb3.svg",
     "src": "resources/assets/business/img/main-bg.svg"
   },
-  "resources/assets/business/img/bg/popup_decor-top.svg": {
-    "file": "assets/popup_decor-top.32563e1e.svg",
-    "src": "resources/assets/business/img/bg/popup_decor-top.svg"
+  "resources/assets/generic_dashboard/icons/themify-icons/fonts/themify9f24.eot": {
+    "file": "assets/themify9f24.dff415da.eot",
+    "src": "resources/assets/generic_dashboard/icons/themify-icons/fonts/themify9f24.eot"
   },
   "resources/assets/main/images/slider/banner-1.webp": {
     "file": "assets/banner-1.dd8205e3.webp",
@@ -258,14 +258,6 @@
   "resources/assets/generic_dashboard/icons/bootstrap-icons-1.4.0/fonts/bootstrap-iconse36a.woff2": {
     "file": "assets/bootstrap-iconse36a.856b3f9e.woff2",
     "src": "resources/assets/generic_dashboard/icons/bootstrap-icons-1.4.0/fonts/bootstrap-iconse36a.woff2"
-  },
-  "resources/assets/main/fonts/icofont.woff": {
-    "file": "assets/icofont.262a1f11.woff",
-    "src": "resources/assets/main/fonts/icofont.woff"
-  },
-  "resources/assets/generic_dashboard/icons/themify-icons/fonts/themify9f24.woff": {
-    "file": "assets/themify9f24.0db5c5a1.woff",
-    "src": "resources/assets/generic_dashboard/icons/themify-icons/fonts/themify9f24.woff"
   },
   "resources/assets/business/fonts/Lato/LatoRegular.woff2": {
     "file": "assets/LatoRegular.f74650e6.woff2",
@@ -287,6 +279,14 @@
     "file": "assets/icomoon.def53cee.woff",
     "src": "resources/assets/business/fonts/icomoon/fonts/icomoon.woff"
   },
+  "resources/assets/generic_dashboard/icons/themify-icons/fonts/themify9f24.woff": {
+    "file": "assets/themify9f24.0db5c5a1.woff",
+    "src": "resources/assets/generic_dashboard/icons/themify-icons/fonts/themify9f24.woff"
+  },
+  "resources/assets/main/fonts/icofont.woff": {
+    "file": "assets/icofont.262a1f11.woff",
+    "src": "resources/assets/main/fonts/icofont.woff"
+  },
   "resources/assets/main/css/fonts/slick-3.html": {
     "file": "assets/slick-3.c363ed59.html",
     "src": "resources/assets/main/css/fonts/slick-3.html"
@@ -298,10 +298,6 @@
   "resources/assets/business/fonts/Lato/LatoRegular.woff": {
     "file": "assets/LatoRegular.d4b74787.woff",
     "src": "resources/assets/business/fonts/Lato/LatoRegular.woff"
-  },
-  "resources/assets/generic_dashboard/icons/themify-icons/fonts/themify9f24.ttf": {
-    "file": "assets/themify9f24.350663a4.ttf",
-    "src": "resources/assets/generic_dashboard/icons/themify-icons/fonts/themify9f24.ttf"
   },
   "resources/assets/business/fonts/AleoBold.woff": {
     "file": "assets/AleoBold.cf4f2acb.woff",
@@ -319,6 +315,10 @@
     "file": "assets/icomoon.a80945c9.svg",
     "src": "resources/assets/business/fonts/icomoon/fonts/icomoon.svg"
   },
+  "resources/assets/generic_dashboard/icons/themify-icons/fonts/themify9f24.ttf": {
+    "file": "assets/themify9f24.350663a4.ttf",
+    "src": "resources/assets/generic_dashboard/icons/themify-icons/fonts/themify9f24.ttf"
+  },
   "resources/assets/main/css/fonts/slick-4.html": {
     "file": "assets/slick-4.cbdf8aaf.html",
     "src": "resources/assets/main/css/fonts/slick-4.html"
@@ -327,21 +327,21 @@
     "file": "assets/LatoRegular.3562e346.ttf",
     "src": "resources/assets/business/fonts/Lato/LatoRegular.ttf"
   },
-  "resources/assets/generic_dashboard/icons/themify-icons/fonts/themify9f24.svg": {
-    "file": "assets/themify9f24.f7af2e09.svg",
-    "src": "resources/assets/generic_dashboard/icons/themify-icons/fonts/themify9f24.svg"
-  },
   "resources/assets/business/fonts/AleoBold.ttf": {
     "file": "assets/AleoBold.0f596d95.ttf",
     "src": "resources/assets/business/fonts/AleoBold.ttf"
+  },
+  "resources/assets/business/fonts/Lato/LatoBold.ttf": {
+    "file": "assets/LatoBold.21d8c0c8.ttf",
+    "src": "resources/assets/business/fonts/Lato/LatoBold.ttf"
   },
   "resources/assets/business/fonts/Lato/LatoBlack.ttf": {
     "file": "assets/LatoBlack.9e40da77.ttf",
     "src": "resources/assets/business/fonts/Lato/LatoBlack.ttf"
   },
-  "resources/assets/business/fonts/Lato/LatoBold.ttf": {
-    "file": "assets/LatoBold.21d8c0c8.ttf",
-    "src": "resources/assets/business/fonts/Lato/LatoBold.ttf"
+  "resources/assets/generic_dashboard/icons/themify-icons/fonts/themify9f24.svg": {
+    "file": "assets/themify9f24.f7af2e09.svg",
+    "src": "resources/assets/generic_dashboard/icons/themify-icons/fonts/themify9f24.svg"
   },
   "resources/assets/business/fonts/AleoBold.svg": {
     "file": "assets/AleoBold.c2543bb0.svg",
@@ -351,13 +351,13 @@
     "file": "assets/LatoRegular.033acd7f.svg",
     "src": "resources/assets/business/fonts/Lato/LatoRegular.svg"
   },
-  "resources/assets/business/fonts/Lato/LatoBlack.svg": {
-    "file": "assets/LatoBlack.c6f14667.svg",
-    "src": "resources/assets/business/fonts/Lato/LatoBlack.svg"
-  },
   "resources/assets/business/fonts/Lato/LatoBold.svg": {
     "file": "assets/LatoBold.cdb63df9.svg",
     "src": "resources/assets/business/fonts/Lato/LatoBold.svg"
+  },
+  "resources/assets/business/fonts/Lato/LatoBlack.svg": {
+    "file": "assets/LatoBlack.c6f14667.svg",
+    "src": "resources/assets/business/fonts/Lato/LatoBlack.svg"
   },
   "resources/assets/shop/imgs/banner/banner-10.png": {
     "file": "assets/banner-10.cfecfe13.png",
@@ -1528,109 +1528,109 @@
     "file": "assets/GenericLayout.91ad163e.css",
     "src": "GenericLayout.css"
   },
-  "resources/js/Pages/Auth/ResetPassword.css": {
-    "file": "assets/ResetPassword.98f65176.css",
-    "src": "resources/js/Pages/Auth/ResetPassword.css"
-  },
-  "resources/js/Pages/Distributor/Orders.css": {
-    "file": "assets/Orders.9df4a98f.css",
-    "src": "resources/js/Pages/Distributor/Orders.css"
-  },
-  "resources/js/Pages/Distributor/Register.css": {
-    "file": "assets/Register.793c32d1.css",
-    "src": "resources/js/Pages/Distributor/Register.css"
-  },
-  "resources/js/Pages/Auth/ForgotPassword.css": {
-    "file": "assets/ForgotPassword.98f65176.css",
-    "src": "resources/js/Pages/Auth/ForgotPassword.css"
-  },
-  "resources/js/Pages/Distributor/Checkout.css": {
-    "file": "assets/Checkout.7088142d.css",
-    "src": "resources/js/Pages/Distributor/Checkout.css"
-  },
-  "resources/js/Pages/Admin/BlogCategories.css": {
-    "file": "assets/BlogCategories.022cf9b1.css",
-    "src": "resources/js/Pages/Admin/BlogCategories.css"
-  },
-  "resources/js/Pages/Admin/Blogs.css": {
-    "file": "assets/Blogs.9df4a98f.css",
-    "src": "resources/js/Pages/Admin/Blogs.css"
-  },
-  "resources/js/Pages/Admin/Distributors.css": {
-    "file": "assets/Distributors.d5a1437c.css",
-    "src": "resources/js/Pages/Admin/Distributors.css"
-  },
-  "resources/js/Pages/Admin/DistributorDiscounts.css": {
-    "file": "assets/DistributorDiscounts.022cf9b1.css",
-    "src": "resources/js/Pages/Admin/DistributorDiscounts.css"
-  },
-  "resources/js/Pages/Admin/Countries.css": {
-    "file": "assets/Countries.d5a1437c.css",
-    "src": "resources/js/Pages/Admin/Countries.css"
-  },
-  "resources/js/Pages/Admin/Discounts.css": {
-    "file": "assets/Discounts.d5a1437c.css",
-    "src": "resources/js/Pages/Admin/Discounts.css"
-  },
-  "resources/js/Pages/Admin/DistributorPackages.css": {
-    "file": "assets/DistributorPackages.ea955ecf.css",
-    "src": "resources/js/Pages/Admin/DistributorPackages.css"
-  },
-  "resources/js/Pages/Distributor/Invoices.css": {
-    "file": "assets/Invoices.d5a1437c.css",
-    "src": "resources/js/Pages/Distributor/Invoices.css"
-  },
-  "resources/js/Pages/Admin/ProductCategories.css": {
-    "file": "assets/ProductCategories.d5a1437c.css",
-    "src": "resources/js/Pages/Admin/ProductCategories.css"
-  },
-  "resources/js/Pages/Business/Index.css": {
-    "file": "assets/Index.bd6cfb5a.css",
-    "src": "resources/js/Pages/Business/Index.css"
-  },
-  "resources/js/Pages/Distributor/Users.css": {
-    "file": "assets/Users.d5a1437c.css",
-    "src": "resources/js/Pages/Distributor/Users.css"
-  },
-  "resources/js/Pages/Admin/ProductView.css": {
-    "file": "assets/ProductView.d5a1437c.css",
-    "src": "resources/js/Pages/Admin/ProductView.css"
-  },
   "resources/js/Pages/Admin/DistributorOrders.css": {
     "file": "assets/DistributorOrders.9df4a98f.css",
     "src": "resources/js/Pages/Admin/DistributorOrders.css"
   },
-  "resources/js/Pages/Distributor/MyOrders.css": {
-    "file": "assets/MyOrders.9df4a98f.css",
-    "src": "resources/js/Pages/Distributor/MyOrders.css"
-  },
-  "resources/js/Pages/Admin/Products.css": {
-    "file": "assets/Products.d5a1437c.css",
-    "src": "resources/js/Pages/Admin/Products.css"
-  },
-  "resources/js/Pages/Admin/BinapointsConfigurations.css": {
-    "file": "assets/BinapointsConfigurations.d5a1437c.css",
-    "src": "resources/js/Pages/Admin/BinapointsConfigurations.css"
+  "resources/js/Pages/Auth/ResetPassword.css": {
+    "file": "assets/ResetPassword.98f65176.css",
+    "src": "resources/js/Pages/Auth/ResetPassword.css"
   },
   "resources/js/Pages/Shop/Checkout.css": {
     "file": "assets/Checkout.8894d3f8.css",
     "src": "resources/js/Pages/Shop/Checkout.css"
   },
+  "resources/js/Pages/Admin/BinapointsConfigurations.css": {
+    "file": "assets/BinapointsConfigurations.d5a1437c.css",
+    "src": "resources/js/Pages/Admin/BinapointsConfigurations.css"
+  },
+  "resources/js/Pages/Admin/BlogCategories.css": {
+    "file": "assets/BlogCategories.022cf9b1.css",
+    "src": "resources/js/Pages/Admin/BlogCategories.css"
+  },
+  "resources/js/Pages/Admin/DistributorDiscounts.css": {
+    "file": "assets/DistributorDiscounts.022cf9b1.css",
+    "src": "resources/js/Pages/Admin/DistributorDiscounts.css"
+  },
+  "resources/js/Pages/Admin/Blogs.css": {
+    "file": "assets/Blogs.9df4a98f.css",
+    "src": "resources/js/Pages/Admin/Blogs.css"
+  },
+  "resources/js/Pages/Admin/Countries.css": {
+    "file": "assets/Countries.d5a1437c.css",
+    "src": "resources/js/Pages/Admin/Countries.css"
+  },
+  "resources/js/Pages/Admin/Distributors.css": {
+    "file": "assets/Distributors.d5a1437c.css",
+    "src": "resources/js/Pages/Admin/Distributors.css"
+  },
+  "resources/js/Pages/Distributor/Products.css": {
+    "file": "assets/Products.d5a1437c.css",
+    "src": "resources/js/Pages/Distributor/Products.css"
+  },
+  "resources/js/Pages/Distributor/Users.css": {
+    "file": "assets/Users.d5a1437c.css",
+    "src": "resources/js/Pages/Distributor/Users.css"
+  },
+  "resources/js/Pages/Distributor/Invoices.css": {
+    "file": "assets/Invoices.d5a1437c.css",
+    "src": "resources/js/Pages/Distributor/Invoices.css"
+  },
+  "resources/js/Pages/Admin/Discounts.css": {
+    "file": "assets/Discounts.d5a1437c.css",
+    "src": "resources/js/Pages/Admin/Discounts.css"
+  },
   "MainLayout.css": {
     "file": "assets/MainLayout.07d2f23d.css",
     "src": "MainLayout.css"
-  },
-  "index.css": {
-    "file": "assets/index.6d02e2ec.css",
-    "src": "index.css"
   },
   "resources/js/Pages/Shop/Index.css": {
     "file": "assets/Index.db8d2b38.css",
     "src": "resources/js/Pages/Shop/Index.css"
   },
+  "resources/js/Pages/Distributor/MyOrders.css": {
+    "file": "assets/MyOrders.9df4a98f.css",
+    "src": "resources/js/Pages/Distributor/MyOrders.css"
+  },
   "resources/js/Pages/Shop/Invoice.css": {
     "file": "assets/Invoice.1b37b91c.css",
     "src": "resources/js/Pages/Shop/Invoice.css"
+  },
+  "resources/js/Pages/User/Orders.css": {
+    "file": "assets/Orders.9df4a98f.css",
+    "src": "resources/js/Pages/User/Orders.css"
+  },
+  "resources/js/Pages/Admin/DistributorPackages.css": {
+    "file": "assets/DistributorPackages.ea955ecf.css",
+    "src": "resources/js/Pages/Admin/DistributorPackages.css"
+  },
+  "resources/js/Pages/Admin/ProductView.css": {
+    "file": "assets/ProductView.d5a1437c.css",
+    "src": "resources/js/Pages/Admin/ProductView.css"
+  },
+  "resources/js/Pages/Distributor/Checkout.css": {
+    "file": "assets/Checkout.7088142d.css",
+    "src": "resources/js/Pages/Distributor/Checkout.css"
+  },
+  "resources/js/Pages/Business/Index.css": {
+    "file": "assets/Index.bd6cfb5a.css",
+    "src": "resources/js/Pages/Business/Index.css"
+  },
+  "resources/js/Pages/Admin/ProductCategories.css": {
+    "file": "assets/ProductCategories.d5a1437c.css",
+    "src": "resources/js/Pages/Admin/ProductCategories.css"
+  },
+  "index.css": {
+    "file": "assets/index.6d02e2ec.css",
+    "src": "index.css"
+  },
+  "resources/js/Pages/Auth/ForgotPassword.css": {
+    "file": "assets/ForgotPassword.98f65176.css",
+    "src": "resources/js/Pages/Auth/ForgotPassword.css"
+  },
+  "resources/js/Pages/Distributor/Register.css": {
+    "file": "assets/Register.793c32d1.css",
+    "src": "resources/js/Pages/Distributor/Register.css"
   },
   "AuthenticationLayout.css": {
     "file": "assets/AuthenticationLayout.76a71d16.css",

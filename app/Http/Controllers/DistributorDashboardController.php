@@ -94,7 +94,7 @@ class DistributorDashboardController extends Controller
     public function invoice ($subdomain, $ref) {
         $data = Validator::make(['ref' => $ref], ['ref' => 'required|string|exists:distributor_orders,ref'])->validated();
         return Inertia::render("Distributor/Invoice", [
-            'order' => DistributorOrder::select("id", "ref", "distributor_id", "location", "phone_number", "created_at")->where("ref", $data["ref"])->with(["distributor_packages" => function ($query) {
+            'order' => DistributorOrder::select("id", "ref", "distributor_id", "location", "phone_number", "status", "created_at")->where("ref", $data["ref"])->with(["distributor_packages" => function ($query) {
                 $query->select("distributor_packages.id", "name", "distributor_order_distributor_package.quantity");
             },
             "distributor_packages.productOptions" => function ($query) {
@@ -248,7 +248,6 @@ class DistributorDashboardController extends Controller
                 $query->select('id');
             }])->first();
             
-            dd($transaction);
             $message = $data->Body->stkCallback->ResultDesc;
             $status = (int)$data->Body->stkCallback->ResultCode;
             
