@@ -303,7 +303,7 @@ onMounted(() => {
                         {
                             data: 'verified',
                             render: data => {
-                                return data
+                                return data == 1
                                     ? `<span class='badge bg-success'>Verified</span>`
                                     : `<span class='badge bg-danger'>Unverified</span>`;
                             }
@@ -326,7 +326,7 @@ onMounted(() => {
                             data: null,
                             render: data => {
                                 let actions = '';
-                                if (data.suspended) actions += `<button data-id='${data.id}' data-type='suspend' class='btn btn-sm btn-secondary mr-3'>Block</button>`;
+                                if (data.suspended == 0) actions += `<button data-id='${data.id}' data-type='suspend' class='btn btn-sm btn-secondary mr-3'>Block</button>`;
                                 else `<button data-id='${data.id}' data-type='suspend' class='btn btn-sm btn-secondary mr-3'>Unblock</button>`;
                     
                                 if (data.verified == 0) actions += `<button data-id='${data.id}' data-type='verify' class='btn btn-sm btn-success mr-3'>Verify</button> `;
