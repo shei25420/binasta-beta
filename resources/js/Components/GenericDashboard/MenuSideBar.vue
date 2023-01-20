@@ -20,7 +20,7 @@ import { Link } from '@inertiajs/inertia-vue3';
                     <small class="text-muted mb-1" v-if="!$page.props.auth.user.verified"><b>Visit Site: </b>{{  $page.props.auth.user.domain  }}.binasta.co.ke (verification needed)</small>
                     <small class="text-muted mb-1" v-else><b>Visit Site: </b><a :href="`${$page.props.auth.user.domain}.binasta.co.ke`" target="_blank">{{  $page.props.auth.user.domain  }}.binasta.co.ke</a></small>
                     <br />
-                    <span class="badge" :class="$page.props.auth.user.verified ? 'bg-success' : 'bg-secondary'">{{ $page.props.auth.user.verified ? `Verfied` : `Unverified` }}</span>
+                    <span class="badge" :class="$page.props.auth.user.verified == 1 ? 'bg-success' : 'bg-secondary'">{{ $page.props.auth.user.verified == 1 ? `Verfied` : `Unverified` }}</span>
                 </div>
             </div>
         </div>

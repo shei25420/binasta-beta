@@ -205,14 +205,14 @@ onMounted(() => {
         }
     });
     props.distributors.forEach(distributor => {
-        if(series.value[0].data.length < 10) {
+        if (series.value[0].data.length < 10) {
             const date = new Date(distributor.created_at);
-            if(!options.value.xaxis.categories.includes(`${date.getDay()} ${date.toLocaleDateString("en-us", { month: "short" })}`)) options.value.xaxis.categories.push(`${date.getDay()} ${date.toLocaleDateString("en-us", { month: "short" })}`)
+            if (!options.value.xaxis.categories.includes(`${date.getDay()} ${date.toLocaleDateString("en-us", { month: "short" })}`)) options.value.xaxis.categories.push(`${date.getDay()} ${date.toLocaleDateString("en-us", { month: "short" })}`)
             series.value[0].data.push(distributor.total);
-        } 
+        }
         totalDistributors.value++;
     });
-    
+
     series.value[0].data.reverse();
     options.value.xaxis.categories.reverse();
     options.value.xaxis.min = options.value.xaxis.categories[0];
@@ -231,9 +231,14 @@ onMounted(() => {
                     <div class="card-body" style="position: relative;">
                         <h6 class="card-title">New Distributors</h6>
                         <div style="max-height: 295px;">
-                            <ApexCharts :options="options" :series="series" height="200"  width='103%' />
+                            <ApexCharts :options="options" :series="series" height="200" width='103%' />
                         </div>
-                        <div class="resize-triggers"><div class="expand-trigger"><div style="width: 996px; height: 275px;"></div></div><div class="contract-trigger"></div></div>
+                        <div class="resize-triggers">
+                            <div class="expand-trigger">
+                                <div style="width: 996px; height: 275px;"></div>
+                            </div>
+                            <div class="contract-trigger"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -247,7 +252,7 @@ onMounted(() => {
                             <div class="display-6">
                                 <span><i class="bi bi-truck h1" data-v-ca37e4bd=""></i></span>
                             </div>
-                            <h4>{{  totalDistributors  }}</h4>
+                            <h4>{{ totalDistributors }}</h4>
                         </div>
                         <div class="text-muted d-flex align-items-center justify-content-center">
                             <span class="text-success me-3 d-block">
@@ -269,67 +274,67 @@ onMounted(() => {
             <div class="card-body">
                 <DataTable id="dt" :options="{ responsive: true }" class="display table table-responsive"
                     :data="distributors" :columns="[
-    { data: 'ref' },
-    { data: 'first_name' },
-    { data: 'last_name' },
-    { data: 'email' },
-    {
-        data: 'gender',
-        render: data => {
-            return data ? 'Female' : 'Male';
-        }
-    },
-    {
-        data: 'country',
-        render: data => {
-            return data.name;
-        }
-    },
-    { data: 'binapoints' },
-    { data: 'balance' },
-    {
-        data: 'patron',
-        render: data => {
-            return data
-                ? `${data.first_name} ${data.last_name}`
-                : `<span class='badge bg-primary'>Binasta Ltd.</span>`;
-        }
-    },
-    {
-        data: 'verified',
-        render: data => {
-            return data
-                ? `<span class='badge bg-success'>Verified</span>`
-                : `<span class='badge bg-danger'>Unverified</span>`;
-        }
-    },
-    {
-        data: 'suspended',
-        render: data => {
-            return data
-                ? `<span class='badge bg-danger'>Suspended</span>`
-                : `<span class='badge bg-success'>Active</span>`;
-        }
-    },
-    {
-        data: 'created_at',
-        render: data => {
-            return new Date(data).toDateString()
-        }
-    },
-    {
-        data: null,
-        render: data => {
-            let actions = '';
-            if (data.suspended) actions += `<button data-id='${data.id}' data-type='suspend' class='btn btn-sm btn-secondary mr-3'>Block</button>`;
-            else `<button data-id='${data.id}' data-type='suspend' class='btn btn-sm btn-secondary mr-3'>Unblock</button>`;
-
-            if (!data.verified) actions += `<button data-id='${data.id}' data-type='verify' class='btn btn-sm btn-success mr-3'>Verify</button> `;
-            actions += `<button data-id='${data.id}' data-type='del' class='btn btn-sm btn-danger'>Delete</button>`;
-            return actions;
-        }
-    }
-]">
+                        { data: 'ref' },
+                        { data: 'first_name' },
+                        { data: 'last_name' },
+                        { data: 'email' },
+                        {
+                            data: 'gender',
+                            render: data => {
+                                return data ? 'Female' : 'Male';
+                            }
+                        },
+                        {
+                            data: 'country',
+                            render: data => {
+                                return data.name;
+                            }
+                        },
+                        { data: 'binapoints' },
+                        { data: 'balance' },
+                        {
+                            data: 'patron',
+                            render: data => {
+                                return data
+                                    ? `${data.first_name} ${data.last_name}`
+                                    : `<span class='badge bg-primary'>Binasta Ltd.</span>`;
+                            }
+                        },
+                        {
+                            data: 'verified',
+                            render: data => {
+                                return data
+                                    ? `<span class='badge bg-success'>Verified</span>`
+                                    : `<span class='badge bg-danger'>Unverified</span>`;
+                            }
+                        },
+                        {
+                            data: 'suspended',
+                            render: data => {
+                                return data
+                                    ? `<span class='badge bg-danger'>Suspended</span>`
+                                    : `<span class='badge bg-success'>Active</span>`;
+                            }
+                        },
+                        {
+                            data: 'created_at',
+                            render: data => {
+                                return new Date(data).toDateString()
+                            }
+                        },
+                        {
+                            data: null,
+                            render: data => {
+                                let actions = '';
+                                if (data.suspended) actions += `<button data-id='${data.id}' data-type='suspend' class='btn btn-sm btn-secondary mr-3'>Block</button>`;
+                                else `<button data-id='${data.id}' data-type='suspend' class='btn btn-sm btn-secondary mr-3'>Unblock</button>`;
+                    
+                                if (data.verified == 0) actions += `<button data-id='${data.id}' data-type='verify' class='btn btn-sm btn-success mr-3'>Verify</button> `;
+                                actions += `<button data-id='${data.id}' data-type='del' class='btn btn-sm btn-danger'>Delete</button>`;
+                                return actions;
+                            }
+                        }
+                    ]">
                     <thead>
                         <tr>
                             <th>Ref No.</th>
@@ -419,8 +424,8 @@ onMounted(() => {
                         <label for="parent_id">Parent Ref No.</label>
                         <input type="text" @keyup="fetchDistributorId" v-model="distributorRef" class="form-control" />
                         <div class="invalid-feedback" v-if="form.errors.parent_distributor_id">{{
-        form.errors.parent_distributor_id
-}}</div>
+                            form.errors.parent_distributor_id
+                        }}</div>
                     </div>
                 </div>
                 <div class="row mt-4">

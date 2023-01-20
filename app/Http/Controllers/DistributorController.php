@@ -35,7 +35,7 @@ class DistributorController extends Controller
                 $query->select('id', 'name');
             }, 'patron' => function ($query) {
                 $query->select('id', 'first_name', 'last_name');
-            }])->withCount('orders')->groupBy("day")->latest()->get(),
+            }])->groupBy("day")->latest()->get(),
             'countries' => Country::select('id', 'name')->get()
         ]);
     }
