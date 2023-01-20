@@ -1,3 +1,4 @@
 /node_modules
 binasta_mwisho_walai.zip
 /public/storages
+.env
