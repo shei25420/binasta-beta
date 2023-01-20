@@ -106,6 +106,20 @@ onMounted(() => {
         }).render('#paypalContainer');
     });
 
+    window.Echo.private(`payments.${usePage().props.value.auth.user.id}`)
+        .listen('MpesaPaymentCaptured', e => {
+            mpesaResponse.value = { message: e.message };
+            if (parseInt(e.status) === 0) {
+                mpesaResponse.value.class = "primary";
+                window.location.href = "https://dashboard.binasta.co.ke/orders";
+            } else {
+                mpesaResponse.value.class = "danger";
+                const btn = document.getElementById("submitBtn");
+                btn.removeAttribute("disabled");
+                btn.innerText = "Make payment";
+            }
+        });
+
 });
 
 </script>
@@ -158,7 +172,7 @@ onMounted(() => {
                         </table>
                     </div>
                     <div class="row">
-                        <div v-if="!order.status" class="col-md-6">
+                        <div v-if="order.status == 0" class="col-md-6">
                             <div class="accordion accordion-with-radio" id="accordionExample">
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="headingOne">
