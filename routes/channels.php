@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Broadcast;
 // });
 
 Broadcast::channel('payments.{userId}', function ($user, $userId) {
-    return (int) $user->id === (int) $userId && get_class($user) == "App/User";;
+    return (int) $user->id === (int) $userId;
 });
 
 Broadcast::channel('distributor.payments.{distributorId}', function ($model, $distributorId) {
