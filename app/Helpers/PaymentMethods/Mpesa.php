@@ -192,7 +192,6 @@ class Mpesa {
     }
     
     public function query_payment($data) {
-        
     }  
 
     public function process_payout ($data) {

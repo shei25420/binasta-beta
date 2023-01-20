@@ -14,7 +14,7 @@ const props = defineProps({
     blog_meta: Object
 });
 
-const selectedMonth = ref(0);
+const selectedMonth = ref(props.distributor_orders_meta.length ? props.distributor_orders_meta[props.distributor_orders_meta.length - 1].month : 0);
 const salesData = ref([]);
 const orderData = ref([]);
 const chartXaxis = ref([]);
@@ -184,7 +184,6 @@ const calculateGrowth = (order) => {
 }
 
 onMounted(() => {
-    if (props.distributor_orders_meta.length) selectedMonth.value = props.distributor_orders_meta[props.distributor_orders_meta.length - 1].month;
     props.distributor_orders_meta.forEach(order => {
         if (selectedMonth.value == order.month) {
             const date = new Date(order.created_at);
@@ -332,7 +331,7 @@ onMounted(() => {
                             <div class="d-md-flex align-items-center mb-3">
                                 <div class="d-flex align-items-center">
                                     <div class="display-7 me-3">
-                                        <i class="bi bi-bag-check me-2 text-success"></i>Ksh.{{ distributor_orders_meta.length ? distributor_orders_meta[selectedMonth].total_amount : 0 }}
+                                        <i class="bi bi-bag-check me-2 text-success"></i>Ksh.{{ distributor_orders_meta.length && selectedMonth > 0 ? distributor_orders_meta[selectedMonth].total_amount : 0 }}
                                     </div>
                                 </div>
                                 <div class="d-flex gap-4 align-items-center ms-auto mt-3 mt-lg-0">
