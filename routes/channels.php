@@ -22,5 +22,5 @@ Broadcast::channel('payments.{userId}', function ($user, $userId) {
 });
 
 Broadcast::channel('distributor.payments.{distributorId}', function ($model, $distributorId) {
-    return (int) $model->id === (int) $distributorId && get_class($model) == "App/Distributor";
-});
+    return (int) $model->id === (int) $distributorId;
+}, ['guard' => 'auth:distributor']);
