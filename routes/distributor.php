@@ -60,4 +60,4 @@ Route::middleware("auth:distributor")->group(function () {
 });
 
 
-Broadcast::routes(['middleware' => ['auth:distributors']]);
+Broadcast::routes(['middleware' => ['auth:distributor']]);
