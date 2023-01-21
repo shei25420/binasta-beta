@@ -311,7 +311,7 @@ class DistributorDashboardController extends Controller
             event(new MpesaPaymentCaptured($transaction->distributorOrder->distributor->id, $status, $transaction, true));
             // event(new MpesaPaymentCaptured($transaction->distributorOrder->distributor->id, $status, $message, true));
         } catch (Exception $ex) {
-            event(new MpesaPaymentCaptured(auth("distributor")->id(), 1, $ex->getMessage(), true));
+            event(new MpesaPaymentCaptured(auth("distributor")->id(), 1, $transaction, true));
         }
     }
 
