@@ -12,7 +12,7 @@ class MainController extends Controller
 {
     public function index () {
         return Inertia::render('Main/Index', [
-            'posts' => Blog::select('slug', 'image_path', 'title', 'description', 'created_at')->where('type', 0)->get()
+            'posts' => Blog::select('slug', 'image_path', 'title', 'description', 'post', 'created_at')->where('type', 0)->get()
         ]);
     }
 
