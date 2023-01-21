@@ -104,7 +104,7 @@ class BlogController extends Controller
         $id = Validator::make(['id' => $id], ['id' => 'required|numeric|exists:blogs,id'])->validated()['id'];
         $post = Blog::find($id);
         
-        Storage::disk('public')->delete($post->image_path);
+        if($post->type == 0) Storage::disk('public')->delete($post->image_path);
         $post->delete();
         return response()->redirectTo('/blogs');
     }
