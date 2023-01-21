@@ -47,7 +47,7 @@ onMounted(() => {
                         <article v-else-if="post.type == 1" class="single-blog qute">
                             <div class="blog-text">
                                 <div class="quation"><i class="icofont">quote_right</i></div>
-                                <h4>{{ post.post }}</h4>
+                                <h4 v-html="post.post"></h4>
                                 <ul class="post-meta  d-flex justify-content-between">
                                     <li><a href="#"><i class="icofont">ui_calendar</i> {{ new Date(post.created_at).toDateString() }} </a></li>
                                 </ul>
