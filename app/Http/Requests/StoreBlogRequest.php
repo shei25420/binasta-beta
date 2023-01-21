@@ -30,7 +30,7 @@ class StoreBlogRequest extends FormRequest
             'type' => 'required|numeric|min:0|max:3',
             'blog_post' => 'string|nullable',
             'link_path' => 'string|nullable',
-            'image' => 'image|mimes:png,jpg,jpeg,gif,svg'
+            'image' => 'nullable|image|mimes:png,jpg,jpeg,gif,svg'
         ];
     }
 }
