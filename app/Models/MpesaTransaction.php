@@ -16,6 +16,6 @@ class MpesaTransaction extends Model
     }
 
     public function distributorOrder () {
-        return $this->belongsTo(DistributorOrder::class);
+        return $this->belongsTo(DistributorOrder::class, "order_id");
     }
 }
