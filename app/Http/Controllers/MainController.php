@@ -34,7 +34,7 @@ class MainController extends Controller
         $data = Validator::make(['slug' => $slug], ['slug' => 'required|string|exists:blogs,slug'])->validated();
         return Inertia::render('Main/SinglePost', [
             'post' => Blog::select('title', 'post', 'image_path', 'created_at')->where('slug', $data['slug'])->first(),
-            'new_posts' => Blog::select('slug', 'title', 'image_path', 'created_at')->where('type', 0)->latest()->pluck(3),
+            'new_posts' => Blog::select('slug', 'title', 'image_path', 'created_at')->where('type', 0)->latest()->take(3)->get(),
             'categories' => BlogCategory::select('id', 'name')->get()
         ]);
     }
