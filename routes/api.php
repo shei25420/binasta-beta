@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('/payments/m_wallet/confirm/0', [ShopController::class, "captureMpesaPayment"]);
 Route::post('/payments/m_wallet/confirm/1', [DistributorDashboardController::class, "captureMpesaPayment"]);
 
+Route::post('/payments/m_wallet/query/1', [DistributorDashboardController::class, 'queryMpesaPayment']);
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

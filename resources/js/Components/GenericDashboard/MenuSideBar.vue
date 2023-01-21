@@ -17,7 +17,7 @@ import { Link } from '@inertiajs/inertia-vue3';
             <div href="#" class="d-flex align-items-center" aria-expanded="false">
                 <div>
                     <div class="fw-bold mb-1">{{  $page.props.auth.user.first_name  }} {{  $page.props.auth.user.last_name  }}</div>
-                    <small class="text-muted mb-1" v-if="!$page.props.auth.user.verified"><b>Visit Site: </b>{{  $page.props.auth.user.domain  }}.binasta.co.ke (verification needed)</small>
+                    <small class="text-muted mb-1" v-if="$page.props.auth.user.verified != 1"><b>Visit Site: </b>{{  $page.props.auth.user.domain  }}.binasta.co.ke (verification needed)</small>
                     <small class="text-muted mb-1" v-else><b>Visit Site: </b><a :href="`${$page.props.auth.user.domain}.binasta.co.ke`" target="_blank">{{  $page.props.auth.user.domain  }}.binasta.co.ke</a></small>
                     <br />
                     <span class="badge" :class="$page.props.auth.user.verified == 1 ? 'bg-success' : 'bg-secondary'">{{ $page.props.auth.user.verified == 1 ? `Verfied` : `Unverified` }}</span>
@@ -154,6 +154,14 @@ import { Link } from '@inertiajs/inertia-vue3';
             <!-- Distributor Only Routes -->
             <li class="menu-divider">Shop Section</li>
             <li v-if="$page.component.startsWith('Distributor')">
+                <Link :class="{'active' : $page.url == '/distributor_packages'}" href="/distributor_packages">
+                    <span class="nav-link-icon">
+                        <i class="bi bi-shop-window"></i>
+                    </span>
+                    <span>Make Purchase</span>
+                </Link>
+            </li>
+            <li v-if="$page.component.startsWith('Distributor')">
                 <Link :class="{'active' : $page.url == '/my_orders'}" href="/my_orders">
                     <span class="nav-link-icon">
                         <i class="bi bi-cart4"></i>
@@ -164,7 +172,7 @@ import { Link } from '@inertiajs/inertia-vue3';
             <li v-if="$page.component.startsWith('Distributor')">
                 <Link :class="{'active' : $page.url == '/my_invoices'}" href="/my_invoices">
                     <span class="nav-link-icon">
-                        <i class="bi bi-cart4"></i>
+                        <i class="bi bi-receipt"></i>
                     </span>
                     <span>My Invoices</span>
                 </Link>

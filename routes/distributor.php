@@ -45,6 +45,7 @@ Route::middleware("auth:distributor")->group(function () {
     Route::get('/invoice/{ref}', [DistributorDashboardController::class, 'invoice']);
     Route::post('/make_payment', [DistributorDashboardController::class, 'makePayment']);
     Route::post('/capture/paypal', [DistributorDashboardController::class, 'capturePaypalPayment']);
+    Route::post('/query_payment', [DistributorDashboardController::class, 'queryMpesaPayment']);
 
     Route::post('/logout', [AuthenticationController::class, 'logout']);
 

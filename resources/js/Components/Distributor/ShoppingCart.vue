@@ -5,7 +5,7 @@ import { useStorage } from '@vueuse/core';
 const cartItems = useStorage('cart', []);
 
 const removeCart = (itemToRemove) => {
-    cartItems.value = cartItems.value.filter(item => parseInt(item.product.id) !== parseInt(itemToRemove.product.id));
+    cartItems.value = cartItems.value.filter(item => parseInt(item.distributor_package.id) !== parseInt(itemToRemove.distributor_package.id));
 };
 
 const calculatePackagePrice = (distributor_package) => {
@@ -29,7 +29,7 @@ const calculatePackagePrice = (distributor_package) => {
             <div class="dropdown-menu-body" tabindex="2" style="overflow: hidden; outline: none;">
                 <div v-for="item in cartItems" :key="item.id" class="list-group list-group-flush">
                     <div class="list-group-item d-flex align-items-center">
-                        <a href="#" @click="removeCart" class="text-danger me-3" title="Remove">
+                        <a href="#" @click="removeCart(item)" class="text-danger me-3" title="Remove">
                             <i class="bi bi-trash"></i>
                         </a>
                         <a href="#" class="me-3 flex-shrink-0 ">

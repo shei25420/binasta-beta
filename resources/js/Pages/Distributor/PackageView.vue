@@ -1,6 +1,7 @@
 <script setup>
 import GenericLayout from '@/Layouts/GenericLayout.vue';
 import { onMounted, ref } from 'vue';
+import { useStorage } from '@vueuse/core';
 
 const props = defineProps({
     distributor_package: Object
@@ -8,6 +9,7 @@ const props = defineProps({
 
 const qty = ref(1);
 let existsInCart = ref(false);
+const cart = useStorage("cart", []);
 
 const calculatePackagePrice = (productOptions) => {
     let totalAmount = 0, normalAmount = 0, discount =  props.distributor_package.discounts.length ? ((100 - props.distributor_package.discounts[0].percentage) / 100) : 0;
@@ -21,39 +23,30 @@ const calculatePackagePrice = (productOptions) => {
 
 const addToCart = () => {
     if(existsInCart.value) {
-        let cart = JSON.parse(localStorage.getItem("cart"));
-        cart = cart.filter(item => item.product.id !== props.product.id);
-        localStorage.setItem("cart", JSON.stringify(cart));
+        cart.value = cart.value.filter(item => item.distributor_package.id !== props.distributor_package.id);
         existsInCart.value = false;
     } else {
-        let cart = localStorage.getItem("cart");
-        if(cart) {
-            cart = JSON.parse(localStorage.getItem("cart"));
-            //Check if item exists in cart already
-            if(cart.some(item => parseInt(item.distributor_package.id) === parseInt(props.distributor_package.id))) return;
-        } else  cart = [];
-
-        //New Cart Item -> { distributor_packageid, distributor_packagename, price, selectionoption }
-        cart.push({distributor_package: props.distributor_package, qty: qty.value});
-        localStorage.setItem("cart", JSON.stringify(cart));
+        if(cart.value.some(item => parseInt(item.distributor_package.id) === parseInt(props.distributor_package.id))) return;
+        
+        //New Cart Item -> { distributor_package, qty }
+        cart.value.push({distributor_package: props.distributor_package, qty: qty.value});
         existsInCart.value = true;
-    }
+    }    
 };
 
 const changeQty = (e) => {
     qty.value = e.target.value;
+
     if(existsInCart.value) {
-        const cart = JSON.parse(localStorage.getItem("cart"));
-        cart.forEach(item => {
+        cart.value.forEach(item => {
             if(parseInt(item.distributor_package.id) === parseInt(props.distributor_package.id)) {
-               item.qty = qty.value;
+               item.qty = qty.value; 
             }
         });
 
         localStorage.setItem("cart", JSON.stringify(cart));
     }
 };
-
 onMounted(() => {
     const cart = localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : null;
     if(cart) {
@@ -120,7 +113,7 @@ onMounted(() => {
                                         <form @submit.prevent="addToCart">
                                             <div class="col-12">
                                                 <div class="input-group">
-                                                    <input type="number" class="form-control" min="0" @change.prevent="changeQty" :value="1">
+                                                    <input type="number" class="form-control" min="1" @change.prevent="changeQty" :value="1">
                                                     <input class="btn btn-primary" type="submit" :value="existsInCart ? 'Remove from cart' : 'Add to cart'" />
                                                 </div>
                                             </div>

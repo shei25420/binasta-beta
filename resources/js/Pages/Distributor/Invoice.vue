@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue';
 import { useForm, usePage } from '@inertiajs/inertia-vue3';
 import GenericLayout from '@/Layouts/GenericLayout.vue';
+import ModalComponent from '@/Components/GenericDashboard/ModalComponent.vue';
 
 const props = defineProps({
     order: Object
@@ -11,6 +12,11 @@ const paymentForm = useForm({
     payment_type: 'mpesa',
     order_ref: props.order.ref
 });
+
+const queryForm = useForm({
+    ref: ''
+});
+
 let mpesaResponse = ref(null);
 
 const captureForm = useForm({
@@ -18,6 +24,8 @@ const captureForm = useForm({
 })
 
 let cumulative = ref(0);
+let confirmPayment = ref(false);
+let timeoutHandle = null;
 
 const calculatePrice = (distributor_package) => {
     let totalAmount = 0, normalAmount = 0, discount = distributor_package.discounts.length ? ((100 - distributor_package.discounts[0].percentage) / 100) : 0;
@@ -63,10 +71,36 @@ const makePayment = () => {
         body: JSON.stringify({phone_number: paymentForm.phone_number, payment_type: paymentForm.payment_type, order_ref: paymentForm.order_ref})
     })
     .then(res => res.json())
-    .then(data => console.log(data))
+    .then(data => {
+        if(data.status == 1) {
+            timeoutHandle = setTimeout(function () {
+                confirmPayment.value = true;
+            }, 5000);
+        } else console.log(data);
+    })
     .catch(err => console.log(err));
 };
 
+const queryPayment = () => {
+    queryForm.clearErrors();
+    if(!queryForm.ref || queryForm.ref.trim() === "") {
+        queryForm.setError('ref', 'Reference number is required');
+        return;
+    }
+    
+    const btn = document.getElementById("submitBtn");
+    btn.innerText = "Confirming...";
+    btn.setAttribute('disabled', true);
+    queryForm.post('/query_payment', {
+        onSuccess: (data) => {
+            console.log(data);
+        },
+        onFinish: () => {
+            btn.innerText = "Confirming...";
+            btn.removeAttribute('disabled');
+        }
+    });
+};
 
 onMounted(() => {
     props.order.distributor_packages.forEach(distributor_package => {
@@ -112,6 +146,7 @@ onMounted(() => {
             mpesaResponse.value = { message: e.message };
             if (parseInt(e.status) === 0) {
                 mpesaResponse.value.class = "primary";
+                clearTimeout(timeoutHandle);
                 window.location.href = "https://dashboard.binasta.co.ke/orders";
             } else {
                 mpesaResponse.value.class = "danger";
@@ -120,7 +155,6 @@ onMounted(() => {
                 btn.innerText = "Make payment";
             }
         });
-
 });
 
 </script>
@@ -257,5 +291,24 @@ onMounted(() => {
                 </div>
             </div>
         </div>
+
+        <modal-component title="Confirm Payment" v-if="confirmPayment">
+            <form @submit.prevent="queryPayment">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="category name">Enter Mpesa Reference Number</label>
+                            <input type="text" v-model="queryForm.ref" class="form-control">
+                            <div class="invalid-feedback" v-if="queryForm.errors.ref">{{ queryForm.errors.ref }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mt-4">
+                    <button type="button" class="btn btn-danger" style="margin-right: 10px;"
+                        data-bs-dismiss="modal">Close</button>
+                    <button id="submitBtn" type="submit" class="btn btn-primary">Confirm</button>
+                </div>
+            </form>
+        </modal-component>
     </GenericLayout>
 </template>

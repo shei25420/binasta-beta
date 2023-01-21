@@ -24,7 +24,7 @@ return [
         'distributor.'.config('app.domain'),
         'management.'.config('app.domain'),
         'dashboard.'.config('app.domain'),
-        '47e1-196-202-172-34.ngrok.io'
+        '3ae4-196-202-172-34.ngrok.io'
     ],
 
     /**

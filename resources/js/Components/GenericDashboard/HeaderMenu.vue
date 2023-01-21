@@ -52,6 +52,15 @@ import ShoppingCart from '@/Components/Distributor/ShoppingCart.vue';
     <!-- ./ Header mobile buttons -->
 </div>
 </template>
-<style>
+<style scoped>
+.header .header-mobile-buttons {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    .header .header-mobile-buttons {
+        display: flex;
+    }   
+}
 
 </style>

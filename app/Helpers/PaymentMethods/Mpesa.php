@@ -192,6 +192,30 @@ class Mpesa {
     }
     
     public function query_payment($data) {
+        $curl = curl_init();
+        $credentials = base64_encode($this->_key.":".$this->_secret);
+        $callback_url = (isset($data['distributor'])  && $data['distributor']) ? $this->_callback_url.'/api/payments/m_wallet/query/1' : $this->_callback_url.'/api/payments/m_wallet/query/0';
+        $timeout_url = $this->_callback_url."/api/payments/m_wallet/timeout";
+
+        curl_setopt($curl, CURLOPT_URL, $this->_base_url."/mpesa/transactionstatus/v1/query");
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode([
+            "CommandID" => "TransactionStatusQuery",
+            "PartyA" => $this->_business_code,
+            "IdentifierType" => 4,
+            "Remarks" => "Confirmation of purchase from Binasta Limited",
+            "Initiator" => "testapi",
+            "SecurityCredential" => $credentials,   
+            "QueueTimeOutURL" => $timeout_url,
+            "ResultURL" => $callback_url,
+            "TransactionID" => $data["ref"],
+            "Occasion" => ""
+        ]));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $data = curl_exec($curl);
+        curl_close($curl);
+
+        return json_decode($data);
     }  
 
     public function process_payout ($data) {

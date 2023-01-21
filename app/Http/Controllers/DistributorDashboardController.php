@@ -22,6 +22,7 @@ use App\Models\DistributorOrder;
 use App\Models\MpesaTransaction;
 use App\Models\DistributorPackage;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\QueryPayment;
 use App\Events\MpesaPaymentCaptured;
 use Illuminate\Support\Facades\Auth;
 use App\Models\DistributorTransaction;
@@ -248,8 +249,6 @@ class DistributorDashboardController extends Controller
                 $query->select('id');
             }])->first();
             
-            dd($transaction);
-
             $message = $data->Body->stkCallback->ResultDesc;
             $status = (int)$data->Body->stkCallback->ResultCode;
             
@@ -312,6 +311,12 @@ class DistributorDashboardController extends Controller
         } catch (Exception $ex) {
             event(new MpesaPaymentCaptured(auth()->id(), 1, $ex->getMessage()));
         }
+    }
+
+    public function queryMpesaPayment (QueryPayment $request) {
+        $gateway = (new Billing())->payment_gateway('mpesa');
+
+        dd($gateway->query_payment($request->validated()));
     }
 
     public function orders () {
