@@ -41,6 +41,6 @@ class MpesaPaymentCaptured implements ShouldBroadcast
     public function broadcastOn()
     {
         $channel = $this->distributor ? 'distributor_payments.'.$this->userId : 'payments.'.$this->userId;
-        return new PrivateChannel('payments.'.$this->userId);
+        return new PrivateChannel($channel);
     }
 }
