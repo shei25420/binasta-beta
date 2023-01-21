@@ -1,4 +1,5 @@
 <script setup>
+import { Link } from '@inertiajs/inertia-vue3';
 import PageBanner from '@/Components/Main/PageBanner.vue';
 
 defineProps({
@@ -24,73 +25,10 @@ defineProps({
                     </ul>
                     <h2>{{ post.title }}</h2>
                     
-                    {!! post.post  !!}
+                    <div v-html="post.post"></div>
                 </article>
                 <hr><!-- end articel section -->
-                <div class="comments-section">
-                    <h3 class="section-title xs2">3 comments</h3>
-                    <br>
-                    <div class="media single-comments">
-                        <a class="mr-4" href="#">
-                            <img class=" rounded-circle img-thumbnail" src="assets/images/all-img/comments1.jpg" alt=""></a>
-                        <div class="media-body">
-                            <h5 class="mt-0">Tonmoy Khan <span>25 Nov, 2018 at 10.30 am</span></h5>
-                            <p>If your delts are a weakness, or you find it’s a muscle group you have seds a hard time connecting with, this workout will help.</p>
-                            <ul class="likeunlikeBox">
-                                <li><a href="#"><i class="icofont">thumbs_up</i>10</a></li>
-                                <li><a href="#"><i class="icofont">thumbs_down</i>12</a></li>
-                                <li><a href="#"><i class="icofont">reply</i></a></li>
-                            </ul>
-
-                            <div class="media mt-5">
-                                <a class="pr-4" href="#">
-                                    <img src="assets/images/all-img/comments2.jpg" alt="" class="rounded-circle img-thumbnail">
-                                </a>
-                                <div class="media-body">
-                                    <h5 class="mt-0">priya khan <span>25 Nov, 2018 at 10.30 am</span></h5>
-                                    <p>f your delts are a weakness, or you find it’s a muscle group you have seds a hard time connecting with, this workout will help</p>
-                                    <ul class="likeunlikeBox">
-                                        <li><a href="#"><i class="icofont">thumbs_up</i>10</a></li>
-                                        <li><a href="#"><i class="icofont">thumbs_down</i>12</a></li>
-                                        <li><a href="#"><i class="icofont">reply</i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- end single comments -->
-                    <div class="media single-comments mt-5">
-                        <a class="mr-4" href="#">
-                            <img class=" rounded-circle img-thumbnail" src="assets/images/all-img/comments1.jpg" alt=""></a>
-                        <div class="media-body">
-                            <h5 class="mt-0">Tonmoy Khan <span>25 Nov, 2018 at 10.30 am</span></h5>
-                            <p>If your delts are a weakness, or you find it’s a muscle group you have seds a hard time connecting with, this workout will help.</p>
-                            <ul class="likeunlikeBox">
-                                <li><a href="#"><i class="icofont">thumbs_up</i>10</a></li>
-                                <li><a href="#"><i class="icofont">thumbs_down</i>12</a></li>
-                                <li><a href="#"><i class="icofont">reply</i></a></li>
-                            </ul>
-                        </div>
-                    </div><!-- end single comments -->
-                    <div class="spacer-extra"></div><!-- end extra spacer -->
-                    <form class="site-contactform">
-                        <h3 class="section-title xs2">leave a comments</h3>
-                        <div class="form-row">
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="Type Your Name">
-                            </div>
-                            <div class="col-md-6">
-                                <input type="email" class="form-control" placeholder="Email">
-                            </div>
-
-                            <div class="col-md-12">
-                                <textarea class="form-control" placeholder="write your message"></textarea>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <button type="submit" class="btn-mr th-primary pill">SEND</button>
-                        </div>
-                    </form>
-                </div>
+                
             </div><!-- end single blog conetent -->
 
             <div class="col-lg-3">
@@ -108,10 +46,10 @@ defineProps({
                             <span>RECENT POST</span>
                         </div>
                         <div  v-for="new_post in new_posts" :key="new_post.slug" class="media mt-5">
-                            <img class="mr-3" :src="'/storage/' + new_post.image_path" alt="">
+                            <Link :href="'/blog/' + new_post.slug"><img class="mr-3" :src="'/storage/' + new_post.image_path" alt="" /></Link>
                             <div class="media-body align-self-center">
-                                <h5><Link :href="'/blog/' + new_post.slug">A small river named Duden flows</Link></h5>
-                                <span><Link :href="'/blog/' + new_post.slug">22 May 2018</Link></span>
+                                <h5><Link :href="'/blog/' + new_post.slug">{{ new_post.post }}</Link></h5>
+                                <span><Link :href="'/blog/' + new_post.slug">{{ new Date(new_post.created_at).toDateString() }}</Link></span>
                             </div>
                         </div>
                     </div><!-- end single sidebar -->
