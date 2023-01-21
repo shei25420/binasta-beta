@@ -1,5 +1,5 @@
 <script setup>
-import { Head, useForm } from '@inertiajs/inertia-vue3';
+import { Head, useForm, Link } from '@inertiajs/inertia-vue3';
 import AuthenticationLayout from '@/Layouts/AuthenticationLayout.vue';
 
 defineProps({
@@ -73,7 +73,7 @@ const register = () => {
                             <div class="row">
                                 <div class="col-md-10 offset-md-1">
                                     <div class="ltf-block-logo d-block d-lg-none text-center text-lg-start">
-                                        <img width="120" src="https://vetra.laborasyon.com/assets/images/logo.svg"
+                                        <img width="120" src="../../../assets/shop/imgs/theme/flogo.png"
                                             alt="logo">
                                     </div>
                                     <div class="my-5 text-center text-lg-start">
@@ -157,19 +157,16 @@ const register = () => {
                         <div
                             class="col-md-5 d-none d-lg-flex border-start align-items-center justify-content-between flex-column text-center">
                             <div class="logo">
-                                <img width="120" src="https://vetra.laborasyon.com/assets/images/logo.svg" alt="logo">
+                                <img width="120" src="../../../assets/shop/imgs/theme/flogo.png" alt="logo">
                             </div>
                             <div>
                                 <h3 class="fw-bold">Welcome to Vetra!</h3>
                                 <p class="lead my-5">Do you already have an account?</p>
-                                <a href="#" class="btn btn-primary">Sign In</a>
+                                <Link href="/login" class="btn btn-primary">Sign In</Link>
                             </div>
                             <ul class="list-inline">
                                 <li class="list-inline-item">
-                                    <a href="#">Privacy Policy</a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="#">Terms &amp; Conditions</a>
+                                    <Link href="https://binasta.co.ke/terms">Terms &amp; Conditions</Link>
                                 </li>
                             </ul>
                         </div>

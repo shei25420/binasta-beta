@@ -10,6 +10,8 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
+use function Ramsey\Uuid\v1;
+
 class MpesaPaymentCaptured implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
@@ -17,16 +19,18 @@ class MpesaPaymentCaptured implements ShouldBroadcast
     public $userId;
     public $status;
     public $message;
+    public $distributor;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($userId, $status, $message)
+    public function __construct($userId, $status, $message, $distributor = false)
     {
         $this->userId = $userId;
         $this->status = $status;
         $this->message = $message;
+        $this->distributor = $distributor;
     }
 
     /**
@@ -36,6 +40,7 @@ class MpesaPaymentCaptured implements ShouldBroadcast
      */
     public function broadcastOn()
     {
+        $channel = $this->distributor ? 'distributor_payments.'.$this->userId : 'payments.'.$this->userId;
         return new PrivateChannel('payments.'.$this->userId);
     }
 }
