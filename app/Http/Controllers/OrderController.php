@@ -22,7 +22,7 @@ class OrderController extends Controller
             'orders' => Order::select('id', 'user_id', 'user_address_id', 'location', 'phone_number', 'status', 'created_at')->with(['user' => function ($query) {
                 $query->select('id', 'email');
             }, 'product_options' => function ($query) {
-                $query->select('id', 'buying_price');
+                $query->select('product_options.id', 'buying_price');
             }, 'user_address' => function ($query) {
                 $query->select('id', 'location', 'phone_number');
             }])->get()
